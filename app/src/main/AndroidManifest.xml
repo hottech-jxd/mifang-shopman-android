@@ -14,7 +14,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -38,8 +38,22 @@
         <activity android:name=".activity.MessageActivity" />
         <activity android:name=".activity.FeedbackActivity" />
         <activity android:name=".activity.SettingActivity" />
-        <activity android:name=".activity.ShopperClassActivity"></activity>
-        <activity android:name=".activity.WebActivity"/>
+        <activity android:name=".activity.ShopperClassActivity" />
+        <activity android:name=".activity.WebActivity" />
+        <activity android:name=".activity.InviteOneActivity" />
+        <activity android:name=".activity.InviteTwoActivity" />
+        <activity android:name=".activity.MyWalletActivity" />
+        <activity android:name=".activity.IncomeActivity" />
+        <activity android:name=".activity.OrderActivity" />
+        <activity android:name=".activity.MyTermActivity" />
+        <activity android:name=".activity.MyTermDetailActivity" />
+        <activity android:name=".activity.CashActivity" />
+        <activity android:name=".activity.CashRecordActivity" />
+        <activity android:name=".activity.PayAccountActivity" />
+        <activity android:name=".activity.EditPayAccountActivity" />
+        <activity android:name=".activity.BuyActivity" />
+        <activity android:name=".activity.IncomeDetailActivity" />
+        <activity android:name=".activity.WaitAccountsActivity"></activity>
     </application>
 
 </manifest>

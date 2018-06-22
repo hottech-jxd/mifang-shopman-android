@@ -45,9 +45,8 @@ class MessageFragment : BaseFragment<IPresenter>(), BaseQuickAdapter.RequestLoad
         messageAdapter= MessageAdapter(data)
         messageAdapter!!.setOnLoadMoreListener(this, message_recycle)
        message_recycle.layoutManager=LinearLayoutManager(context)
+        message_recycle.addItemDecoration(RecyclerViewDivider(context!!, ContextCompat.getColor(context!!, R.color.line_color ), 5f))
         message_recycle.adapter = messageAdapter
-        var h = DensityUtils.dip2px(context , 5f)
-        message_recycle.addItemDecoration(RecyclerViewDivider(context!!, ContextCompat.getColor( context!! , R.color.colorAccent ) ,10f ))
 
     }
 

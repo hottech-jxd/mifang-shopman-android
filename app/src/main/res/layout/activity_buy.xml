@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    tools:context="com.huotu.android.mifang.activity.BuyActivity">
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        layout="@layout/layout_header"
+        android:id="@+id/buy_header"/>
+
+    <android.support.v4.widget.NestedScrollView
+        app:layout_constraintTop_toBottomOf="@id/buy_header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/buy_header"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/buy_lay_one"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/buy_logo"
+            android:src="@mipmap/shop"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="开店账号"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="单价399元/个"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="right|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/buy_jian"
+                android:src="@mipmap/jian"
+                android:padding="8dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+            <EditText
+                android:textColor="@android:color/black"
+                android:layout_width="50dp"
+                android:textSize="14sp"
+                android:inputType="number"
+                android:padding="5dp"
+                android:id="@+id/buy_size"
+                android:text="1"
+                android:gravity="center"
+                android:background="@drawable/shape_edittext_bg_gray"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/buy_add"
+                android:padding="8dp"
+                android:src="@mipmap/add2"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/buy_line1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buy_lay_one"
+        android:background="#d1d1d1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:background="@android:color/white"
+        android:id="@+id/buy_label1"
+        app:layout_constraintTop_toBottomOf="@id/buy_line1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="选择支付方式"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/buy_lay_two"
+        app:layout_constraintTop_toBottomOf="@id/buy_label1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:padding="15dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/edit_pay_account_alipay"
+            android:text="支付宝"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:background="@drawable/shape_edit_pay_account_selected_bg"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/shape_edit_pay_account_bg"
+            android:id="@+id/edit_pay_account_wepay"
+            android:text="微信"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/buy_line2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buy_lay_two"
+        android:background="#d1d1d1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_marginTop="0dp"
+        android:id="@+id/buy_lay_three"
+        app:layout_constraintTop_toBottomOf="@id/buy_line2"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@android:color/white"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+        android:text="选择抵扣方式"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/buy_count"
+            android:text="可用10个"
+            android:gravity="right"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buy_lay_four"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buy_lay_three"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginLeft="0dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/shape_edit_pay_account_bg"
+            android:id="@+id/buy_zhekou1"
+            android:text="现有开店账号抵扣"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/buy_line3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buy_lay_four"
+        android:background="#d1d1d1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:id="@+id/buy_summary_count"
+        app:layout_constraintTop_toBottomOf="@id/buy_line3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="总共计/抵扣:3个"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:gravity="right"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/buy_summary_count"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:id="@+id/buy_lay_five"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/buy_label2"
+        app:layout_constraintTop_toTopOf="@+id/buy_money"
+        app:layout_constraintRight_toLeftOf="@+id/buy_money"
+        android:text="应付:"
+        android:layout_marginRight="5dp"
+        android:gravity="right"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/buy_money"
+        app:layout_constraintTop_toTopOf="@id/buy_label3"
+        app:layout_constraintRight_toLeftOf="@id/buy_label3"
+        android:text="9999.11"
+        android:textSize="22sp"
+        android:layout_marginRight="5dp"
+        android:gravity="right"
+        android:textStyle="bold"
+        android:textColor="#E11537"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/buy_label3"
+        app:layout_constraintTop_toBottomOf="@id/buy_summary_count"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="元"
+        android:textSize="14sp"
+        android:layout_marginRight="15dp"
+        android:gravity="right"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+        <TextView
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/buy_operate"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintTop_toBottomOf="@id/buy_lay_five"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:text="付款"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:background="@drawable/style_cash_operate"
+        android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>

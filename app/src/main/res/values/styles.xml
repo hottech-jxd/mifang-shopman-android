@@ -46,4 +46,10 @@
         </attr>
     </declare-styleable>
 
+
+    <style name="anim_dialog" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_vertical_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_vertical_out</item>
+    </style>
+
 </resources>

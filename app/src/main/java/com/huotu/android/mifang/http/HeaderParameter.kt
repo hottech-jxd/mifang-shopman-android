@@ -9,4 +9,5 @@ data class HeaderParameter(var appVersion: String? = null,
                            var osType :Int = Constants.OS_TYPE,
                            var osVersion: String? = "",
                            var userId: Long = 0,
-                           var userToken :String= "")
+                           var userToken :String= "",
+                           var customerId:Long = Constants.CUSTOMERID)

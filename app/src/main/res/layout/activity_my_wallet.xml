@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    tools:context="com.huotu.android.mifang.activity.MyWalletActivity">
+
+    <include layout="@layout/layout_header"
+        android:id="@+id/mywallet_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:background="@drawable/style_row_bg"
+        android:id="@+id/mywallet_lay_1"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_header"
+        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="觅豆"
+            android:textColor="#010101"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingRight="0dp"
+            android:id="@+id/mywallet_midou"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="0"
+            android:textColor="#E44B20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/arrowright"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/mywallet_line2"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_lay_1"
+        android:layout_width="match_parent"
+        android:background="#E2E2E2"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
+        android:background="@drawable/style_row_bg"
+        android:id="@+id/mywallet_lay_2"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_line2"
+        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="余额"
+            android:textColor="#010101"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingRight="0dp"
+            android:id="@+id/mywallet_yue"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="100"
+            android:textColor="#E44B20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/arrowright"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/mywallet_line3"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_lay_2"
+        android:layout_width="match_parent"
+        android:background="#E2E2E2"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
+        android:background="@drawable/style_row_bg"
+        android:id="@+id/mywallet_lay_3"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_line3"
+        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="待结算"
+            android:textColor="#010101"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingRight="0dp"
+            android:id="@+id/mywallet_waitpay"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="100"
+            android:textColor="#E44B20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/arrowright"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/mywallet_line4"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_lay_3"
+        android:layout_width="match_parent"
+        android:background="#E2E2E2"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
+        android:background="@android:color/white"
+        android:id="@+id/mywallet_lay_4"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_line4"
+        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="优惠券"
+            android:textColor="#010101"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingRight="0dp"
+            android:id="@+id/mywallet_yhq"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="100张"
+            android:textColor="#E44B20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/arrowright"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:padding="10dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintTop_toBottomOf="@id/mywallet_lay_4"
+        android:background="@drawable/shape_mywallet_cash_bg"
+        android:gravity="center"
+        android:text="提现"
+        android:textColor="@android:color/white"
+        android:id="@+id/mywallet_cash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>

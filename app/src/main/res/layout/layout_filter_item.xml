@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_margin="10dp"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="5dp"
+    android:id="@+id/filter_item_container"
+    android:gravity="center"
+    android:background="@drawable/style_filter_item_bg"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/filter_item_value"
+        android:layout_width="40dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/shape_filter_item_value_bg"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:textSize="14sp"
+        android:text="是的"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:id="@+id/filter_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

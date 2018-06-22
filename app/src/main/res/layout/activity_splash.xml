@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:id="@+id/root_container"
-    android:background="@android:color/white"
+    android:background="@mipmap/splash"
     tools:context=".activity.SplashActivity">
 
 

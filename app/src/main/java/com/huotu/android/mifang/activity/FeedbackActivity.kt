@@ -20,6 +20,7 @@ import android.os.Environment
 import com.luck.picture.lib.entity.LocalMedia
 import android.os.Environment.getExternalStorageDirectory
 import com.luck.picture.lib.tools.PictureFileUtils
+import kotlinx.android.synthetic.main.layout_header.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File
@@ -27,7 +28,7 @@ import java.util.jar.Manifest
 
 
 @RuntimePermissions
-class FeedbackActivity : BaseActivity<IPresenter>()
+class FeedbackActivity : BaseActivity<IPresenter>(),View.OnClickListener
         ,BaseQuickAdapter.OnItemClickListener
         ,BaseQuickAdapter.OnItemChildClickListener {
     var feedbackAdapter:FeedbackAdapter?=null
@@ -38,6 +39,8 @@ class FeedbackActivity : BaseActivity<IPresenter>()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
 
+        header_title.text="反馈与建议"
+        header_left_image.setOnClickListener(this)
         data.add(FeedbackBean("",true))
         feedbackAdapter= FeedbackAdapter(data)
         feedback_images.layoutManager=GridLayoutManager(this,MAX_IMAGE_COUNT)
@@ -64,6 +67,12 @@ class FeedbackActivity : BaseActivity<IPresenter>()
             selectImageWithPermissionCheck()
         }else{
 
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when(v!!.id){
+            R.id.header_left_image->{finish()}
         }
     }
 

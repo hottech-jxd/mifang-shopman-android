@@ -36,6 +36,12 @@ fun Fragment.showToast(message:String):Toast{
         startActivity(intent)
     }
 
+    inline fun<reified T: Activity> Activity.newIntent(key:String, value:Int=0){
+        val intent = Intent(this, T::class.java)
+        intent.putExtra(key,value)
+        startActivity(intent)
+    }
+
     inline fun<reified T: Activity> Activity.newIntent(key:String, value:Long=0){
         val intent = Intent(this, T::class.java)
         intent.putExtra(key,value)
@@ -166,6 +172,12 @@ inline fun<reified T: Activity> Fragment.newIntent() {
 }
 
 inline fun<reified T: Activity> Fragment.newIntent(key:String, value:Boolean=false){
+    val intent = Intent(this.context , T::class.java)
+    intent.putExtra(key,value)
+    startActivity(intent)
+}
+
+inline fun<reified T: Activity> Fragment.newIntent(key:String, value:Int=0){
     val intent = Intent(this.context , T::class.java)
     intent.putExtra(key,value)
     startActivity(intent)

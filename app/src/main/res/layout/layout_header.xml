@@ -2,16 +2,26 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <RelativeLayout
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/header_left_image"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
+            android:paddingStart="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="20dp"
             android:src="@mipmap/back"
@@ -20,11 +30,31 @@
 
         <TextView
             android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:textColor="#323232"
             android:id="@+id/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </android.support.v7.widget.Toolbar>
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/header_right_image"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="15dp"
+            android:src="@mipmap/filter"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    <!--</android.support.v7.widget.Toolbar>-->
+    <View
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d1d1d1"/>
 
 </android.support.constraint.ConstraintLayout>

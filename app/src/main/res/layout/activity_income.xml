@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="#F0EFF5"
+    android:layout_height="match_parent"
+    tools:context="com.huotu.android.mifang.activity.IncomeActivity">
+
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_header"
+        android:id="@+id/income_header"/>
+
+   <LinearLayout
+       android:id="@+id/income_lay_summery"
+       app:layout_constraintTop_toBottomOf="@id/income_header"
+       android:background="#E41436"
+       android:orientation="horizontal"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:padding="10dp"
+           android:gravity="center"
+           android:layout_weight="1"
+           android:layout_width="0dp"
+           android:orientation="vertical"
+           android:layout_height="wrap_content">
+
+           <TextView
+               android:textColor="@android:color/white"
+               android:text="余额"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:text="12545.02"
+               android:textSize="25sp"
+               android:textColor="@android:color/white"
+               android:id="@+id/income_balance"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+       </LinearLayout>
+       <LinearLayout
+           android:padding="10dp"
+           android:gravity="center"
+           android:layout_weight="1"
+           android:orientation="vertical"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content">
+
+           <TextView
+               android:textColor="@android:color/white"
+               android:text="待结算"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:text="12545.02"
+               android:textSize="25sp"
+               android:textColor="@android:color/white"
+               android:id="@+id/income_waitaccount"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        app:layout_constraintTop_toBottomOf="@id/income_lay_summery"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/income_lay_day"
+                app:layout_constraintTop_toBottomOf="@id/income_lay_summery"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@drawable/style_row_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="每日收益"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+            android:gravity="right"
+            android:text="更多"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+                <ImageView
+            android:src="@mipmap/arrowrightgray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                app:layout_constraintTop_toBottomOf="@id/income_lay_day"
+                android:id="@+id/income_line1"
+                android:background="#DCDCDC"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:id="@+id/income_lay_day_income"
+                app:layout_constraintTop_toBottomOf="@id/income_line1"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:padding="15dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="16sp"
+                android:textColor="#242424"
+                android:text="今日收益"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="#B5405A"
+                android:text="1000元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:textColor="#A0A0A0"
+                android:text="预估5单"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+                <View
+            android:layout_gravity="center_vertical"
+            android:background="#DCDCDC"
+            android:layout_width="1dp"
+            android:layout_height="100dp" />
+
+                <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="16sp"
+                android:textColor="#242424"
+                android:text="昨日收益"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="16sp"
+                android:textColor="#B5405A"
+                android:text="1000元"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:textColor="#A0A0A0"
+                android:text="预估5单"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:background="#DCDCDC"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:id="@+id/income_lay_week"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@drawable/style_row_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="每周收益"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:gravity="right"
+                    android:text="更多"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:src="@mipmap/arrowrightgray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/income_line2"
+                android:background="#DCDCDC"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:id="@+id/income_lay_week_income"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:padding="15dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#242424"
+                        android:text="本周收益"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#B5405A"
+                        android:text="100001元"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#A0A0A0"
+                        android:text="预估502单"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_gravity="center_vertical"
+                    android:background="#DCDCDC"
+                    android:layout_width="1dp"
+                    android:layout_height="100dp" />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:padding="15dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#242424"
+                        android:text="上周收益"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#B5405A"
+                        android:text="103400元"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#A0A0A0"
+                        android:text="预估5单"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <View
+                android:background="#DCDCDC"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:id="@+id/income_lay_month"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                android:orientation="horizontal"
+                android:background="@drawable/style_row_bg"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="每月收益"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:gravity="right"
+                    android:text="更多"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:src="@mipmap/arrowrightgray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/income_line3"
+                android:background="#DCDCDC"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:id="@+id/income_lay_month_income"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:padding="15dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#242424"
+                        android:text="本月收益"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#B5405A"
+                        android:text="100001元"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#A0A0A0"
+                        android:text="预估502单"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_gravity="center_vertical"
+                    android:background="#DCDCDC"
+                    android:layout_width="1dp"
+                    android:layout_height="100dp" />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:padding="15dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#242424"
+                        android:text="上月收益"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="#B5405A"
+                        android:text="103400元"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:textSize="14sp"
+                        android:textColor="#A0A0A0"
+                        android:text="预估5单"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>

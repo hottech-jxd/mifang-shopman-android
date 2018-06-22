@@ -25,6 +25,7 @@ class HeaderIntercepter : Interceptor{
                 .addHeader("osVersion" , headerParameter.osVersion)
                 .addHeader("userId" , headerParameter.userId.toString())
                 .addHeader("userToken" , headerParameter.userToken )
+                .addHeader("customerId", headerParameter.customerId.toString())
                 .build()
 
         newRequest = addSignParameter(newRequest)
@@ -49,6 +50,7 @@ class HeaderIntercepter : Interceptor{
         headerParameter.mobileType = Build.MODEL
         headerParameter.osVersion = Build.VERSION.SDK_INT.toString()
         headerParameter.osType = Constants.OS_TYPE
+        headerParameter.customerId = Constants.CUSTOMERID
         //headerParameter.platType=platType
 
         return headerParameter

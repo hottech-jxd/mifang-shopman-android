@@ -11,16 +11,20 @@
     android:layout_height="match_parent"
     tools:context=".activity.WebActivity">
 
-    <LinearLayout
-        android:id="@+id/web_header"
-        android:orientation="vertical"
+    <!--<LinearLayout-->
+        <!--android:id="@+id/web_header"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"/>-->
+    <!--</LinearLayout>-->
+    <include android:id="@+id/web_header"
+        layout="@layout/layout_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         app:layout_constraintTop_toBottomOf="@id/web_header"

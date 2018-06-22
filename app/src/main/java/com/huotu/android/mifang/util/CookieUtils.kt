@@ -29,7 +29,7 @@ object CookieUtils {
 
             val userInfo = UserInfo()
             userInfo.userId = youxinUserid
-            userInfo.merchantId = java.lang.Long.valueOf(Constants.MerchantId)
+            userInfo.customerId = Constants.CUSTOMERID
             userInfo.userName = BaseApplication.instance!!.variable.userBean!!.LoginName
             userInfo.userToken = BaseApplication.instance!!.variable.userBean!!.Token
             userInfo.userType = 0
@@ -94,7 +94,7 @@ object CookieUtils {
 
     internal class UserInfo {
         var userId: Long = 0
-        var merchantId: Long = 0
+        var customerId : Long = 0
         var userName: String?=""
         var userToken: String?=""
         var headimg: String? = null

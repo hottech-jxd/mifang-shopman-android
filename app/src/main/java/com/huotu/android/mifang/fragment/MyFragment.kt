@@ -11,6 +11,7 @@ import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.*
 import com.huotu.android.mifang.base.BaseFragment
 import com.huotu.android.mifang.bean.Constants
+import com.huotu.android.mifang.bean.ScoreTypeEnum
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.newIntentForLogin
@@ -43,11 +44,22 @@ class MyFragment : BaseFragment<IPresenter>(),View.OnClickListener {
 
 
     override fun initView() {
+
+        my_setting.setOnClickListener(this)
+        my_qrcode.setOnClickListener(this)
+        my_repay.setOnClickListener(this)
         my_lay_message.setOnClickListener(this)
         my_lay_feedback.setOnClickListener(this)
         my_lay_set.setOnClickListener(this)
         my_lay_shopper.setOnClickListener(this)
         my_lay_aboutme.setOnClickListener(this)
+        my_lay_wallet.setOnClickListener(this)
+        my_lay_income.setOnClickListener(this)
+        my_lay_order.setOnClickListener(this)
+        my_lay_myterm.setOnClickListener(this)
+        my_lay_waitaccounts.setOnClickListener(this)
+        my_lay_balance.setOnClickListener(this)
+        my_lay_mibean.setOnClickListener(this)
     }
 
     override fun fetchData() {
@@ -66,6 +78,7 @@ class MyFragment : BaseFragment<IPresenter>(),View.OnClickListener {
             R.id.my_lay_feedback->{
                 newIntent<FeedbackActivity>()
             }
+            R.id.my_setting,
             R.id.my_lay_set->{
                 newIntent<SettingActivity>()
             }
@@ -74,6 +87,33 @@ class MyFragment : BaseFragment<IPresenter>(),View.OnClickListener {
             }
             R.id.my_lay_aboutme->{
                 newIntent<WebActivity>( Constants.INTENT_URL , "http://www.baidu.com")
+            }
+            R.id.my_lay_wallet->{
+                newIntent<MyWalletActivity>()
+            }
+            R.id.my_lay_income->{
+                newIntent<IncomeActivity>()
+            }
+            R.id.my_lay_order->{
+                newIntent<OrderActivity>()
+            }
+            R.id.my_lay_myterm->{
+                newIntent<MyTermActivity>()
+            }
+            R.id.my_qrcode->{
+                newIntent<WebActivity>(Constants.INTENT_URL , "http://www.baidu.com")
+            }
+            R.id.my_repay->{
+                newIntent<BuyActivity>(Constants.INTENT_OPERATE_TYPE,1)
+            }
+            R.id.my_lay_waitaccounts->{
+                newIntent<WaitAccountsActivity>(Constants.INTENT_OPERATE_TYPE, ScoreTypeEnum.WaitAccounts.id)
+            }
+            R.id.my_lay_balance->{
+                newIntent<WaitAccountsActivity>(Constants.INTENT_OPERATE_TYPE, ScoreTypeEnum.Balance.id)
+            }
+            R.id.my_lay_mibean->{
+                newIntent<WaitAccountsActivity>(Constants.INTENT_OPERATE_TYPE,ScoreTypeEnum.MiBean.id)
             }
         }
     }

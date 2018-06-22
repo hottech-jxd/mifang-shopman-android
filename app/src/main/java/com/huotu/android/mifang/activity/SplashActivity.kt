@@ -197,8 +197,8 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
             //BaseApplication.single.setCreditUrl(result.getData().getCreditUrl())
             //BaseApplication.single.setPublishListUrl(result.getData().getPublishListUrl())
 //        }
-        if(result.resultCode != ApiResultCodeEnum.SUCCESS.code){
-            toast(result.resultMsg)
+        if(result.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(result.msg)
             gotoHome()
             return
         }

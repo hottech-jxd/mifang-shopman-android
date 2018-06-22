@@ -3,20 +3,15 @@ package com.huotu.android.mifang.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.adapter.ShopperClassAdpter
 import com.huotu.android.mifang.base.BaseFragment
-import com.huotu.android.mifang.bean.MessageTypeEnum
+import com.huotu.android.mifang.bean.ShopperClassBean
 import com.huotu.android.mifang.mvp.IPresenter
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
+import com.huotu.android.mifang.widget.RecyclerViewDivider
+import kotlinx.android.synthetic.main.fragment_shopper_class1.*
 /**
  * A simple [Fragment] subclass.
  * Use the [ShopperClass1Fragment.newInstance] factory method to
@@ -24,9 +19,9 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class ShopperClass1Fragment : BaseFragment<IPresenter>() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    var shopperClassAdpter:ShopperClassAdpter?=null
+    var data=ArrayList<ShopperClassBean>()
 
     private var type: Int = 0
 
@@ -38,18 +33,23 @@ class ShopperClass1Fragment : BaseFragment<IPresenter>() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopper_class1, container, false)
-    }
-
 
     override fun initView() {
+        if( shopperClassAdpter==null)
+            shopperClassAdpter= ShopperClassAdpter(data)
 
+        shopperclass_recyclerview.layoutManager=LinearLayoutManager(context)
+        shopperclass_recyclerview.addItemDecoration(RecyclerViewDivider(context!!, ContextCompat.getColor(context!!, R.color.bg_line ) , 1f ))
+        shopperclass_recyclerview.adapter=shopperClassAdpter
     }
 
     override fun fetchData() {
+        data.clear()
+        for(i in 0 .. 10){
+            data.add(ShopperClassBean("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png","分公司大法官受到犯规是大概","大师飞阿是as阿是打发阿是打发dfa的萨芬士大夫打发是发沙士大夫撒飞洒发双方萨芬阿是打发"))
+        }
+
+        shopperClassAdpter!!.notifyDataSetChanged()
 
     }
 

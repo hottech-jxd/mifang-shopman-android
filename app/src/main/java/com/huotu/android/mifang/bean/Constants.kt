@@ -3,7 +3,7 @@ package com.huotu.android.mifang.bean
 object Constants {
     val OS_TYPE:Int=2  //系统类型 miniprogram->0；ios->1；android->2；h5->3
     val APP_SECRET:String="4165a8d240b29af3f41818d10599d0d1"
-    val MerchantId:String="1"
+    val CUSTOMERID:Long=1
 
 
     val READ_TIMEOUT :Long= 15
@@ -37,7 +37,9 @@ object Constants {
     val INTENT_AUTH_FLAG="auth_flag"
     val INTENT_AUTH_STATUS = "auth_status"
     val INTENT_AUTH_CLOSE = "auth_close"
-
+    val INTENT_TERM_TYPE="term_type"
+    val INTENT_OPERATE_TYPE="operate_type"
+    val INTENT_BEAN="bean"
 
     val PREF_FILENAME="pref_filename_phonerecycle"
     var PREF_USER = "pref_user"

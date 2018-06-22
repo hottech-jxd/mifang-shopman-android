@@ -4,10 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#F0EFF5"
+    android:padding="0dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.huotu.android.mifang.fragment.PromotionFragment">
 
     <LinearLayout
+        android:paddingBottom="10dp"
+        android:background="@android:color/white"
         android:id="@+id/promotion_header"
         android:paddingTop="10dp"
         android:orientation="vertical"
@@ -27,36 +31,275 @@
             android:layout_height="1px"/>
     </LinearLayout>
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+        android:padding="15dp"
+        android:background="@android:color/white"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <ImageView
+            <ImageView
+                android:src="@mipmap/ic_launcher"
             android:id="@+id/promotion_avator"
             android:layout_width="60dp"
             android:layout_height="60dp" />
-        <LinearLayout
+            <LinearLayout
+                android:layout_marginLeft="10dp"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/promotion_username"
                 android:text="jinxiangdong"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#6A6A6A"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:layout_marginTop="4dp"
                 android:id="@+id/promotion_user_type"
                 android:text="营养师"
+                android:textSize="10sp"
+                android:padding="3dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/shape_promotion_type_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#434343"
+                android:id="@+id/promotion_label1"
+                android:text="累计"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="#434343"
+                android:id="@+id/promotion_label2"
+                android:text="邀请店主"
+                android:paddingBottom="3dp"
+                android:layout_below="@id/promotion_label1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="3dp"
+                android:text="15"
+                android:textColor="#3E3E3E"
+                android:id="@+id/promotion_count"
+                android:layout_alignBottom="@id/promotion_label2"
+                android:textSize="25sp"
+                android:gravity="bottom"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/promotion_label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@id/promotion_count"
+                android:layout_alignBottom="@id/promotion_count"
+                android:text="人"
+                android:paddingBottom="3dp"
+                android:textColor="#3E3E3E"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/promotion_label4"
+                    android:text="剩余"
+                    android:textColor="#434343"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="#434343"
+                    android:id="@+id/promotion_label5"
+                    android:text="开店账号"
+                    android:paddingBottom="3dp"
+                    android:layout_below="@id/promotion_label4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="3dp"
+                    android:text="500"
+                    android:textStyle="bold"
+                    android:id="@+id/promotion_count2"
+                    android:layout_alignBottom="@id/promotion_label5"
+                    android:textSize="25sp"
+                    android:textColor="#3E3E3E"
+                    android:layout_toRightOf="@id/promotion_label5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/promotion_count2"
+                    android:layout_alignBottom="@id/promotion_count2"
+                    android:text="个"
+                    android:gravity="bottom"
+                    android:paddingBottom="3dp"
+                    android:textColor="#3E3E3E"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
+
     </LinearLayout>
+
+            <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="#434343"
+            android:textSize="12sp"
+            android:text="选择采购账号/成为代理商"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/promotion_operate_1"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_promotion_bg1"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/promotion_pic1"
+                android:src="@mipmap/shop2"
+                android:layout_width="45dp"
+                android:layout_height="45dp" />
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/promotion_pic1"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="采购账号"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@android:color/white"
+                    android:text="购买开店账号"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/arrowwhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/promotion_operate_2"
+            android:layout_marginTop="10dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingBottom="40dp"
+            android:background="@drawable/shape_promotion_bg2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/promotion_pic2"
+                android:src="@mipmap/man"
+                android:layout_width="45dp"
+                android:layout_height="45dp" />
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/promotion_pic2"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@android:color/white"
+                    android:text="申请成为代理商"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@android:color/white"
+                    android:text="申请代理商"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/arrowwhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+            <TextView
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+            android:textColor="#E85160"
+            android:textSize="16sp"
+            android:gravity="center"
+                android:id="@+id/promotion_invite"
+            android:text="邀请好友开店"
+            android:background="@drawable/shape_promotion_invite_bg"
+            android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
 
     <!--<LinearLayout-->
         <!--android:id="@+id/promotion_lay_banner"-->
@@ -64,15 +307,15 @@
         <!--android:clipChildren="false"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content">-->
-        <com.huotu.android.mifang.widget.ViewPager
-            android:clipToPadding="false"
-            android:id="@+id/promotion_banner"
-            android:layout_width="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="40dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_height="wrap_content"/>
+        <!--<com.huotu.android.mifang.widget.ViewPager-->
+            <!--android:clipToPadding="false"-->
+            <!--android:id="@+id/promotion_banner"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:paddingLeft="20dp"-->
+            <!--android:paddingRight="40dp"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:layout_height="wrap_content"/>-->
     <!--</LinearLayout>-->
 
 
@@ -82,10 +325,10 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"/>-->
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/promotion_viewPager"
-        android:layout_width="match_parent"
-        android:background="@color/bottom_container_bg"
-        android:layout_height="match_parent"/>
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/promotion_viewPager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:background="@color/bottom_container_bg"-->
+        <!--android:layout_height="match_parent"/>-->
 
 </android.support.v7.widget.LinearLayoutCompat>

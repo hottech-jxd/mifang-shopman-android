@@ -12,6 +12,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.activity.InviteOneActivity
+import com.huotu.android.mifang.activity.InviteTwoActivity
 import com.huotu.android.mifang.adapter.FragmentAdapter
 import com.huotu.android.mifang.adapter.PromotionAdapter
 import com.huotu.android.mifang.base.BaseFragment
@@ -27,15 +29,15 @@ import kotlinx.android.synthetic.main.fragment_promotion.*
  * create an instance of this fragment.
  *
  */
-class PromotionFragment : BaseFragment<IPresenter>() ,ViewPager.OnPageChangeListener{
-    var fragmentAdapter:FragmentAdapter?=null
-    var fragments=ArrayList<BaseFragment<IPresenter>>()
-    var fragment1:Promotion1Fragment?=null
-    var fragment2:Promotion2Fragment?=null
-    var fragment3:Promotion3Fragment?=null
+class PromotionFragment : BaseFragment<IPresenter>() ,View.OnClickListener{
+//    var fragmentAdapter:FragmentAdapter?=null
+//    var fragments=ArrayList<BaseFragment<IPresenter>>()
+//    var fragment1:Promotion1Fragment?=null
+//    var fragment2:Promotion2Fragment?=null
+//    var fragment3:Promotion3Fragment?=null
 
-    var promotionAdapter:PromotionAdapter?=null
-    var currentIndex = 0
+//    var promotionAdapter:PromotionAdapter?=null
+//    var currentIndex = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,48 +49,55 @@ class PromotionFragment : BaseFragment<IPresenter>() ,ViewPager.OnPageChangeList
     }
 
     override fun initView() {
-        var data=ArrayList<String>()
-        data.add("http://image.tkcm888.com/adSet_2018-05-31_a13475823f524d5f8b3b9480673e339915277602221601122.png")
-        data.add("http://image.tkcm888.com/adSet_2018-05-31_56440f86ea1d4d60a9a4d725e26e62c015277545962763144.png")
-        data.add("http://image.tkcm888.com/adSet_2018-06-01_f406f8550f0f4b21b41fca881bbcb11415278577614883710.png")
-        if(promotionAdapter==null){
-            promotionAdapter=PromotionAdapter(data)
-        }
+
+        //promotion_avator.setImageBitmap()
+
+        promotion_operate_1.setOnClickListener(this)
+        promotion_operate_2.setOnClickListener(this)
+
+
+//        var data=ArrayList<String>()
+//        data.add("http://image.tkcm888.com/adSet_2018-05-31_a13475823f524d5f8b3b9480673e339915277602221601122.png")
+//        data.add("http://image.tkcm888.com/adSet_2018-05-31_56440f86ea1d4d60a9a4d725e26e62c015277545962763144.png")
+//        data.add("http://image.tkcm888.com/adSet_2018-06-01_f406f8550f0f4b21b41fca881bbcb11415278577614883710.png")
+//        if(promotionAdapter==null){
+//            promotionAdapter=PromotionAdapter(data)
+//        }
         //promotion_banner.offscreenPageLimit=3
         //promotion_banner.pageMargin = DensityUtils.dip2px(this.context,10f)
         //promotion_banner.adapter = promotionAdapter
 
+//
+//       fragments.clear()
+//        if(fragment1==null){
+//            fragment1 = Promotion1Fragment.newInstance("","")
+//        }
+//        if(fragment2==null){
+//            fragment2= Promotion2Fragment.newInstance("","")
+//        }
+//        if(fragment3==null){
+//            fragment3 = Promotion3Fragment.newInstance("","")
+//        }
+//        fragments.add(fragment1!!)
+//        fragments.add(fragment2!!)
+//        fragments.add(fragment3!!)
+//        var titles = ArrayList<String>()
+//        titles.add("1")
+//        titles.add("2")
+//        titles.add("3")
+//        if(fragmentAdapter==null){
+//            fragmentAdapter = FragmentAdapter(childFragmentManager, fragments,titles)
+//        }
 
-       fragments.clear()
-        if(fragment1==null){
-            fragment1 = Promotion1Fragment.newInstance("","")
-        }
-        if(fragment2==null){
-            fragment2= Promotion2Fragment.newInstance("","")
-        }
-        if(fragment3==null){
-            fragment3 = Promotion3Fragment.newInstance("","")
-        }
-        fragments.add(fragment1!!)
-        fragments.add(fragment2!!)
-        fragments.add(fragment3!!)
-        var titles = ArrayList<String>()
-        titles.add("1")
-        titles.add("2")
-        titles.add("3")
-        if(fragmentAdapter==null){
-            fragmentAdapter = FragmentAdapter(childFragmentManager, fragments,titles)
-        }
-
-        promotion_viewPager.adapter=fragmentAdapter
-        promotion_banner.offscreenPageLimit=3
-        promotion_banner.pageMargin = DensityUtils.dip2px(context , 10f)
+//        promotion_viewPager.adapter=fragmentAdapter
+//        promotion_banner.offscreenPageLimit=3
+//        promotion_banner.pageMargin = DensityUtils.dip2px(context , 10f)
         //promotion_banner.layoutManager=LinearLayoutManager(context , LinearLayoutManager.HORIZONTAL,false)
-        promotion_banner.adapter = promotionAdapter
-        promotion_banner.addOnPageChangeListener(this)
-
-        promotion_viewPager.offscreenPageLimit=3
-        promotion_viewPager.addOnPageChangeListener(this)
+//        promotion_banner.adapter = promotionAdapter
+//        promotion_banner.addOnPageChangeListener(this)
+//
+//        promotion_viewPager.offscreenPageLimit=3
+//        promotion_viewPager.addOnPageChangeListener(this)
 
 //        promotion_banner.addOnScrollListener(object :RecyclerView.OnScrollListener(){
 //            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -163,7 +172,16 @@ class PromotionFragment : BaseFragment<IPresenter>() ,ViewPager.OnPageChangeList
 //      }
 
 
-
+    override fun onClick(v: View?) {
+        when(v!!.id){
+            R.id.promotion_operate_1->{
+                newIntent<InviteOneActivity>()
+            }
+            R.id.promotion_operate_2->{
+            newIntent<InviteTwoActivity>()
+        }
+        }
+    }
 
     override fun fetchData() {
 
@@ -178,14 +196,14 @@ class PromotionFragment : BaseFragment<IPresenter>() ,ViewPager.OnPageChangeList
      * 有三种状态（0，1，2）。arg0 ==1的时辰默示正在滑动，arg0==2的时辰默示滑动完毕了，arg0==0的时辰默示什么都没做。
      * 当页面开始滑动的时候，三种状态的变化顺序为（1，2，0），演示如下：
      */
-    override fun onPageScrollStateChanged(state: Int) {
-    }
+//    override fun onPageScrollStateChanged(state: Int) {
+//    }
+//
+//    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+//
+//    }
 
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-    }
-
-    override fun onPageSelected(position: Int) {
+//    override fun onPageSelected(position: Int) {
 //        if(position== (promotionAdapter!!.count-1)){
 //            var leftPad = DensityUtils.dip2px(context , 40f)
 //            var rightPad = DensityUtils.dip2px(context,10f)
@@ -208,13 +226,16 @@ class PromotionFragment : BaseFragment<IPresenter>() ,ViewPager.OnPageChangeList
 //            promotion_banner.invalidate()
 //        }
 
-        if(promotion_banner.currentItem != position) {
-            promotion_banner.setCurrentItem(position, true)
-        }
-        if(promotion_viewPager.currentItem!=position) {
-            promotion_viewPager.setCurrentItem(position, true)
-        }
-    }
+//        if(promotion_banner.currentItem != position) {
+//            promotion_banner.setCurrentItem(position, true)
+//        }
+//        if(promotion_viewPager.currentItem!=position) {
+//            promotion_viewPager.setCurrentItem(position, true)
+//        }
+//    }
+
+
+
 
     companion object {
         /**

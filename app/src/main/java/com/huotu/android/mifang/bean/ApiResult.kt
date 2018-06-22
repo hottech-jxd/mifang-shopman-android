@@ -1,7 +1,7 @@
 package com.huotu.android.mifang.bean
 
 data class ApiResult<T> (
-    var resultCode:Int=0,
-    var resultMsg:String="",
+    var code:Int=0,
+    var msg:String="",
     var data:T?=null
     )

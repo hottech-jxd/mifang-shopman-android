@@ -5,4 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="my_statusbar_color">#ffffff</color>
     <color name="line_color">#F2F2F2</color>
+    <color name="light_gray">#d3d3d3</color>
+    <color name="textcolor">#AFAFAF</color>
+    <color name="textcolor2">#E41637</color>
+    <color name="textcolor3">#31C000</color>
+    <color name="bg_line">#F0EFF5</color>
+
 </resources>

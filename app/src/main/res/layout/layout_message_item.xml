@@ -10,14 +10,14 @@
     <ImageView
         android:src="@mipmap/message3"
         android:id="@+id/message_item_logo"
-        android:layout_width="46dp"
-        android:layout_height="46dp"/>
+        android:layout_width="42dp"
+        android:layout_height="42dp"/>
     <TextView
         android:layout_marginRight="8dp"
         android:id="@+id/message_item_title"
         app:layout_constraintTop_toTopOf="@id/message_item_logo"
         app:layout_constraintLeft_toRightOf="@id/message_item_logo"
-        android:text="sdfadf"
+        android:text="sdfadf阿斯顿飞"
         android:textColor="#838383"
         android:textSize="16sp"
         android:layout_width="wrap_content"

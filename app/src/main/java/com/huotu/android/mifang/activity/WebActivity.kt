@@ -18,6 +18,7 @@ import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.utils.UrlInterceptor
 import com.huotu.android.mifang.widget.TipAlertDialog
 import kotlinx.android.synthetic.main.activity_web.*
+import kotlinx.android.synthetic.main.layout_header.*
 
 
 class WebActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
@@ -34,14 +35,16 @@ class WebActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
         url = intent.extras.getString(Constants.INTENT_URL)
         isCanBack = intent.extras.getBoolean(Constants.INTENT_CANBACK , false)
 
-        toolbar.setNavigationOnClickListener(this)
+        //toolbar.setNavigationOnClickListener(this)
+        header_left_image.setOnClickListener(this)
+
 
         loadPage()
     }
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.toolbar->{
+            R.id.header_left_image->{
 
                 if(isCanBack&& webView.canGoBack()){
                     webView.goBack()
@@ -145,8 +148,8 @@ class WebActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
 
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
-                        if (toolbar == null) return
-                        toolbar.title =view?.title
+                        if (header_title == null) return
+                        header_title.text =view?.title
                     }
 
 
@@ -169,13 +172,13 @@ class WebActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
         webView.webChromeClient = object : WebChromeClient() {
             override fun onReceivedTitle(view: WebView, title: String?) {
                 super.onReceivedTitle(view, title)
-                if (toolbar == null) {
+                if (header_title == null) {
                     return
                 }
                 if (title == null) {
                     return
                 }
-                toolbar.title =title
+                header_title.text =title
             }
 
             override fun onProgressChanged(view: WebView, newProgress: Int) {

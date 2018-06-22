@@ -48,7 +48,7 @@ class ShopperClassActivity : BaseActivity<IPresenter>() ,TabLayout.OnTabSelected
 
         shopperclass_viewPager.adapter = commonPageAdapter
         shopperclass_viewPager.addOnPageChangeListener(this)
-        shopperclass_tablayout.setupWithViewPager(message_viewPager,true)
+        shopperclass_tablayout.setupWithViewPager(shopperclass_viewPager,true)
         shopperclass_tablayout.addOnTabSelectedListener(this)
     }
 

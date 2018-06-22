@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#31C000"
+        android:textSize="20sp"
+        android:text="-125"
+        android:id="@+id/score_item_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="0dp"
+        android:textSize="16sp"
+        android:text="冥想寄件积分冥想寄件积分冥想寄件积分冥想寄件积分冥想寄件积分冥想寄件积分"
+        app:layout_constraintTop_toTopOf="@id/score_item_score"
+        app:layout_constraintLeft_toRightOf="@id/score_item_score"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@android:color/black"
+        android:id="@+id/score_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:text="时间：2018.10.15 12:12:00"
+        app:layout_constraintTop_toBottomOf="@id/score_item_name"
+        app:layout_constraintLeft_toRightOf="@id/score_item_score"
+        android:textSize="12sp"
+        android:textColor="#A6A6B3"
+        android:id="@+id/score_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>

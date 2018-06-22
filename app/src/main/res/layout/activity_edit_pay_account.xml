@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="#F2F2F2"
+    tools:context="com.huotu.android.mifang.activity.EditPayAccountActivity">
+
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        layout="@layout/layout_header"
+        android:id="@+id/edit_pay_account_header"/>
+
+    <TextView
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/edit_pay_account_header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="14sp"
+        android:paddingTop="15dp"
+        android:paddingLeft="20dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/edit_pay_account_label1"
+        android:text="选择提现方式"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:background="@android:color/white"
+        android:id="@+id/edit_pay_account_lay_pay"
+        app:layout_constraintTop_toBottomOf="@id/edit_pay_account_label1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/edit_pay_account_alipay"
+            android:text="支付宝"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/shape_edit_pay_account_selected_bg"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/shape_edit_pay_account_bg"
+            android:id="@+id/edit_pay_account_wepay"
+            android:text="微信"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/edit_pay_account_lay_pay"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/edit_pay_account_line1"
+        android:background="#d1d1d1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/edit_pay_account_line1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/edit_pay_account_lay_name"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="姓名"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/edit_pay_account_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:gravity="right"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15sp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/shape_edittext_bg"
+            android:hint="请输入姓名"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/edit_pay_account_lay_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="#d1d1d1"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/edit_pay_account_line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/edit_pay_account_line2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/edit_pay_account_lay_account"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="支付宝账号："
+            android:id="@+id/edit_pay_account_account_label"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/edit_pay_account_account"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textSize="14sp"
+            android:padding="15dp"
+            android:background="@drawable/shape_edittext_bg"
+            android:hint="请输入账号"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/edit_pay_account_lay_account"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:id="@+id/edit_pay_account_operate"
+        android:text="保存"
+        android:background="@drawable/style_cash_operate"
+        android:textColor="@android:color/white"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>
