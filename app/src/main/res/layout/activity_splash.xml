@@ -12,12 +12,10 @@
     tools:context=".activity.SplashActivity">
 
 
-
-
     <LinearLayout
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/layBottom"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
@@ -48,6 +46,12 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:id="@+id/splash_progress"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <com.huotu.android.mifang.widget.ErrorWidget
         android:id="@+id/layError"

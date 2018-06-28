@@ -81,6 +81,13 @@ fun Fragment.showToast(message:String):Toast{
         finish()
     }
 
+    inline fun<reified T: Activity> Activity.skipIntent(key:String, bundle: Bundle?){
+        val intent = Intent(this, T::class.java)
+        intent.putExtra(key,bundle)
+        startActivity(intent)
+        finish()
+    }
+
     inline fun<reified T: Activity> Activity.skipIntent(bundle: Bundle){
         val intent = Intent(this, T::class.java)
         intent.putExtras(bundle)

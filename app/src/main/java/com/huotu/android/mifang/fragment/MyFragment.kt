@@ -3,24 +3,19 @@ package com.huotu.android.mifang.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.*
 import com.huotu.android.mifang.base.BaseFragment
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.ScoreTypeEnum
-import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.base.GlideApp
+import com.huotu.android.mifang.bean.*
+import com.huotu.android.mifang.mvp.contract.MyContract
+import com.huotu.android.mifang.mvp.presenter.MyPresenter
 import com.huotu.android.mifang.newIntent
-import com.huotu.android.mifang.newIntentForLogin
+import com.huotu.android.mifang.util.DensityUtils
+import com.huotu.android.mifang.widget.FrescoImageLoader
+import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.fragment_my.*
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -28,20 +23,19 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class MyFragment : BaseFragment<IPresenter>(),View.OnClickListener {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class MyFragment : BaseFragment<MyContract.Presenter>()
+        ,MyContract.View
+        ,OnBannerListener
+        ,View.OnClickListener {
+
+    var myPresenter=MyPresenter(this)
+    var myBean :MyBean?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
-
-
 
     override fun initView() {
 
@@ -60,14 +54,23 @@ class MyFragment : BaseFragment<IPresenter>(),View.OnClickListener {
         my_lay_waitaccounts.setOnClickListener(this)
         my_lay_balance.setOnClickListener(this)
         my_lay_mibean.setOnClickListener(this)
+        my_banner.setOnBannerListener(this)
     }
 
     override fun fetchData() {
-
+        myPresenter.myIndex()
     }
 
     override fun getLayoutResourceId(): Int {
         return R.layout.fragment_my
+    }
+
+    override fun OnBannerClick(position: Int) {
+        if(myBean==null)return
+        if(myBean!!.ADList==null) return
+
+        var url  =myBean!!.ADList!![position].LinkURL
+        newIntent<WebActivity>(Constants.INTENT_URL , url)
     }
 
     override fun onClick(v: View?) {
@@ -118,13 +121,72 @@ class MyFragment : BaseFragment<IPresenter>(),View.OnClickListener {
         }
     }
 
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+        my_progress.visibility=View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        my_progress.visibility=View.GONE
+    }
+
+    override fun myIndexCallback(apiResult: ApiResult<MyBean>) {
+        my_progress.visibility=View.GONE
+        if(processCommonErrorCode(apiResult.code , apiResult.msg)){
+            return
+        }
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+
+        myBean = apiResult.data
+        if(myBean == null)return
+
+        my_name.text =myBean!!.WxNickName
+        //GlideApp.with(context!!).load(myBean.WxHeadImg).into(my_avator)
+        my_avator.setImageURI(myBean!!.WxHeadImg)
+
+        my_account_type.text = myBean!!.LevelName
+        my_ExpireTime.text="到期时间:"+ myBean!!.ExpireTime +"(剩"+ myBean!!.SurplusDays +"天)"
+        my_waitaccounts.text = myBean!!.UserTempIntegral.toString()
+        my_balance.text = (myBean!!.UserIntegral/100).toString()
+        my_mibean.text = myBean!!.UserMBean.toString()
+
+        setAdBanner(myBean!!.ADList)
+    }
+
+
+    private fun setAdBanner( ads :ArrayList<MyBean.ADBean>?){
+        if(ads==null||ads.size<1){
+            my_banner.stopAutoPlay()
+            my_banner.visibility=View.GONE
+            return
+        }else{
+            my_banner.visibility=View.VISIBLE
+        }
+
+        my_banner.setDelayTime(3500)
+        my_banner.setImageLoader(FrescoImageLoader( my_banner , DensityUtils.getScreenWidth(context!!)))
+        my_banner.setImages(ads)
+        my_banner.start()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        my_banner.stopAutoPlay()
+    }
+
+    override fun mySettingCallback(apiResult: ApiResult<SettingBean>) {
+
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
          * @return A new instance of fragment MyFragment.
          */
         // TODO: Rename and change types and number of parameters

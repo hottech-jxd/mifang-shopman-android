@@ -5,14 +5,18 @@ import android.os.Bundle
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.ScoreTypeEnum
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.mvp.contract.WalletContract
+import com.huotu.android.mifang.mvp.presenter.WalletPresenter
 import com.huotu.android.mifang.newIntent
 import kotlinx.android.synthetic.main.activity_my_wallet.*
 import kotlinx.android.synthetic.main.layout_header.*
 
-class MyWalletActivity : BaseActivity<IPresenter>() , View.OnClickListener{
+class MyWalletActivity : BaseActivity<WalletContract.Presenter>()
+        ,WalletContract.View
+        , View.OnClickListener{
+    var iPresenter = WalletPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,8 @@ class MyWalletActivity : BaseActivity<IPresenter>() , View.OnClickListener{
         mywallet_lay_2.setOnClickListener(this)
         mywallet_lay_3.setOnClickListener(this)
         mywallet_cash.setOnClickListener(this)
+
+        iPresenter.myWallet()
     }
 
     override fun onClick(v: View?) {
@@ -45,9 +51,37 @@ class MyWalletActivity : BaseActivity<IPresenter>() , View.OnClickListener{
             R.id.mywallet_lay_3->{
                 newIntent<WaitAccountsActivity>(Constants.INTENT_OPERATE_TYPE,ScoreTypeEnum.WaitAccounts.id)
             }
-            R.id.mywallet_cash->{
-                toast("提现sssss")
-            }
+
         }
+    }
+
+    override fun myWalletCallback(apiResult: ApiResult<MyWalletBean>) {
+        hideProgress()
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code!=ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null){
+            toast("返回的数据不正确")
+            return
+        }
+
+        mywallet_midou.text = apiResult.data!!.UserMBean.toString()
+        mywallet_waitpay.text=apiResult.data!!.UserTempIntegral.toString()
+        mywallet_yue.text = apiResult.data!!.UserIntegral.toString()
+        mywallet_yhq.text = apiResult.data!!.CouponNum.toString()+"张"
+    }
+
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+        mywallet_progress.visibility=View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        mywallet_progress.visibility=View.GONE
     }
 }

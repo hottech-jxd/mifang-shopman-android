@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
+import com.huotu.android.library.libpush.PushHelper
 import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.base.BaseActivity
 import com.huotu.android.mifang.base.BaseApplication
@@ -35,12 +36,11 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        //setAnimation()
+        init()
 
         register()
 
         checkPermissionWithPermissionCheck()
-
 
     }
 
@@ -51,6 +51,7 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
     fun init() {
         layError.setOnClickListener(this)
         tvVersion.text = getString(R.string.app_name) + " v" + BuildConfig.VERSION_NAME
+
 
         var userString = SPUtils.getInstance(this, Constants.PREF_FILENAME)
                 .readString(Constants.PREF_USER,"")
@@ -65,43 +66,12 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
     }
 
-//    private fun setAnimation() {
-//        val alphaAnimation = AlphaAnimation(0.1f,1.0f)
-//        alphaAnimation.duration = 1000
-//        val scaleAnimation = ScaleAnimation(0.1f,1.0f,0.1f,1.0f, ScaleAnimation.RELATIVE_TO_SELF,0.5f, ScaleAnimation.RELATIVE_TO_SELF,0.5f)
-//        scaleAnimation.duration =1000
-//        val animationSet = AnimationSet(true)
-//        animationSet.addAnimation(alphaAnimation)
-//        animationSet.addAnimation(scaleAnimation)
-//        animationSet.duration = 1000
-//        root_container.startAnimation(animationSet)
-//        animationSet.setAnimationListener(object : Animation.AnimationListener{
-//            override fun onAnimationRepeat(animation: Animation?) {
-//
-//            }
-//
-//            override fun onAnimationStart(animation: Animation?) {
-//
-//            }
-//
-//            override fun onAnimationEnd(animation: Animation?) {
-//                newIntent<MainActivity>()
-//                finish()
-//            }
-//        })
-//    }
-
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun checkPermission() {
         init()
     }
 
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//
-//        onRequestPermissionsResult(requestCode , grantResults)
-//    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -135,7 +105,13 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
     private fun gotoHome() {
 
-        skipIntent<MainActivity>()
+        //获得推送信息
+        var bundlePush: Bundle? = null
+        if (null != intent && intent.hasExtra(Constants.INTENT_PUSH_KEY)) {
+            bundlePush = intent.getBundleExtra(Constants.INTENT_PUSH_KEY)
+        }
+
+        skipIntent<MainActivity>( Constants.INTENT_PUSH_KEY , bundlePush )
     }
 
     override fun onClick(v: View?) {
@@ -168,20 +144,16 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
     override fun showProgress( msg:String){
         layError.visibility =View.GONE
+        splash_progress.visibility=View.VISIBLE
     }
 
     override fun hideProgress(){
-
+        splash_progress.visibility=View.GONE
     }
 
     override fun error(err:String){
         gotoHome()
     }
-
-//    override fun readCityDataCallback(list: ArrayList<Province>) {
-//        BaseApplication.instance!!.variable.cityData =list
-//        presenter!!.initData()
-//    }
 
     override fun initDataCallback(result: ApiResult<InitDataBean>) {
         hideProgress()
@@ -243,13 +215,13 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
         unRegister()
     }
 
-    fun register(){
+    private fun register(){
         wechatLoginReceiver= WechatLoginReceiver(this)
         val intentFilter = IntentFilter( Constants.ACTION_WECHAT_LOGIN )
         this.registerReceiver(wechatLoginReceiver , intentFilter)
     }
 
-    fun unRegister(){
+    private fun unRegister(){
         if(wechatLoginReceiver!=null){
             wechatLoginReceiver!!.loginListener=null
             this.unregisterReceiver(wechatLoginReceiver)
@@ -278,7 +250,17 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
         BaseApplication.instance!!.variable.wechatUser = result
 
+        setJpushAlias( result  )
 
         gotoHome()
     }
+
+    /**
+     * 登录成功，设置极光推送的别名为 手机号
+     * @param userBean
+     */
+    private fun setJpushAlias(wechatUser: WechatUser ) {
+        PushHelper.bindingUserId( wechatUser.openid , wechatUser.nickname , "", "", "")
+    }
+
 }

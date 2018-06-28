@@ -1,5 +1,7 @@
 package com.huotu.android.mifang.bean
 
+import android.os.Environment
+
 object Constants {
     val OS_TYPE:Int=2  //系统类型 miniprogram->0；ios->1；android->2；h5->3
     val APP_SECRET:String="4165a8d240b29af3f41818d10599d0d1"
@@ -11,7 +13,9 @@ object Constants {
     val WRITE_TIMEOUT :Long= 15
     val PAGE_SIZE=10
     //val BASE_URL:String ="http://192.168.1.210:8082/api/"
-    val BASE_URL :String="http://youxin.51huotao.com/api/"
+    //MOCK 地址
+    val BASE_URL="http://api.mingshz.com/mock/80/"
+    //val BASE_URL :String="http://youxin.51huotao.com/api/"
     //val YOUXIN_BASE_URL :String="http://192.168.1.210:8082/api/"
     val YOUXIN_BASE_URL:String="http://youxin.51huotao.com/api/"
 
@@ -40,6 +44,7 @@ object Constants {
     val INTENT_TERM_TYPE="term_type"
     val INTENT_OPERATE_TYPE="operate_type"
     val INTENT_BEAN="bean"
+    val INTENT_PUSH_KEY = "intent_push_key"
 
     val PREF_FILENAME="pref_filename_phonerecycle"
     var PREF_USER = "pref_user"
@@ -55,4 +60,7 @@ object Constants {
     val ACTION_ORDER_CHANGE="com.huotu.android.phonerecycle.action_order_change"
     val ACTION_WECHAT_LOGIN="com.huoto.android.mifang.wechatlogin"
 
+
+    val ImageDirPath= Environment.getExternalStorageDirectory().toString()+"/mifang/images/"
+    val VideoDirPath = Environment.getExternalStorageDirectory().toString()+"/mifang/videos/"
 }

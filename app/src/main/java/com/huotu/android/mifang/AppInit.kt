@@ -1,6 +1,8 @@
 package com.huotu.android.mifang
 
 import android.app.Application
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.huotu.android.library.libpush.PushHelper
 import com.huotu.android.mifang.util.CrashHandler
 import com.liulishuo.filedownloader.FileDownloader
 import com.squareup.leakcanary.LeakCanary
@@ -16,11 +18,15 @@ object AppInit {
 
         CrashHandler.instance.init(context)
 
-        //Fresco.initialize( context)
 
         if(!LeakCanary.isInAnalyzerProcess(context)){
             LeakCanary.install(context)
         }
+
+        Fresco.initialize( context)
+
+        // 极光初始化
+        PushHelper.init(context, BuildConfig.DEBUG, "")
 
         //初始化下载组件库
         FileDownloader.setupOnApplicationOnCreate(context)

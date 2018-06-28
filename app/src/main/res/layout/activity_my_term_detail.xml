@@ -102,6 +102,7 @@
             android:layout_width="1dp"
             android:background="#d1d1d1"/>
         <TextView
+            android:id="@+id/mytermdetail_filter"
             android:layout_weight="1"
             android:textColor="@android:color/black"
             android:layout_width="0dp"

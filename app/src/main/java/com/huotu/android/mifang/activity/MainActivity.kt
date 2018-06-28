@@ -1,5 +1,6 @@
 package com.huotu.android.mifang.activity
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -8,9 +9,11 @@ import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.MainFragmentAdapter
 import com.huotu.android.mifang.base.BaseFragment
+import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.bean.KeyValue
 import com.huotu.android.mifang.fragment.*
 import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.receiver.PushProcess
 import com.huotu.android.mifang.util.DensityUtils
 import com.huotu.android.mifang.widget.MsgDialog
 import com.huotu.android.mifang.widget.OperateDialog
@@ -29,19 +32,40 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initPush(intent)
+
         initFragments()
     }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        initPush(intent)
+    }
+
+    /***
+     * 初始化极光推送
+     */
+    private fun initPush(intent: Intent?) {
+        if (null == intent || !intent.hasExtra(Constants.INTENT_PUSH_KEY)) return
+        val bundle = intent.getBundleExtra(Constants.INTENT_PUSH_KEY) ?: return
+
+        PushProcess.process(this, bundle)
+    }
+
+
     private fun initFragments(){
 
         fragments.clear()
-        fragments.add(QuanFragment.newInstance())
+        fragments.add(QuanFragment.newInstance() as BaseFragment<IPresenter>)
         //fragments.add(KnowledgeFragment.newInstance())
         fragments.add(PromotionFragment.newInstance())
-        fragments.add(MyFragment.newInstance())
+        fragments.add(MyFragment.newInstance() as BaseFragment<IPresenter>)
 
         fragmentAdapter = MainFragmentAdapter(supportFragmentManager , fragments )
         main_viewPager.adapter = fragmentAdapter
         main_viewPager.addOnPageChangeListener(this)
+        main_viewPager.offscreenPageLimit=3
         //main_tab.setupWithViewPager(main_viewPager,true)
         //main_tab.addOnTabSelectedListener(this)
 

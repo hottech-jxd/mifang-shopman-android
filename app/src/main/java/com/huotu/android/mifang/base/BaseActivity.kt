@@ -9,6 +9,7 @@ import android.view.View
 import com.huotu.android.mifang.util.StatusBarUtils
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.LoginRegisterActivity
+import com.huotu.android.mifang.bean.ApiResult
 import com.huotu.android.mifang.bean.ApiResultCodeEnum
 import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.mvp.IView
@@ -83,10 +84,10 @@ open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
      * @param apiResult
      * @return
      */
-    protected fun processCommonErrorCode(code :Int ,  msg:String? ): Boolean {
-        if (code == ApiResultCodeEnum.USER_NO_LOGIN.code ||
-            code == ApiResultCodeEnum.USER_FREEZE.code ||
-            code == ApiResultCodeEnum.USER_NO_LOGIN.code  ) {
+    protected fun processCommonErrorCode( apiResult: ApiResult<*> ): Boolean {
+        if (apiResult.code == ApiResultCodeEnum.USER_NO_LOGIN.code ||
+            apiResult.code == ApiResultCodeEnum.USER_FREEZE.code ||
+            apiResult.code == ApiResultCodeEnum.USER_NO_LOGIN.code  ) {
 
             toast(Constants.MESSAGE_TOKEN_LOST)
 

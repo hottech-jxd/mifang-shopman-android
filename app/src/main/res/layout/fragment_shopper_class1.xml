@@ -10,4 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:id="@+id/shopperclass_loading"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>

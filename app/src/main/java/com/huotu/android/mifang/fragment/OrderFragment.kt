@@ -51,6 +51,9 @@ class OrderFragment : BaseFragment<IPresenter>() {
     }
 
     override fun fetchData() {
+
+        showProgress("loading")
+
         data.clear()
         for(i in 0 .. 10){
             data.add(OrderBean( "245664611","待发货",
@@ -64,6 +67,18 @@ class OrderFragment : BaseFragment<IPresenter>() {
 
     override fun getLayoutResourceId(): Int {
         return  R.layout.fragment_shopper_class1
+    }
+
+
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+
+        shopperclass_loading.visibility=View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        shopperclass_loading.visibility=View.GONE
     }
 
     companion object {

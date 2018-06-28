@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.bean.KeyValue
@@ -43,8 +44,6 @@ class MsgDialog(context: Context, onOperateListener: OnOperateListener?)
         val ivClose = view.findViewById<ImageView>(R.id.msg_one_close)
         ivClose.setOnClickListener(this)
 
-
-
     }
 
     fun setMaxHeight(maxHeight:Int){
@@ -53,7 +52,16 @@ class MsgDialog(context: Context, onOperateListener: OnOperateListener?)
         iv.adjustViewBounds =true
     }
 
+    fun show(imageUrl:String?){
+        show()
+
+        var iv = this.dialog!!.findViewById<ImageView>(R.id.msg_one_logo)
+        Glide.with(context).load( imageUrl )
+                .into(iv)
+    }
+
     override fun show() {
+
         val window = this.dialog!!.window
         if (window != null) {
             window!!.setWindowAnimations(R.style.anim_dialog)

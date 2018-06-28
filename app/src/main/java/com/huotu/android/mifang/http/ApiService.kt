@@ -1,9 +1,6 @@
 package com.huotu.android.mifang.http
 
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.InitDataBean
-import com.huotu.android.mifang.bean.UserBean
+import com.huotu.android.mifang.bean.*
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -14,7 +11,6 @@ interface ApiService {
 
     @POST("recycle/sys/init")
     fun init():Observable<ApiResult<InitDataBean>>
-
 
     /**
      * 根据手机号、邀请码和验证码注册用户
@@ -48,6 +44,38 @@ interface ApiService {
     @POST("user/sendVerifyCode")
     fun sendVerifyCode(@Field("mobile") mobile: String): Observable<ApiResult<Any>>
 
+
+    /**
+     * 素材库类目
+     */
+    @POST("Material/categorys")
+    fun materialCategprys():Observable<ApiResult<List<MaterialCategory>>>
+
+    /**
+     * 素材库列表
+     */
+    @FormUrlEncoded
+    @POST("Material/list")
+    fun materialList(@Field("typeId") typeId:Int , @Field("pageIndex") pageIndex:Int=1 ):Observable<ApiResult<List<Quan>>>
+
+
+    /**
+     * 个人中心
+     */
+    @GET("user/Index")
+    fun myIndex():Observable<ApiResult<MyBean>>
+
+    /**
+     * 设置接口
+     */
+    @GET("user/setting")
+    fun setting():Observable<ApiResult<SettingBean>>
+
+    /**
+     * 我的钱包
+     */
+    @GET("user/MyWallet")
+    fun myWallet():Observable<ApiResult<MyWalletBean>>
 
 
 }

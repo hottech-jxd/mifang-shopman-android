@@ -4,10 +4,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.huotu.android.mifang.base.BaseFragment
+import com.huotu.android.mifang.bean.MaterialCategory
 import com.huotu.android.mifang.mvp.IPresenter
 
 class FragmentAdapter( fragmentManager :FragmentManager ,var fragments : List<BaseFragment<IPresenter>>,
-                       var catagory : List<String> )
+                       var catagory : List<MaterialCategory> )
     :FragmentStatePagerAdapter(fragmentManager) {
 
     override fun getItem(position: Int): Fragment {
@@ -19,6 +20,6 @@ class FragmentAdapter( fragmentManager :FragmentManager ,var fragments : List<Ba
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return catagory[position]
+        return catagory[position].title
     }
 }

@@ -43,12 +43,12 @@ class MyTermDetailActivity : BaseActivity<IPresenter>()
         }
 
         header_left_image.setOnClickListener(this)
-        header_right_image.visibility= View.VISIBLE
-        header_right_image.setOnClickListener(this)
+        header_right_image.visibility= View.GONE
+        //header_right_image.setOnClickListener(this)
         header_right_text.setOnClickListener(this)
         myterm_detail_select_year.setOnItemSelectedListener(this)
         myterm_detail_select_month.setOnItemSelectedListener(this)
-
+        mytermdetail_filter.setOnClickListener(this)
 
 
         var gridLayoutManager = GridLayoutManager(this , 2)
@@ -154,17 +154,17 @@ class MyTermDetailActivity : BaseActivity<IPresenter>()
         item = FilterEntry(FilterBean(0,"",0),4)
         filterData.add(item)
 
-        bean = FilterBean(7,"公众号",0)
-        item = FilterEntry(bean , 1)
-        filterData.add(item)
+//        bean = FilterBean(7,"公众号",0)
+//        item = FilterEntry(bean , 1)
+//        filterData.add(item)
 
-        bean = FilterBean(71,"已关注",7)
-        item = FilterEntry(bean , 2)
-        filterData.add(item)
-
-        bean = FilterBean(72,"未关注",7)
-        item = FilterEntry(bean , 2)
-        filterData.add(item)
+//        bean = FilterBean(71,"已关注",7)
+//        item = FilterEntry(bean , 2)
+//        filterData.add(item)
+//
+//        bean = FilterBean(72,"未关注",7)
+//        item = FilterEntry(bean , 2)
+//        filterData.add(item)
 
 
 
@@ -206,7 +206,7 @@ class MyTermDetailActivity : BaseActivity<IPresenter>()
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.header_right_image->{
+            R.id.mytermdetail_filter->{
                 var isOpen =myterm_detail_root.isDrawerOpen(myterm_detail_lay_filter)
                 if(isOpen){
                     myterm_detail_root.closeDrawer(myterm_detail_lay_filter)

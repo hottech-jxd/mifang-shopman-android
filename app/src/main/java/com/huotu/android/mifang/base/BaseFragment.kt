@@ -11,6 +11,7 @@ import com.huotu.android.mifang.activity.LoginRegisterActivity
 import com.huotu.android.mifang.bean.ApiResultCodeEnum
 import com.huotu.android.mifang.mvp.IView
 import com.huotu.android.mifang.newIntent
+import com.trello.rxlifecycle2.components.support.RxFragment
 
 
 /**
@@ -22,7 +23,7 @@ import com.huotu.android.mifang.newIntent
  * create an instance of this fragment.
  *
  */
-abstract class BaseFragment<T> : Fragment() , IView<T> {
+abstract class BaseFragment<T> : RxFragment() , IView<T>  {
 
     var isViewPrepared :Boolean = false
     var isVisibleToUser = false

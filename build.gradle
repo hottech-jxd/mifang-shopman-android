@@ -20,6 +20,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {url = "http://repo.51flashmall.com:8081/nexus/content/groups/public/"}
     }
 }
 

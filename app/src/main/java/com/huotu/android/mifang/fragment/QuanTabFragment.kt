@@ -17,12 +17,15 @@ import android.content.ContentResolver
 import android.content.ContentValues
 import android.os.Environment
 import android.support.v4.content.ContextCompat
+import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.QuanAdapter
 import com.huotu.android.mifang.base.BaseFragment
-import com.huotu.android.mifang.bean.IdId
-import com.huotu.android.mifang.bean.Quan
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.mvp.contract.QuanContract
+import com.huotu.android.mifang.mvp.presenter.QuanPresenter
+import com.huotu.android.mifang.utils.AppUtil
 import com.huotu.android.mifang.widget.RecyclerViewDivider
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
@@ -46,15 +49,17 @@ private const val ARG_CATEGORY = "category"
  * create an instance of this fragment.
  *
  */
-class QuanTabFragment : BaseFragment<IPresenter>()
-        , BaseQuickAdapter.OnItemChildClickListener
-         {
+class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
+        , QuanContract.View
+        , BaseQuickAdapter.RequestLoadMoreListener
+        , BaseQuickAdapter.OnItemChildClickListener {
 
     private var category: Int? = null
-    private var quanAdapter: QuanAdapter?=null
+    private var quanAdapter: QuanAdapter? = null
     private var data = ArrayList<Quan>()
-
-
+    private var iPresenter=QuanPresenter(this)
+    private var pageIndex = 0
+    private var isShowProgress=true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,195 +69,270 @@ class QuanTabFragment : BaseFragment<IPresenter>()
         }
     }
 
-
     override fun initView() {
-
-        for(i in 0..10){
-
-            var images = ArrayList<String>()
-            if(i==0) {
-                images.add("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png")
-            }else if(i==1) {
-                images.add("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png")
-                images.add("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png")
-            }else if(i==2){
-                images.add("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png")
-                images.add("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png")
-                images.add("http://image.tkcm888.com/adSet_2018-05-31_56440f86ea1d4d60a9a4d725e26e62c015277545962763144.png")
-            }else if(i>3){
-                images.add("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png")
-                images.add("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png")
-                images.add("http://image.tkcm888.com/adSet_2018-05-31_56440f86ea1d4d60a9a4d725e26e62c015277545962763144.png")
-                images.add("http://image.tkcm888.com/adSet_2018-05-31_a13475823f524d5f8b3b9480673e339915277602221601122.png")
-            }
-
-            data.add(Quan("","","❤只有一条路不不能选择不能选选择不能选择不能选选择不能选选择不能选选择不能选选择不能选选择不能选" +
-                    "择能不能选择不能选择选不能选择不能选择不能选择不能选择不能选" +
-                    "择不能选择择那就是放弃的路❤\r\n那只有一条路不能拒绝那就是成长的路收益者宝妈一枚！\uD83D\uDC4D",
-                    images,"","11",0,"","",""))
-        }
 
         quanAdapter = QuanAdapter(data)
 
+        var emptyView = LayoutInflater.from(context).inflate(R.layout.layout_empty, null)
+        quanAdapter!!.emptyView = emptyView
+        quanAdapter!!.isUseEmpty(false)
 
+        quan_tab_recyclerview.layoutManager = LinearLayoutManager(context)
+        quan_tab_recyclerview.addItemDecoration(RecyclerViewDivider(context!!, ContextCompat.getColor(context!!, R.color.line_color), 10f))
 
-        quan_tab_recyclerview.layoutManager=LinearLayoutManager(context)
-        quan_tab_recyclerview.addItemDecoration( RecyclerViewDivider(context!!, ContextCompat.getColor( context!! , R.color.colorAccent ) ,10f ))
-
-        quan_tab_recyclerview.adapter=quanAdapter
+        quan_tab_recyclerview.adapter = quanAdapter
 
 
         quanAdapter!!.onItemChildClickListener = this
+        quanAdapter!!.setOnLoadMoreListener( this , quan_tab_recyclerview)
 
 
-        quan_tab_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            internal var firstVisibleItem: Int = 0
-            internal var lastVisibleItem: Int = 0
-
-//            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
+//        quan_tab_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//
+//            var firstVisibleItem: Int = 0
+//            var lastVisibleItem: Int = 0
+//
+//
+//            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                firstVisibleItem = (recyclerView!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+//                lastVisibleItem = (recyclerView!!.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+//                //大于0说明有播放
+//                if (GSYVideoManager.instance().playPosition >= 0) {
+//                    //当前播放的位置
+//                    val position = GSYVideoManager.instance().playPosition
+//                    //对应的播放列表TAG
+//                    if (GSYVideoManager.instance().playTag == quanAdapter!!.TAG && (position < firstVisibleItem || position > lastVisibleItem)) {
+//
+//                        //如果滑出去了上面和下面就是否，和今日头条一样
+//                        //是否全屏
+//                        if (!GSYVideoManager.isFullState(activity)) {
+//                            GSYVideoManager.releaseAllVideos()
+//                            quanAdapter!!.notifyDataSetChanged()
+//                        }
+//                    }
+//                }
 //            }
-
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                firstVisibleItem = ( recyclerView!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                lastVisibleItem = (recyclerView!!.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                //大于0说明有播放
-                if (GSYVideoManager.instance().playPosition >= 0) {
-                    //当前播放的位置
-                    val position = GSYVideoManager.instance().playPosition
-                    //对应的播放列表TAG
-                    if (GSYVideoManager.instance().playTag == quanAdapter!!.TAG && (position < firstVisibleItem || position > lastVisibleItem)) {
-
-                        //如果滑出去了上面和下面就是否，和今日头条一样
-                        //是否全屏
-                        if (!GSYVideoManager.isFullState( activity )) {
-                            GSYVideoManager.releaseAllVideos()
-                            quanAdapter!!.notifyDataSetChanged()
-                        }
-                    }
-                }
-            }
-        })
-
+//        })
 
 
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-        when(view!!.id){
-            R.id.quan_item_one_share->{
-                share()
+        when (view!!.id) {
+            R.id.quan_item_one_share -> {
+                share( adapter!!.data[position] as Quan)
             }
-            R.id.quan_item_one_save_image->{
-
-                var a= ArrayList<String>()
-                a.add("http://app.infunpw.com/commons/images/cinema/cinema_films/3823.jpg")
-                a.add("http://app.infunpw.com/commons/images/cinema/cinema_films/3566.jpg")
-                a.add("http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg")
-
-                savaImage(a)
+            R.id.quan_item_one_save_image -> {
+                save(adapter!!.data[position] as Quan)
             }
         }
+    }
+
+    private fun save( quan:Quan){
+        if(quan.Type == 1){
+            savaImage( quan )
+        }else if(quan.Type==2){
+            saveVideo( quan.dataId , quan.VideoUrls)
+        }
+    }
+
+    private fun saveVideo( dataId :Long , videos:ArrayList<String?>?){
+
+        if(videos==null || videos.size<1){
+            toast("没有视频需要下载！")
+            return
+        }
+
+        var dir = Constants.VideoDirPath + dataId+"/"
+
+        isShowProgress=true
+        var downLoadQueueSet = FileDownloadQueueSet(object : FileDownloadListener() {
+            override fun warn(task: BaseDownloadTask?) {
+                hideProgress()
+                toast("warn")
+            }
+
+            override fun completed(task: BaseDownloadTask?) {
+                hideProgress()
+                if ((task!!.tag as IdId).id == (task!!.tag as IdId).total) {
+                    toast("视频已经保存在"+ dir)
+                }
+            }
+
+            override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                hideProgress()
+            }
+
+            override fun error(task: BaseDownloadTask?, e: Throwable?) {
+                hideProgress()
+                toast("error")
+                e!!.printStackTrace()
+            }
+
+            override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                showProgress("")
+            }
+
+            override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                hideProgress()
+            }
+        })
+        var tasks = ArrayList<BaseDownloadTask>()
+
+         //Environment.getExternalStorageDirectory().toString() + "/coupons/images/"+dataId+"/"
+        var f = File(dir)
+        f.delete()
+        if (!f.exists()) {
+            f.parentFile.mkdir()
+        }
+
+        for (i in 0 until videos.size) {
+
+
+            var name = AppUtil.getFileName( videos[i] ) //  (i + 1).toString() + ".jpg"
+            var path = dir + name
+            var idId = IdId(i, videos.size - 1)
+
+            tasks.add(FileDownloader.getImpl().create(videos[i]).setTag(i + 1).setPath(path).setTag(idId))
+        }
+
+        downLoadQueueSet.disableCallbackProgressTimes()
+        downLoadQueueSet.setAutoRetryTimes(1)
+        downLoadQueueSet.downloadSequentially(tasks)//串行下载
+        downLoadQueueSet.start()
+        showProgress("")
+
+
     }
 
     /**
      * 将图片存到本地
      */
-    private fun savaImage(  images:ArrayList<String>){
-            var downLoadQueueSet = FileDownloadQueueSet( object : FileDownloadListener(){
-                override fun warn(task: BaseDownloadTask?) {
+    private fun savaImage(quan: Quan ,  needShare:Boolean=false) {
 
+        if(quan.SmallImageUrls ==null || quan.SmallImageUrls!!.size<1){
+            toast("没有图像需要下载！")
+            return
+        }
+        var dir = Constants.ImageDirPath + quan.dataId+"/"
+        isShowProgress=true
+        var downLoadQueueSet = FileDownloadQueueSet(object : FileDownloadListener() {
+            override fun warn(task: BaseDownloadTask?) {
+                hideProgress()
+                toast("warn")
+            }
+
+            override fun completed(task: BaseDownloadTask?) {
+                hideProgress()
+                if ((task!!.tag as IdId).id == (task!!.tag as IdId).total) {
+                    toast("图片已经保存在"+dir)
                 }
-
-                override fun completed(task: BaseDownloadTask?) {
-                    if( (task!!.tag as IdId).id == (task!!.tag as IdId ).total){
-                        toast("下载完成")
-                    }
+                if(needShare){
+                    share(quan)
                 }
+            }
 
-                override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+            override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                hideProgress()
+            }
 
-                }
+            override fun error(task: BaseDownloadTask?, e: Throwable?) {
+                hideProgress()
+                toast("error")
+                e!!.printStackTrace()
+            }
 
-                override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                    toast("error")
-                }
+            override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                showProgress("")
+            }
 
-                override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+            override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                hideProgress()
+            }
+        })
+        var tasks = ArrayList<BaseDownloadTask>()
 
-                }
-
-                override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-
-                }
-            })
-            var tasks = ArrayList<BaseDownloadTask>()
-
-        var dir = Environment.getExternalStorageDirectory().toString()+"/coupons/images/"
+         //Environment.getExternalStorageDirectory().toString() + "/coupons/images/"+dataId+"/"
         var f = File(dir)
         f.delete()
-        if(!f.exists()){
+        if (!f.exists()) {
             f.parentFile.mkdir()
         }
 
-        for(i in 0 until images.size){
+        for (i in 0 until quan.SmallImageUrls!!.size) {
 
-            var name = (i+1).toString()+".jpg"
+            var name = AppUtil.getFileName( quan.SmallImageUrls!![i] ) //(i + 1).toString() + ".jpg"
             var path = dir + name
-            var idId = IdId(i, images.size-1)
+            var idId = IdId(i, quan.SmallImageUrls!!.size - 1)
 
-            tasks.add( FileDownloader.getImpl().create( images[i] ).setTag( i+1 ).setPath(path).setTag(idId) )
+            tasks.add(FileDownloader.getImpl().create(quan.SmallImageUrls!![i]).setTag(i + 1).setPath(path).setTag(idId))
         }
         downLoadQueueSet.disableCallbackProgressTimes()
         downLoadQueueSet.setAutoRetryTimes(1)
         downLoadQueueSet.downloadSequentially(tasks)//串行下载
         downLoadQueueSet.start()
-
-
-//            try {
-//                var dir= Environment.getExternalStorageDirectory().toString()+"/Coupons/"+picName+".jpg"
-//                var f =  File(dir)
-//                if (!f.exists()) {
-//                    f.parentFile.mkdirs()
-//                    f.createNewFile()
-//                }
-//                var out = FileOutputStream(f)
-//                bm.compress(Bitmap.CompressFormat.PNG, 90, out)
-//                out.flush()
-//                out.close()
-//                Uri uri = Uri.fromFile(f)
-//                return uri;
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();    }
-//            return null;
-
+        showProgress("")
 
     }
 
-
-    private fun share(){
-        var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
-        intent.setType("image/*")
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM , getLocalImages())
-        intent.putExtra(Intent.EXTRA_SUBJECT, "分享")
-        intent.putExtra(Intent.EXTRA_TEXT, "你好 ")
-        intent.putExtra(Intent.EXTRA_TITLE, "我是标题")
+    private fun shareText(quan: Quan){
+        var intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plan"
+        //intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalImages( quan.dataId ))
+        intent.putExtra(Intent.EXTRA_SUBJECT, quan.ShareTitle )
+        intent.putExtra(Intent.EXTRA_TEXT, quan.ShareDescription )
+        intent.putExtra(Intent.EXTRA_TITLE, quan.ShareTitle)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-        startActivity(Intent.createChooser(intent, "请选择"))
+        startActivity(Intent.createChooser(intent, "分享"))
+    }
+
+    private fun shareImages(quan: Quan) {
+        if(!isDownPicture(quan)) savaImage(quan ,true)
+
+        var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
+        intent.type = "image/*"
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalImages( quan.dataId ))
+        intent.putExtra(Intent.EXTRA_SUBJECT, quan.ShareTitle )
+        intent.putExtra(Intent.EXTRA_TEXT, quan.ShareDescription )
+        intent.putExtra(Intent.EXTRA_TITLE, quan.ShareTitle)
+        //intent.putExtra(Intent., quan.ShareTitle)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(Intent.createChooser(intent, "分享"))
+    }
+
+
+    private fun share(quan: Quan) {
+        if(quan.Type==0){
+            shareText(quan)
+        }else if(quan.Type==1) {
+            shareImages(quan)
+        }else if(quan.Type==2){
+            //todo
+            shareText(quan)
+        }
+    }
+
+    private fun isDownPicture(quan: Quan):Boolean{
+        val imageDirectoryPath = Constants.ImageDirPath  + quan.dataId+"/" //Environment.getExternalStorageDirectory().toString() + "/mifang/images/"+ dataId
+        val dir = File(imageDirectoryPath)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        val imageDirectory = File(imageDirectoryPath)
+
+        val fileList = imageDirectory.list()
+        return fileList.isEmpty()
     }
 
     /**
      * 设置需要分享的照片放入Uri类型的集合里
      */
-    private fun getLocalImages(): ArrayList<Uri> {
+    private fun getLocalImages( dataId :Long ): ArrayList<Uri> {
         val myList = ArrayList<Uri>()
 
-        val imageDirectoryPath = Environment.getExternalStorageDirectory().toString() + "/coupons/images/"
+        val imageDirectoryPath = Constants.ImageDirPath  + dataId+"/" //Environment.getExternalStorageDirectory().toString() + "/mifang/images/"+ dataId
         val dir = File(imageDirectoryPath)
         if (!dir.exists()) {
             dir.mkdirs()
@@ -262,11 +342,11 @@ class QuanTabFragment : BaseFragment<IPresenter>()
 
         val fileList = imageDirectory.list()
 
-        if (fileList.isNotEmpty() ) {
+        if (fileList.isNotEmpty()) {
 
-            var count = if( fileList.size>9) 9 else fileList.size
+            var count = if (fileList.size > 9) 9 else fileList.size
 
-            for (i in 0 until count ) {
+            for (i in 0 until count) {
 
                 try {
 
@@ -276,7 +356,7 @@ class QuanTabFragment : BaseFragment<IPresenter>()
 
                     values.put(Images.Media.DISPLAY_NAME, fileList[i])
 
-                    values.put(Images.Media.DATE_TAKEN, Date().time )
+                    values.put(Images.Media.DATE_TAKEN, Date().time)
 
                     values.put(Images.Media.MIME_TYPE, "image/jpeg")
 
@@ -286,9 +366,9 @@ class QuanTabFragment : BaseFragment<IPresenter>()
 
                     values.put("_data", imageDirectoryPath + fileList[i])
 
-                    val contentResolver = context!!.contentResolver
+                    //val contentResolver = context!!.contentResolver
 
-                    val uri = Uri.fromFile( File( imageDirectoryPath + fileList[i]) ) //contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values)
+                    val uri = Uri.fromFile(File(imageDirectoryPath + fileList[i])) //contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values)
 
                     myList.add(uri)
 
@@ -302,12 +382,15 @@ class QuanTabFragment : BaseFragment<IPresenter>()
 
         }
 
+
         return myList
     }
 
 
     override fun fetchData() {
 
+        quanAdapter!!.isUseEmpty(false)
+        iPresenter.materialList(category!! , pageIndex+1)
     }
 
 
@@ -330,6 +413,72 @@ class QuanTabFragment : BaseFragment<IPresenter>()
         GSYVideoManager.releaseAllVideos()
     }
 
+
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+
+        if(isShowProgress){
+            quan_tab_progress.visibility=View.VISIBLE
+        }else{
+            quan_tab_progress.visibility=View.GONE
+        }
+
+
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+
+        quan_tab_progress.visibility=View.GONE
+    }
+
+    override fun onLoadMoreRequested() {
+        //iPresenter.materialList(category , pageIndex+1 )
+        fetchData()
+    }
+
+    override fun materialCategprysCallback(apiResult: ApiResult<List<MaterialCategory>>) {
+
+    }
+
+    override fun materialListCallback(apiResult: ApiResult<List<Quan>>) {
+        isShowProgress = false
+        quanAdapter!!.isUseEmpty(true)
+        //borrow_refreshview.setRefreshing(false)
+
+
+        if (processCommonErrorCode(apiResult.code , apiResult.msg )) return
+        if (apiResult.code  != ApiResultCodeEnum.SUCCESS.code ) {
+            toast(apiResult.msg )
+            return
+        }
+        if (apiResult.data == null) return
+
+        if (  apiResult!!.data!!.size < Constants.PAGE_SIZE) {
+            //没有数据了
+            if (pageIndex == 0) {
+                quanAdapter!!.loadMoreEnd(true)
+            } else {
+                quanAdapter!!.loadMoreEnd()
+            }
+
+            pageIndex++
+
+        } else {
+            quanAdapter!!.loadMoreComplete()
+            pageIndex++
+        }
+
+
+        if (pageIndex == 1) {
+            quanAdapter!!.setNewData(apiResult.data)
+            quanAdapter!!.disableLoadMoreIfNotFullPage(quan_tab_recyclerview)
+        } else {
+            quanAdapter!!.addData(apiResult.data!!)
+        }
+    }
+
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -340,7 +489,7 @@ class QuanTabFragment : BaseFragment<IPresenter>()
          * @return A new instance of fragment QuanTabFragment.
          */
         @JvmStatic
-        fun newInstance(category:Int) =
+        fun newInstance(category: Int) =
                 QuanTabFragment().apply {
                     arguments = Bundle().apply {
                         putInt(ARG_CATEGORY, category)
