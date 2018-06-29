@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="#F0EFF5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.huotu.android.mifang.activity.BindPhoneActivity">
+
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        layout="@layout/layout_header"
+        android:id="@+id/bindPhone_header"/>
+
+    <LinearLayout
+        android:id="@+id/bindPhone_lay_1"
+        android:padding="15dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/black"
+            android:text="手机号"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/bindPhone_phone"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="未绑定手机"
+            android:gravity="right"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View android:layout_width="match_parent"
+        android:id="@+id/bindPhone_line1"
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_lay_1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2"/>
+
+    <View
+        android:id="@+id/bindPhone_line2"
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_line1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="#f2f2f2"
+        android:layout_height="1dp" />
+
+    <EditText
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_line2"
+        android:id="@+id/bindPhone_newPhone"
+        android:padding="10dp"
+        android:textSize="14sp"
+        android:inputType="number"
+        android:hint="请输入新手机号"
+        android:background="@drawable/shape_edittext_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/bindPhone_line3"
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_newPhone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="#f2f2f2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_line3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/bindPhone_lay_code"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="5dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/bindPhone_code"
+            android:layout_width="0dp"
+            android:padding="5dp"
+            android:background="@drawable/shape_edittext_bg"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:inputType="number"
+            android:hint="请输入验证码"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:background="@drawable/shape_bindphone_bg"
+            android:id="@+id/bindPhone_sendCode"
+            android:text="获取验证码"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <cn.iwgang.countdownview.CountdownView
+            android:visibility="gone"
+            android:layout_marginLeft="2dp"
+            android:padding="10dp"
+            android:id="@+id/bindPhone_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isHideTimeBackground="true"
+            app:isShowDay="false"
+            app:isShowHour="false"
+            app:isShowMinute="false"
+            app:isShowSecond="true"
+            app:isShowMillisecond="false"
+            app:timeTextColor="#000000"
+            app:timeTextSize="22sp"
+            app:isTimeTextBold="true"
+            app:suffixGravity="bottom"
+            app:suffixTextColor="#000000"
+            app:suffixTextSize="12sp"
+            app:suffixHour="时"
+            app:suffixMinute="分"
+            app:suffixSecond="秒"
+            app:suffixMillisecond="毫秒" />
+
+    </LinearLayout>
+
+    <View
+        android:background="#f2f2f2"
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_lay_code"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:id="@+id/bindPhone_line4"
+        android:layout_height="1dp" />
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_line4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="确定"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_bindphone_bg"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/bindPhone_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:visibility="gone"
+        android:id="@+id/bindPhone_progress"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bindPhone_header"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"/>
+
+</android.support.constraint.ConstraintLayout>

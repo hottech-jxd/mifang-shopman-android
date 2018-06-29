@@ -40,14 +40,14 @@
                 <TextView
                     android:id="@+id/cash_name"
                     android:textColor="@android:color/black"
-                    android:text="金向东"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_marginTop="5dp"
                     android:layout_below="@id/cash_name"
                     android:id="@+id/cash_email"
-                    android:text="51818549@qq.com"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView

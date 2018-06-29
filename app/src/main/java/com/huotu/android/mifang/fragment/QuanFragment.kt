@@ -99,7 +99,7 @@ class QuanFragment : BaseFragment<QuanContract.Presenter>() , QuanContract.View 
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance() =
+        fun newInstance() :QuanFragment =
                 QuanFragment().apply {
                     arguments = Bundle().apply {
 

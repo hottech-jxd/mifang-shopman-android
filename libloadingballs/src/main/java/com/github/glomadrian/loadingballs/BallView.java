@@ -139,6 +139,17 @@ public class BallView extends View {
     }
   }
 
+  @Override
+  protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+  }
+
+  @Override
+  protected void onDetachedFromWindow() {
+    super.onDetachedFromWindow();
+    stop();
+  }
+
   private class AnimatorListener implements AbstractBallAnimator.BallAnimatorListener {
 
     @Override

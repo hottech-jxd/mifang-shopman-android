@@ -45,6 +45,9 @@ object Constants {
     val INTENT_OPERATE_TYPE="operate_type"
     val INTENT_BEAN="bean"
     val INTENT_PUSH_KEY = "intent_push_key"
+    val INTENT_PAY_ACCOUNT="pay_account"
+    val INTENT_PAY_ACCOUNT_ID="pay_account_id"
+
 
     val PREF_FILENAME="pref_filename_phonerecycle"
     var PREF_USER = "pref_user"

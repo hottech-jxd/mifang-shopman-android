@@ -18,11 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:statusBarScrim="@color/white"
-            app:contentScrim="@color/white"
-            app:title=""
-            app:titleEnabled="false"
+            app:title="店主中心"
+            app:titleEnabled="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
 
 
                 <LinearLayout

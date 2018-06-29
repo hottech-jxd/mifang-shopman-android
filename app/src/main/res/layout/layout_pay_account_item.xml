@@ -2,7 +2,7 @@
 <LinearLayout
     android:orientation="horizontal"
     android:padding="15dp"
-    android:background="@android:color/white"
+    android:background="@drawable/style_row_bg"
     android:gravity="center_vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/pay_account_name"
             android:textColor="@android:color/black"
-            android:text="金向东"
+            android:text=""
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

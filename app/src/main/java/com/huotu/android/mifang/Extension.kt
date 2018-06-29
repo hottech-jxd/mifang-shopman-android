@@ -117,11 +117,19 @@ fun Fragment.showToast(message:String):Toast{
         startActivityForResult(intent , requestCode)
     }
 
+    inline fun<reified T: Activity> Activity.newIntentForResult(requestCode:Int, key :String, value:Long?){
+        val intent = Intent(this, T::class.java)
+        intent.putExtra(key , value )
+        startActivityForResult(intent , requestCode)
+    }
+
     inline fun<reified T: Activity> Activity.newIntentForResult(requestCode : Int, bundle: Bundle){
         val intent = Intent(this, T::class.java)
         intent.putExtras(bundle)
         startActivityForResult(intent , requestCode)
     }
+
+
 
     inline fun<reified T: Activity> Activity.newIntentForLogin(){
 

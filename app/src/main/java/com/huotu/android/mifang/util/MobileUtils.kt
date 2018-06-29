@@ -1,5 +1,6 @@
 package com.huotu.android.mifang.util
 
+import android.text.TextUtils
 import java.util.regex.Pattern
 
 /**
@@ -17,5 +18,23 @@ object MobileUtils {
         val m = p.matcher(phone)
         //logger.info(m.matches()+"---");
         return m.matches()
+    }
+
+    /***
+     *
+     * @param text
+     * @return
+     */
+     fun dealPhone(text:String):String{
+        if(TextUtils.isEmpty( text)) return  text
+
+        var isPh = isPhone(text)
+        if(isPh){
+            var prefx = text.substring(0,3)
+            var len = text.length
+            var endfx = text.substring(len-4,len)
+            return prefx + "****" + endfx;
+        }
+        return text
     }
 }

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:background="@android:color/white"
+        android:id="@+id/paypassword_lay_two_1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:padding="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@android:color/black"
+            android:text="请设置支付密码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/paypassword_lay_two_1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/payPassword_lay_two_2"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:layout_marginTop="1dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/payPassword_pwd1"
+            android:layout_width="0dp"
+            android:padding="5dp"
+            android:background="@drawable/shape_edittext_bg"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:hint="设置支付密码"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/payPassword_lay_two_2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/payPassword_lay_two_pwd2"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:layout_marginTop="1dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/payPassword_pwd2"
+            android:layout_width="0dp"
+            android:padding="5dp"
+            android:background="@drawable/shape_edittext_bg"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:hint="设置支付确认"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:background="@drawable/shape_bindphone_bg"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/payPassword_lay_two_pwd2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:id="@+id/paypassword_lay_two_next"
+        android:text="下一步"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/paypassword_lay_two_next"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="提示:\n支付密码必须6位。\n支付密码用于账号余额、积分等支付验证。让您的资金账号更加安全。"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</android.support.constraint.ConstraintLayout>

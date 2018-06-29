@@ -27,4 +27,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
 
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:id="@+id/cash_record_progress"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/cash_record_header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -34,7 +34,7 @@ class PushHandlerActivity : Activity() {
         //            loginActivityClassName = PhoneLoginActivity.class.getName();
         //        }
 
-        val splashClassName = SplashActivity::class.java!!.name
+        val splashClassName = SplashActivity::class.java.name
 
 
         val splashActivityIsLoaded = AppUtil.isAppLoaded(this, splashClassName)

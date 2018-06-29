@@ -17,6 +17,7 @@ import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.utils.UrlInterceptor
 import com.huotu.android.mifang.widget.TipAlertDialog
+import kotlinx.android.synthetic.main.activity_setting.view.*
 import kotlinx.android.synthetic.main.activity_web.*
 import kotlinx.android.synthetic.main.layout_header.*
 
@@ -75,12 +76,12 @@ class WebActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
         webView.getSettings().setDomStorageEnabled(true)
         webView.getSettings().setAppCacheEnabled(true)
         webView.getSettings().setDatabaseEnabled(true)
-        val dir = BaseApplication.instance!!.getDir("database", Context.MODE_PRIVATE).getPath()
+        BaseApplication.instance!!.getDir("database", Context.MODE_PRIVATE).path
         //webView.getSettings().setGeolocationDatabasePath(dir);
         webView.getSettings().setGeolocationEnabled(true)
         //webView.addJavascriptInterface(this, "android");
-        val appCacheDir = BaseApplication.instance!!.getDir("cache", Context.MODE_PRIVATE).getPath()
-        webView.getSettings().setAppCachePath(appCacheDir)
+        val appCacheDir = BaseApplication.instance!!.getDir("cache", Context.MODE_PRIVATE).path
+        webView.settings.setAppCachePath(appCacheDir)
 
         //        if(BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ){
         //            WebView.setWebContentsDebuggingEnabled(true);

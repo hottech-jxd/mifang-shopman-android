@@ -33,7 +33,7 @@ object AppInit {
 
         //注册微信授权登录
         iwxApi = WXAPIFactory.createWXAPI( context , BuildConfig.wechat_app_id , true )
-        var isRegister = iwxApi!!.registerApp(BuildConfig.wechat_app_id)
+        iwxApi!!.registerApp(BuildConfig.wechat_app_id)
 
     }
 

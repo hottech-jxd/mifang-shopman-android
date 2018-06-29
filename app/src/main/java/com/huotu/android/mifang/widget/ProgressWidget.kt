@@ -33,5 +33,12 @@ class ProgressWidget : LinearLayout {
 
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+    }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+
+    }
 }
