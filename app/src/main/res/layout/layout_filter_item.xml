@@ -18,6 +18,9 @@
         android:id="@+id/filter_item_value"
         android:layout_width="40dp"
         android:textSize="14sp"
+        android:inputType="number"
+        android:singleLine="true"
+        android:maxLength="4"
         android:textColor="@android:color/black"
         android:background="@drawable/shape_filter_item_value_bg"
         android:layout_height="wrap_content" />

@@ -111,24 +111,26 @@ class EditPayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
 
     private fun save(){
         var realname = edit_pay_account_name.text.toString().trim()
-        var accountInfo = edit_pay_account_account.text.toString().trim()
+        var account = edit_pay_account_account.text.toString().trim()
+
 
         if(TextUtils.isEmpty(realname)){
             toast("请输入姓名")
             return
         }
-        if(accountType==1 && TextUtils.isEmpty(accountInfo)){
+        if(accountType==1 && TextUtils.isEmpty(account)){
             toast("请输入支付宝账号")
             return
         }
 
         if(payAccount==null){
-            payAccount=PayAccount( 0L, realname , if(isDefault) 1 else 0 , accountInfo ,accountType , false )
+            payAccount=PayAccount( 0L, realname , if(isDefault) 1 else 0 , account ,accountType , account ,false )
         }else{
-            payAccount!!.AccountInfo = accountInfo
+            payAccount!!.AccountInfo = account
             payAccount!!.IsDefault = if( isDefault) 1 else 0
             payAccount!!.RealName=realname
             payAccount!!.AccountType = accountType
+            payAccount!!.Account = account
         }
         iPresenter.editPayAccount( payAccount!! )
     }

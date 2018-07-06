@@ -66,4 +66,6 @@ object Constants {
 
     val ImageDirPath= Environment.getExternalStorageDirectory().toString()+"/mifang/images/"
     val VideoDirPath = Environment.getExternalStorageDirectory().toString()+"/mifang/videos/"
+    val CrashDirPath = Environment.getExternalStorageDirectory().toString()+"/mifang/crash/"
+
 }

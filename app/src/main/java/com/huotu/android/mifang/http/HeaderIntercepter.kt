@@ -36,8 +36,8 @@ class HeaderIntercepter : Interceptor{
 
     private fun getHeaderParameter(): HeaderParameter {
 
-        val userid = if (BaseApplication.instance!!.variable.userBean == null) 0 else BaseApplication.instance!!.variable.userBean!!.UserId
-        var userToken: String? = if (BaseApplication.instance!!.variable.userBean == null) "" else BaseApplication.instance!!.variable.userBean!!.Token
+        val userid = if (BaseApplication.instance!!.variable.userBean == null) 0 else BaseApplication.instance!!.variable.userBean!!.userId
+        var userToken: String? = if (BaseApplication.instance!!.variable.userBean == null) "" else BaseApplication.instance!!.variable.userBean!!.token
         userToken = if (userToken == null) "" else userToken
         //var platType = BaseApplication.instance!!.variable.platType
 

@@ -1,12 +1,16 @@
 package com.huotu.android.mifang.bean
 
-class OrderBean(var orderNo:String,
-                var status:String,
-                var url:String ,
-                var name:String,
-                var unitPrice:String,
-                var count:String,
-                var score:String,
-                var totalPrice:String,
-                var createTime:String) {
+data class OrderBean(var OrderID:String,
+                var wxNickName:String,
+                var LevelName:String,
+                var DepthName:String,
+                var Integral:String ,
+                var OrderShipStatus:String,
+                var OrderFinalAmount:String,
+                var OrderGoodsNum:String,
+                var CreatTime:String,
+                var OrderItemInfo:ArrayList<OrderItemBean>
+              ) {
+
+    data class OrderItemBean(var ProductName:String , var ProductSpec:String , var ProductPrice:String , var ProductNum:String ,var ProductImgUrl:String,var OrderID:String)
 }

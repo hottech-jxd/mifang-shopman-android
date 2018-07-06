@@ -26,6 +26,12 @@ class SplashModel {
         return observable
     }
 
+    fun loginByUnionId( openid :String,  unionid :String,  nickname :String,  userhead :String):Observable<ApiResult<UserBean>>{
+        val apiService = RetrofitManager.getApiService()
+        val observable = apiService!!.loginByUnionId(openid,unionid,nickname,userhead)
+        return observable
+    }
+
 //    fun readCityData():Observable<ArrayList<Province>> {
 //        val observable = Observable.create(ObservableOnSubscribe<ArrayList<Province>> { e ->
 //            e.onNext(getCityData())

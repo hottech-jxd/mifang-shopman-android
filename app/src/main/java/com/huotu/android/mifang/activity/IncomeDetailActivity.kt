@@ -4,28 +4,32 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.IncomeDetailAdapter
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.IncomeDetailBean
-import com.huotu.android.mifang.bean.IncomeDetailEntity
-import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.bean.*
+import com.huotu.android.mifang.mvp.contract.ProfitContract
+import com.huotu.android.mifang.mvp.presenter.ProfitPresenter
+import com.huotu.android.mifang.widget.DateDialog
 import com.yanyusong.y_divideritemdecoration.Y_Divider
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_income_detail.*
 import kotlinx.android.synthetic.main.layout_header_2.*
+import java.util.*
 
-class IncomeDetailActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
+class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
+        , ProfitContract.View
+        , DateDialog.OnOperateListener
+        ,View.OnClickListener{
     var incomeDetailAdapter :IncomeDetailAdapter?=null
-    var data =ArrayList<IncomeDetailEntity>()
+    var data =ArrayList<ProfitItemEntity>()
     var type = 1
-
+    var iPresenter=ProfitPresenter(this)
+    var searchYear:Int=0
+    var searchMonth= 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,37 +39,12 @@ class IncomeDetailActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
             type = intent.getIntExtra(Constants.INTENT_OPERATE_TYPE,1)
         }
 
-        if(type==1) {
-            header_title.text = "每日收益"
-        }else if(type ==2){
-            header_title.text="每周收益"
-        }else if(type==3){
-            header_title.text="每月收益"
-        }
 
         header_right_image.visibility= View.GONE
         header_left_image.setOnClickListener(this)
         header_right_text.setOnClickListener(this)
 
         income_detail_recyclerview.layoutManager=LinearLayoutManager(this)
-
-
-        data.add(IncomeDetailEntity( IncomeDetailBean( "a" , "a","a") ,1))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "1" , "1","1") ,2))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "2" , "2","2") ,2))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "3" , "3","3") ,3))
-
-        data.add(IncomeDetailEntity( IncomeDetailBean( "b" , "b","b") ,1))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "1" , "1","1") ,2))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "2" , "2","2") ,2))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "3" , "3","3") ,3))
-
-        data.add(IncomeDetailEntity( IncomeDetailBean( "c" , "c","c") ,1))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "1" , "1","1") ,2))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "2" , "2","2") ,2))
-        data.add(IncomeDetailEntity( IncomeDetailBean( "3" , "3","3") ,3))
-
-
         incomeDetailAdapter = IncomeDetailAdapter(data)
 
 
@@ -73,6 +52,34 @@ class IncomeDetailActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
 
         income_detail_recyclerview.addItemDecoration( RecyclerViewDecoration(this , ContextCompat.getColor(this , R.color.line_color ) ,data) )
 
+        searchYear = Calendar.getInstance().get(Calendar.YEAR)
+        searchMonth = Calendar.getInstance().get(Calendar.MONTH)
+
+        setYearMonth(searchYear , searchMonth   )
+
+    }
+
+    private fun setYearMonth(year:Int , month:Int){
+
+        searchYear = year
+        searchMonth = month
+
+        when(type) {
+            0 -> {
+                header_title.text = "每日收益"
+                header_right_text.text = year.toString() + "年" + month + "月"
+            }
+            1 -> {
+                header_title.text = "每周收益"
+                header_right_text.text = year.toString() + "年" + month + "月"
+            }
+            2 -> {
+                header_title.text = "每月收益"
+                header_right_text.text = year.toString() + "年"
+            }
+        }
+
+        iPresenter.getProfitItems(type , searchYear , searchMonth )
     }
 
     override fun onClick(v: View?) {
@@ -84,18 +91,55 @@ class IncomeDetailActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
         }
     }
 
-
-    private fun filter(){
-        income_detail_lay_select.visibility = if( income_detail_lay_select.visibility==View.VISIBLE) View.GONE else View.VISIBLE
-
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+        income_detail_progress.visibility = View.VISIBLE
     }
 
-    class RecyclerViewDecoration(context: Context, @ColorInt var dividerColor: Int, var data :ArrayList<IncomeDetailEntity> )
+    override fun hideProgress() {
+        super.hideProgress()
+        income_detail_progress.visibility= View.GONE
+    }
+
+    private fun filter(){
+        var dialog = DateDialog(this, this)
+        dialog.show( searchYear , searchMonth , 1 ,type != 2 , false)
+    }
+
+    override fun operate(year: Int, month: Int , day:Int) {
+        setYearMonth(year ,month )
+    }
+
+    override fun getProfitIndexCallback(apiResult: ApiResult<ProfitIndexBean>) {
+    }
+
+    override fun getProfitItemsCallback(apiResult: ApiResult<ArrayList<ProfitItemBean>>) {
+        if(processCommonErrorCode(apiResult)){return}
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null){
+            toast("数据错误")
+            return
+        }
+
+        data.clear()
+        for( bean in apiResult.data!!) {
+            var item = ProfitItemEntity(bean.ProfitTime, "订单数", "收益" , 1 )
+            data.add(item)
+            item = ProfitItemEntity("获取返利", bean.OrderNum.toString(), bean.ProfitIntegral.toString() , 2 )
+            data.add(item)
+        }
+        incomeDetailAdapter!!.setNewData(data)
+    }
+
+    class RecyclerViewDecoration(context: Context, @ColorInt var dividerColor: Int, var data :ArrayList<ProfitItemEntity> )
         : Y_DividerItemDecoration(context){
 
         override fun getDivider(itemPosition: Int): Y_Divider {
             when ( data[itemPosition].type ) {
-                1,2 -> {
+                1 -> {
                     return Y_DividerBuilder()
                             .setBottomSideLine(true, dividerColor, 1f, 0f, 0f)
                             .create()

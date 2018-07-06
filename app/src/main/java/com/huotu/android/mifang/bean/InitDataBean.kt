@@ -1,7 +1,5 @@
 package com.huotu.android.mifang.bean
 
-import com.huotu.android.mifang.bean.UserBean
-
 /**
  * Created by jinxiangdong on 2018/2/5.
  */
@@ -27,7 +25,7 @@ data class InitDataBean (
         /**
      * 有信用户信息
      */
-    var yxUserInfo: UserBean? = null,
+    //var yxUserInfo: UserBean? = null,
         /**
      * 人脸和身份证的比对范围值
      */

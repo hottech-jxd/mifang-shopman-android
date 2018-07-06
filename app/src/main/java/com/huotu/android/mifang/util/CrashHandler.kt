@@ -6,6 +6,9 @@ import android.os.Build
 import android.os.Environment
 import android.os.Looper
 import android.util.Log
+import com.huotu.android.mifang.bean.Constants
+import com.luck.picture.lib.tools.Constant
+import com.umeng.analytics.MobclickAgent
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
@@ -56,7 +59,8 @@ class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
             } catch (e: InterruptedException) {
                 Log.e(TAG, e.message)
             }
-
+            //如果开发者调用kill或者exit之类的方法杀死进程，请务必在此之前调用onKillProcess方法，用来保存统计数据。
+            MobclickAgent.onKillProcess(mContext)
             //退出程序
             android.os.Process.killProcess(android.os.Process.myPid())
             System.exit(1)
@@ -96,7 +100,7 @@ class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
      *
      * @param ctx
      */
-    fun collectDeviceInfo(ctx: Context?) {
+    private fun collectDeviceInfo(ctx: Context?) {
         try {
             val pm = ctx!!.packageManager
             val pi = pm.getPackageInfo(ctx.packageName, PackageManager.GET_ACTIVITIES)
@@ -142,12 +146,16 @@ class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
         val result = writer.toString()
         Log.d(TAG, result)
         sb.append(result)
+
+        //如果开发者自己捕获了错误，需要手动上传到【友盟+】服务器可以调用下面方法：
+        MobclickAgent.reportError(mContext , sb.toString())
+
         try {
             val timestamp = System.currentTimeMillis()
             val time = DateUtils.formatDate(Date().time)
             val fileName = "$time-$timestamp.log"
             if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-                val path = Environment.getExternalStorageDirectory().toString() + "/mifang/crash"
+                val path = Constants.CrashDirPath //Environment.getExternalStorageDirectory().toString() + "/mifang/crash"
                 val dir = File(path)
                 if (!dir.exists()) {
                     dir.mkdirs()

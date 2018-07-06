@@ -85,108 +85,106 @@
         android:layout_height="0dp"/>
 
 
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/order_lay_select"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/order_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <!--<RelativeLayout-->
+        <!--android:visibility="gone"-->
+        <!--android:id="@+id/order_lay_select"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@id/order_header"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <LinearLayout
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:layout_width="120dp"
-            android:layout_height="80dp">
+        <!--<LinearLayout-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="80dp">-->
 
-            <View
-                android:background="@drawable/shape_order_time_down_up_bg"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-            <View
-                android:background="@android:color/white"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"/>
-            <View
-                android:background="@drawable/shape_order_time_up_down_bg"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+            <!--<View-->
+                <!--android:background="@drawable/shape_order_time_down_up_bg"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="1" />-->
+            <!--<View-->
+                <!--android:background="@android:color/white"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="30dp"/>-->
+            <!--<View-->
+                <!--android:background="@drawable/shape_order_time_up_down_bg"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="1" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:visibility="visible"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <!--<LinearLayout-->
+            <!--android:visibility="visible"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
-                    android:background="@drawable/shape_order_time_down_up_bg"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp" />
-                <com.aigestudio.wheelpicker.widgets.WheelYearPicker
-                    android:background="@android:color/white"
-                    android:id="@+id/order_select_year"
-                    app:wheel_item_text_color="@android:color/black"
-                    app:wheel_curtain_color="@color/colorAccent"
-                    app:wheel_item_space="3dp"
-                    app:wheel_item_text_size="16sp"
-                    app:wheel_item_align="center"
-                    app:wheel_curved="true"
-                    app:wheel_visible_item_count="4"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-                <View
-                    android:background="@drawable/shape_order_time_up_down_bg"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp" />
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<View-->
+                    <!--android:background="@drawable/shape_order_time_down_up_bg"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="20dp" />-->
+                <!--<com.aigestudio.wheelpicker.widgets.WheelYearPicker-->
+                    <!--android:background="@android:color/white"-->
+                    <!--android:id="@+id/order_select_year"-->
+                    <!--app:wheel_item_text_color="@android:color/black"-->
+                    <!--app:wheel_curtain_color="@color/colorAccent"-->
+                    <!--app:wheel_item_space="3dp"-->
+                    <!--app:wheel_item_text_size="16sp"-->
+                    <!--app:wheel_item_align="center"-->
+                    <!--app:wheel_curved="true"-->
+                    <!--app:wheel_visible_item_count="4"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="wrap_content"/>-->
+                <!--<View-->
+                    <!--android:background="@drawable/shape_order_time_up_down_bg"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="20dp" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-            <View
-                android:layout_width="6dp"
-                android:layout_height="16dp" />
+            <!--<View-->
+                <!--android:layout_width="6dp"-->
+                <!--android:layout_height="16dp" />-->
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
-                    android:background="@drawable/shape_order_time_down_up_bg"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp" />
-                <com.aigestudio.wheelpicker.widgets.WheelMonthPicker
-                    android:background="@android:color/white"
-                    android:id="@+id/order_select_month"
-                    app:wheel_item_text_color="@android:color/black"
-                    app:wheel_curtain_color="@color/colorAccent"
-                    app:wheel_curved="true"
-                    app:wheel_item_space="3dp"
-                    app:wheel_item_text_size="16sp"
-                    app:wheel_item_align="center"
-                    app:wheel_visible_item_count="4"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:background="@drawable/shape_order_time_up_down_bg"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp" />
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<View-->
+                    <!--android:background="@drawable/shape_order_time_down_up_bg"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="20dp" />-->
+                <!--<com.aigestudio.wheelpicker.widgets.WheelMonthPicker-->
+                    <!--android:background="@android:color/white"-->
+                    <!--android:id="@+id/order_select_month"-->
+                    <!--app:wheel_item_text_color="@android:color/black"-->
+                    <!--app:wheel_curtain_color="@color/colorAccent"-->
+                    <!--app:wheel_curved="true"-->
+                    <!--app:wheel_item_space="3dp"-->
+                    <!--app:wheel_item_text_size="16sp"-->
+                    <!--app:wheel_item_align="center"-->
+                    <!--app:wheel_visible_item_count="4"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!--<View-->
+                    <!--android:background="@drawable/shape_order_time_up_down_bg"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="20dp" />-->
 
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-    </RelativeLayout>
+            <!--</LinearLayout>-->
 
 
+        <!--</LinearLayout>-->
+
+    <!--</RelativeLayout>-->
 
 
 

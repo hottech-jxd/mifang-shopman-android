@@ -53,7 +53,7 @@ class QuanFragment : BaseFragment<QuanContract.Presenter>() , QuanContract.View 
     }
 
     override fun materialCategprysCallback(apiResult: ApiResult<List<MaterialCategory>>) {
-        if(processCommonErrorCode(apiResult.code, apiResult.msg)){
+        if(processCommonErrorCode(apiResult)){
             return
         }
         if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){

@@ -146,14 +146,16 @@
             <TextView
                 android:textSize="16sp"
                 android:textColor="#B5405A"
-                android:text="1000元"
+                android:text="0元"
+                android:id="@+id/income_today_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginTop="5dp"
                 android:textSize="14sp"
                 android:textColor="#A0A0A0"
-                android:text="预估5单"
+                android:text="预估0单"
+                android:id="@+id/income_today_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -181,14 +183,16 @@
             <TextView
                 android:textSize="16sp"
                 android:textColor="#B5405A"
-                android:text="1000元"
+                android:text="0元"
+                android:id="@+id/income_yestoday_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginTop="5dp"
                 android:textSize="14sp"
                 android:textColor="#A0A0A0"
-                android:text="预估5单"
+                android:text="预估0单"
+                android:id="@+id/income_yestoday_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -259,14 +263,16 @@
                     <TextView
                         android:textSize="16sp"
                         android:textColor="#B5405A"
-                        android:text="100001元"
+                        android:text="0元"
+                        android:id="@+id/income_this_week_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_marginTop="5dp"
                         android:textSize="14sp"
                         android:textColor="#A0A0A0"
-                        android:text="预估502单"
+                        android:text="预估0单"
+                        android:id="@+id/income_this_week_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -294,14 +300,16 @@
                     <TextView
                         android:textSize="16sp"
                         android:textColor="#B5405A"
-                        android:text="103400元"
+                        android:text="0元"
+                        android:id="@+id/income_yestoday_week_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_marginTop="5dp"
                         android:textSize="14sp"
                         android:textColor="#A0A0A0"
-                        android:text="预估5单"
+                        android:text="预估0单"
+                        android:id="@+id/income_yestoday_week_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -374,14 +382,16 @@
                     <TextView
                         android:textSize="16sp"
                         android:textColor="#B5405A"
-                        android:text="100001元"
+                        android:text="0元"
+                        android:id="@+id/income_month_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_marginTop="5dp"
                         android:textSize="14sp"
                         android:textColor="#A0A0A0"
-                        android:text="预估502单"
+                        android:text="预估0单"
+                        android:id="@+id/income_month_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -409,14 +419,16 @@
                     <TextView
                         android:textSize="16sp"
                         android:textColor="#B5405A"
-                        android:text="103400元"
+                        android:text="0元"
+                        android:id="@+id/income_yestoday_month_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_marginTop="5dp"
                         android:textSize="14sp"
                         android:textColor="#A0A0A0"
-                        android:text="预估5单"
+                        android:text="预估0单"
+                        android:id="@+id/income_yestoday_month_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -427,5 +439,15 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/income_header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/income_progress"/>
 
 </android.support.constraint.ConstraintLayout>

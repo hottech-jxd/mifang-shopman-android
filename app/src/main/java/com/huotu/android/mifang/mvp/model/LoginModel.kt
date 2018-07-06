@@ -7,15 +7,15 @@ import io.reactivex.Observable
 
 class LoginModel{
 
-    fun register( mobile:String , inviteCode:String , verifyCode :String ): Observable<ApiResult<UserBean>>{
-        val apiService = RetrofitManager.getApiService()
-        return apiService!!.register(mobile, inviteCode, verifyCode)
-    }
+//    fun register( mobile:String , inviteCode:String , verifyCode :String ): Observable<ApiResult<UserBean>>{
+//        val apiService = RetrofitManager.getApiService()
+//        return apiService!!.register(mobile, inviteCode, verifyCode)
+//    }
 
-    fun login(phone:String , code :String ) : Observable<ApiResult<UserBean>>{
-        val apiService = RetrofitManager.getApiService()
-        return apiService!!.login(phone, code )
-    }
+//    fun login(phone:String , code :String ) : Observable<ApiResult<UserBean>>{
+//        val apiService = RetrofitManager.getApiService()
+//        return apiService!!.login(phone, code )
+//    }
 
     fun sendVerifyCode(phone:String):Observable<ApiResult<Any>>{
         val apiService = RetrofitManager.getApiService()

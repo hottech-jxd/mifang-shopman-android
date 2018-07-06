@@ -8,10 +8,12 @@ interface MyContract {
     interface Presenter: IPresenter {
         fun myIndex()
         fun mySetting()
+        fun getQrcode()
     }
 
     interface View: IView<Presenter> {
         fun myIndexCallback(apiResult: ApiResult<MyBean>)
         fun mySettingCallback(apiResult: ApiResult<SettingBean>)
+        fun getQrcodeCallback(apiResult: ApiResult<String>)
     }
 }

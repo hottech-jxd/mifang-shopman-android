@@ -119,9 +119,13 @@ public class BallView extends View {
   }
 
   public void stop() {
-    ballPathAnimator.stop();
+    if(ballPathAnimator!=null) {
+      ballPathAnimator.stop();
+    }
     if (sizeAnimationEnabled) {
-      ballSizeAnimator.start();
+      if(ballSizeAnimator!=null) {
+        ballSizeAnimator.start();
+      }
     }
   }
 

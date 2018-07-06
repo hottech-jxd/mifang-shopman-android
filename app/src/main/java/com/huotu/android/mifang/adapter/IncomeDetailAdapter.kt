@@ -5,8 +5,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.bean.IncomeDetailEntity
+import com.huotu.android.mifang.bean.ProfitItemEntity
 
-class IncomeDetailAdapter(data :ArrayList<IncomeDetailEntity>):BaseMultiItemQuickAdapter<IncomeDetailEntity , BaseViewHolder>( data) {
+class IncomeDetailAdapter(data :ArrayList<ProfitItemEntity>)
+    :BaseMultiItemQuickAdapter<ProfitItemEntity , BaseViewHolder>( data) {
 
     init {
         addItemType(1, R.layout.layout_income_detail_item)
@@ -14,11 +16,11 @@ class IncomeDetailAdapter(data :ArrayList<IncomeDetailEntity>):BaseMultiItemQuic
         addItemType(3, R.layout.layout_income_detail_item)
     }
 
-    override fun convert(helper: BaseViewHolder?, item: IncomeDetailEntity?) {
+    override fun convert(helper: BaseViewHolder?, item: ProfitItemEntity?) {
 
-        helper!!.setText(R.id.income_detail_item_header_1, item!!.incomeDetailBean.name)
-        helper!!.setText(R.id.income_detail_item_header_2, item!!.incomeDetailBean.name2)
-        helper!!.setText(R.id.income_detail_item_header_3, item!!.incomeDetailBean.name3)
+        helper!!.setText(R.id.income_detail_item_header_1, item!!.content1)
+        helper!!.setText(R.id.income_detail_item_header_2, item!!.content2)
+        helper!!.setText(R.id.income_detail_item_header_3, item!!.content3)
 
     }
 }

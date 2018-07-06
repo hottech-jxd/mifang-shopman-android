@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import com.huotu.android.mifang.R
-import com.huotu.android.mifang.adapter.ShopperClassAdpter
+import com.huotu.android.mifang.adapter.ShopperClassAdapter
 import com.huotu.android.mifang.base.BaseFragment
 import com.huotu.android.mifang.bean.ShopperClassBean
 import com.huotu.android.mifang.mvp.IPresenter
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_shopper_class1.*
  */
 class ShopperClass1Fragment : BaseFragment<IPresenter>() {
 
-    var shopperClassAdpter:ShopperClassAdpter?=null
+    var shopperClassAdapter:ShopperClassAdapter?=null
     var data=ArrayList<ShopperClassBean>()
 
     private var type: Int = 0
@@ -35,12 +35,12 @@ class ShopperClass1Fragment : BaseFragment<IPresenter>() {
 
 
     override fun initView() {
-        if( shopperClassAdpter==null)
-            shopperClassAdpter= ShopperClassAdpter(data)
+        if( shopperClassAdapter==null)
+            shopperClassAdapter= ShopperClassAdapter(data)
 
         shopperclass_recyclerview.layoutManager=LinearLayoutManager(context)
         shopperclass_recyclerview.addItemDecoration(RecyclerViewDivider(context!!, ContextCompat.getColor(context!!, R.color.bg_line ) , 1f ))
-        shopperclass_recyclerview.adapter=shopperClassAdpter
+        shopperclass_recyclerview.adapter=shopperClassAdapter
     }
 
     override fun fetchData() {
@@ -49,7 +49,7 @@ class ShopperClass1Fragment : BaseFragment<IPresenter>() {
             data.add(ShopperClassBean("http://image.tkcm888.com/adSet_2018-06-04_d18eb67c0fbc43a398fc7c55f818122415281204839937212.png","分公司大法官受到犯规是大概","大师飞阿是as阿是打发阿是打发dfa的萨芬士大夫打发是发沙士大夫撒飞洒发双方萨芬阿是打发"))
         }
 
-        shopperClassAdpter!!.notifyDataSetChanged()
+        shopperClassAdapter!!.notifyDataSetChanged()
 
     }
 

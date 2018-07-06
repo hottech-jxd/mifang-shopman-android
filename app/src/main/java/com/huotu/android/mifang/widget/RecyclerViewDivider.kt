@@ -20,19 +20,16 @@ class RecyclerViewDivider(context:Context , @ColorInt var dividerColor: Int , va
 class RecyclerViewDivider2(context: Context , @ColorInt var dividerColor: Int ,var width: Float ):Y_DividerItemDecoration(context){
     override fun getDivider(itemPosition: Int): Y_Divider {
          return Y_DividerBuilder()
-                .setTopSideLine(true , dividerColor , width , 0f,0f)
+                //.setTopSideLine(true , dividerColor , width , 0f,0f)
                 .setRightSideLine(true, dividerColor , width , 0f,0f )
                 .create()
     }
 }
 
 
-class RecyclerViewDivider3(context: Context , @ColorInt var dividerColor: Int ,var width: Float ):Y_DividerItemDecoration(context){
+class RecyclerViewDividerEmpty(context: Context ):Y_DividerItemDecoration(context){
     override fun getDivider(itemPosition: Int): Y_Divider {
-        if(itemPosition== 0 || itemPosition==1) return Y_DividerBuilder()
-                .setRightSideLine(true, dividerColor , width , 0f,0f )
-                .create()
-        else  return Y_DividerBuilder().create()
+         return Y_DividerBuilder().create()
     }
 }
 
@@ -55,11 +52,3 @@ class RecyclerViewDivider5(context: Context , @ColorInt var dividerColor: Int ,v
 }
 
 
-class RecyclerViewDivider6(context: Context , @ColorInt var dividerColor: Int ,var width: Float ):Y_DividerItemDecoration(context){
-    override fun getDivider(itemPosition: Int): Y_Divider {
-        if(itemPosition== 0 || itemPosition==1 || itemPosition== 3 ) return Y_DividerBuilder()
-                .setRightSideLine(true, dividerColor , width , 0f,0f )
-                .create()
-        else  return Y_DividerBuilder().create()
-    }
-}

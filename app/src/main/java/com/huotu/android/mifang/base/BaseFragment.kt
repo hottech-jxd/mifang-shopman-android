@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.huotu.android.mifang.activity.LoginRegisterActivity
+import com.huotu.android.mifang.bean.ApiResult
 import com.huotu.android.mifang.bean.ApiResultCodeEnum
 import com.huotu.android.mifang.mvp.IView
 import com.huotu.android.mifang.newIntent
@@ -48,14 +49,26 @@ abstract class BaseFragment<T> : RxFragment() , IView<T>  {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //return super.onCreateView(inflater, container, savedInstanceState)
-        if(rootView==null){
-            rootView = inflater.inflate(getLayoutResourceId(), container , false)
+
+        if(rootView !=null){
+            if(rootView!!.parent!=null) {
+                var parent: ViewGroup = rootView!!.parent as ViewGroup
+                if (parent != null) {
+                    parent.removeView(rootView)
+                }
+            }
+            return rootView
         }
+
+
+        rootView = inflater.inflate(getLayoutResourceId(), container , false)
+
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(isViewPrepared) return
         initView()
     }
 
@@ -103,12 +116,12 @@ abstract class BaseFragment<T> : RxFragment() , IView<T>  {
         toast(err)
     }
 
-    protected fun processCommonErrorCode(code :Int ,  msg:String): Boolean {
-        if ( code == ApiResultCodeEnum.USER_NO_LOGIN.code
-            ||code == ApiResultCodeEnum.USER_FREEZE.code
-            || code == ApiResultCodeEnum.USER_ILLEGAL.code ) {
+    protected fun processCommonErrorCode(apiResult: ApiResult<*>): Boolean {
+        if ( apiResult.code == ApiResultCodeEnum.USER_NO_LOGIN.code
+            || apiResult.code == ApiResultCodeEnum.USER_FREEZE.code
+            || apiResult.code == ApiResultCodeEnum.USER_ILLEGAL.code ) {
 
-            toast( msg )
+            toast( apiResult.msg )
 
             //EventBus.getDefault().post(LogoutEvent())
 

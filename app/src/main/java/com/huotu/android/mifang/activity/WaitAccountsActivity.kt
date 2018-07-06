@@ -1,30 +1,38 @@
 package com.huotu.android.mifang.activity
 
-import android.content.Context
+
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.ScoreAdapter
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.ScoreBean
-import com.huotu.android.mifang.bean.ScoreTypeEnum
-import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.bean.*
+import com.huotu.android.mifang.mvp.contract.ScoreContract
+import com.huotu.android.mifang.mvp.presenter.ScorePresenter
 import com.huotu.android.mifang.widget.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_wait_accounts.*
+import kotlinx.android.synthetic.main.fragment_quan_tab.*
 import kotlinx.android.synthetic.main.layout_header.*
 
 /**
- * 待结算 积分
+ * 待结算积分 , 余额，
  */
-class WaitAccountsActivity : BaseActivity<IPresenter>()
-        ,View.OnClickListener , BaseQuickAdapter.RequestLoadMoreListener {
-    var data=ArrayList<ScoreBean>()
+class WaitAccountsActivity : BaseActivity<ScoreContract.Presenter>()
+        ,ScoreContract.View
+        ,View.OnClickListener
+        , SwipeRefreshLayout.OnRefreshListener
+        , BaseQuickAdapter.RequestLoadMoreListener {
+    var data= ScoreBean(0,0,null)
     var scoreAdapter:ScoreAdapter?=null
     var type = ScoreTypeEnum.WaitAccounts.id
+    var iPresenter=ScorePresenter(this)
+    var pageIndex=0
+    var isShowProgress=true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,29 +54,144 @@ class WaitAccountsActivity : BaseActivity<IPresenter>()
         }
         header_left_image.setOnClickListener(this)
 
+        wait_accounts_refreshView.setOnRefreshListener(this)
 
         wait_accounts_recyclerview.layoutManager=LinearLayoutManager(this)
         wait_accounts_recyclerview.addItemDecoration(RecyclerViewDivider(this , ContextCompat.getColor(this, R.color.bg_line), 10f))
 
-        mockData()
+        scoreAdapter = ScoreAdapter(ArrayList())
+        var emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty, null)
+        scoreAdapter!!.emptyView = emptyView
+        scoreAdapter!!.isUseEmpty(false)
+
+        scoreAdapter!!.setOnLoadMoreListener(this, wait_accounts_recyclerview)
+        wait_accounts_recyclerview.adapter = scoreAdapter
+
+        getData()
     }
 
-    private fun mockData(){
-        for(i in 0..10){
-            data.add(ScoreBean(i,"sdfs撒旦法大赛","2018.06.22 15:11:11 ",1))
+    private fun getData(){
+        when(type){
+            ScoreTypeEnum.Balance.id -> {
+                iPresenter.getIntegralList(0, pageIndex+1, Constants.PAGE_SIZE)
+            }
+            ScoreTypeEnum.WaitAccounts.id->{
+                iPresenter.getIntegralList(1,pageIndex +1 , Constants.PAGE_SIZE)
+            }
+            ScoreTypeEnum.MiBean.id->{
+                //todo
+            }
         }
-        scoreAdapter = ScoreAdapter(data)
-        scoreAdapter!!.setOnLoadMoreListener(this, wait_accounts_recyclerview)
-        wait_accounts_recyclerview.adapter=scoreAdapter
+    }
+
+
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+        if(isShowProgress){
+            wait_accounts_progress.visibility=View.VISIBLE
+        }else{
+            wait_accounts_progress.visibility=View.GONE
+        }
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        wait_accounts_progress.visibility=View.GONE
+        wait_accounts_refreshView.isRefreshing=false
+    }
+
+    override fun onRefresh() {
+        pageIndex= 0
+        isShowProgress=false
+        getData()
     }
 
     override fun onLoadMoreRequested() {
-
+        getData()
     }
 
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.header_left_image->{finish()}
+        }
+    }
+
+    override fun getIntegralListCallback(apiResult: ApiResult<ScoreBean>) {
+        isShowProgress=false
+        wait_accounts_refreshView.isRefreshing=false
+        scoreAdapter!!.isUseEmpty(true)
+        hideProgress()
+        if(processCommonErrorCode(apiResult)){return}
+        if(apiResult.code !=ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+
+        if (apiResult.data == null) return
+
+        if( type==ScoreTypeEnum.WaitAccounts.id){
+            setUiData_waitScore(apiResult)
+        }else if(type == ScoreTypeEnum.Balance.id){
+            setUiData_balance(apiResult)
+        }else if(type==ScoreTypeEnum.MiBean.id){
+            //todo
+        }
+    }
+
+    private fun setUiData_balance(apiResult: ApiResult<ScoreBean>){
+        if(apiResult!!.data!!.Items==null) return
+        if(apiResult!!.data!!.Items!!.size < Constants.PAGE_SIZE) {
+            //没有数据了
+            if (pageIndex == 0) {
+                scoreAdapter!!.loadMoreEnd(true)
+            } else {
+                scoreAdapter!!.loadMoreEnd()
+            }
+
+            pageIndex++
+
+        } else {
+            scoreAdapter!!.loadMoreComplete()
+            pageIndex++
+        }
+
+        if (pageIndex == 1) {
+
+            scoreAdapter!!.setNewData(apiResult.data!!.Items)
+            scoreAdapter!!.disableLoadMoreIfNotFullPage( wait_accounts_recyclerview )
+        } else {
+            scoreAdapter!!.addData(apiResult.data!!.Items!!)
+        }
+    }
+
+    private fun setUiData_waitScore(apiResult: ApiResult<ScoreBean>){
+        wait_accounts_income.text = apiResult.data!!.SumImportIntegral.toString()
+        wait_accounts_outcome.text = apiResult.data!!.SumExportIntegral.toString()
+
+        if(apiResult!!.data!!.Items==null) return
+
+        if(apiResult!!.data!!.Items!!.size < Constants.PAGE_SIZE) {
+            //没有数据了
+            if (pageIndex == 0) {
+                scoreAdapter!!.loadMoreEnd(true)
+            } else {
+                scoreAdapter!!.loadMoreEnd()
+            }
+
+            pageIndex++
+
+        } else {
+            scoreAdapter!!.loadMoreComplete()
+            pageIndex++
+        }
+
+
+        if (pageIndex == 1) {
+
+            scoreAdapter!!.setNewData(apiResult.data!!.Items)
+            scoreAdapter!!.disableLoadMoreIfNotFullPage(wait_accounts_recyclerview)
+        } else {
+            scoreAdapter!!.addData(apiResult.data!!.Items!!)
         }
 
     }

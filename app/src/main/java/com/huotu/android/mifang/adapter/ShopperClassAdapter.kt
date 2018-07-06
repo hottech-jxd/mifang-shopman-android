@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.bean.ShopperClassBean
 
-class ShopperClassAdpter(data:ArrayList<ShopperClassBean>):BaseQuickAdapter<ShopperClassBean,BaseViewHolder>(R.layout.layout_shopperclass_item, data ) {
+class ShopperClassAdapter(data:ArrayList<ShopperClassBean>):BaseQuickAdapter<ShopperClassBean,BaseViewHolder>(R.layout.layout_shopperclass_item, data ) {
 
     override fun convert(helper: BaseViewHolder?, item: ShopperClassBean?) {
 

@@ -85,6 +85,7 @@ class BindPhoneActivity : BaseActivity<BindPhoneContract.Presenter>()
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.header_left_image->{
+                KeybordUtils.closeKeyboard(this)
                 finish()
             }
             R.id.bindPhone_sendCode->{
@@ -101,16 +102,20 @@ class BindPhoneActivity : BaseActivity<BindPhoneContract.Presenter>()
         if (phone.isEmpty()) {
             bindPhone_newPhone.error ="请输入手机号码"
             bindPhone_newPhone.requestFocus()
+            KeybordUtils.openKeybord(this, bindPhone_newPhone)
             return
         }
         if (!MobileUtils.isPhone(phone)) {
             bindPhone_newPhone.error ="请输入正确的手机号码"
             bindPhone_newPhone.requestFocus()
+            KeybordUtils.openKeybord(this , bindPhone_newPhone)
             return
         }
         var code = bindPhone_code.text.toString().trim()
         if(TextUtils.isEmpty(code)){
             toast("请输入短信验证码")
+            bindPhone_code.requestFocus()
+            KeybordUtils.openKeybord(this, bindPhone_code)
             return
         }
 

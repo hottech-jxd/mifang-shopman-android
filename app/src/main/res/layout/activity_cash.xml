@@ -100,7 +100,8 @@
                     android:text="33"
                     android:background="@drawable/shape_edittext_bg"
                     android:textSize="28sp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 

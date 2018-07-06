@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black"
     android:layout_height="wrap_content">
 
     <!--<com.huotu.android.mifang.widget.video.SampleCoverVideo-->
@@ -13,6 +12,8 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/quan_video_item_picture"
+        app:placeholderImage="@mipmap/ic_launcher"
+        app:failureImage="@mipmap/ic_launcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -44,8 +44,9 @@ class CashActivity : BaseActivity<CashContract.Presenter>()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         KeybordUtils.closeKeyboard(this)
+        super.onDestroy()
+
     }
 
     override fun onClick(v: View?) {
@@ -54,9 +55,11 @@ class CashActivity : BaseActivity<CashContract.Presenter>()
                 finish()
             }
             R.id.cash_record->{
+                KeybordUtils.closeKeyboard(this)
                 newIntent<CashRecordActivity>()
             }
             R.id.cash_lay_1->{
+                KeybordUtils.closeKeyboard(this)
                 newIntentForResult<PayAccountActivity>( REQUEST_CODE , Constants.INTENT_PAY_ACCOUNT_ID , if(data==null) 0L else  data!!.AccountId)
             }
             R.id.cash_get_all->{
@@ -86,10 +89,13 @@ class CashActivity : BaseActivity<CashContract.Presenter>()
             toast(apiResult.msg)
             return
         }
+        data = apiResult.data
         if(apiResult.data==null){
+            cash_name.text="请选择支付账户"
+            cash_email.text=""
             return
         }
-        data = apiResult.data
+
         cash_name.text = apiResult.data!!.UserRealName
         cash_email.text = apiResult.data!!.AccountInfo
         cash_can_get_money.text = apiResult.data!!.UserIntegral.toString()

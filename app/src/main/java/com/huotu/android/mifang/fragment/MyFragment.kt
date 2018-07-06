@@ -133,7 +133,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
 
     override fun myIndexCallback(apiResult: ApiResult<MyBean>) {
         my_progress.visibility=View.GONE
-        if(processCommonErrorCode(apiResult.code , apiResult.msg)){
+        if(processCommonErrorCode(apiResult)){
             return
         }
         if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
@@ -179,6 +179,11 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
     }
 
     override fun mySettingCallback(apiResult: ApiResult<SettingBean>) {
+
+    }
+
+    override fun getQrcodeCallback(apiResult: ApiResult<String>) {
+        //todo
 
     }
 

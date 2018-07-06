@@ -250,8 +250,24 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
         BaseApplication.instance!!.variable.wechatUser = result
 
-        setJpushAlias( result  )
 
+        presenter!!.loginByUnionId( result.openid , result.unionid , result.nickname, result.headimgurl )
+
+    }
+
+    override fun loginByUnionIdCallback(apiResult: ApiResult<UserBean>) {
+        if(apiResult.code!=ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null){
+            toast("发生错误,请重新登录")
+            return
+        }
+
+        BaseApplication.instance!!.variable.userBean = apiResult.data
+
+        setJpushAlias( apiResult.data!!  )
         gotoHome()
     }
 
@@ -259,8 +275,8 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
      * 登录成功，设置极光推送的别名为 手机号
      * @param userBean
      */
-    private fun setJpushAlias(wechatUser: WechatUser ) {
-        PushHelper.bindingUserId( wechatUser.openid , wechatUser.nickname , "", "", "")
+    private fun setJpushAlias( user: UserBean ) {
+        PushHelper.bindingUserId( user.userId.toString() , user.nickName , "", "", "")
     }
 
 }

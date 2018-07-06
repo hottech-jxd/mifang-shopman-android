@@ -42,6 +42,7 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
 
         header_title.text = "设置支付密码"
         header_right_image.setOnClickListener(this)
+        header_left_image.setOnClickListener(this)
 
         payPassword_1.visibility = View.VISIBLE
         payPassword_2.visibility = View.GONE

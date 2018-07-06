@@ -15,4 +15,8 @@ class MyModel {
         val apiService = RetrofitManager.getApiService()
         return apiService!!.setting()
     }
+    fun getQrcode():Observable<ApiResult<String>>{
+        val apiService=RetrofitManager.getApiService()
+        return apiService!!.getQrcode()
+    }
 }

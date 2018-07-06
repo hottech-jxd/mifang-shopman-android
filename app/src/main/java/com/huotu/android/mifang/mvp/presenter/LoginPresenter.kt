@@ -46,55 +46,55 @@ class LoginPresenter(view: LoginContract.View): LoginContract.Presenter{
                 } )
     }
 
-    override fun login(phone:String, code :String ) {
-        val observable : Observable<ApiResult<UserBean>>? = mModel.login(phone,code )
-        observable?.subscribeOn(Schedulers.io())
-                ?.bindToLifecycle(mView as LifecycleProvider<*>)
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe( object : Observer<ApiResult<UserBean>>{
-                    override fun onComplete() {
-                        mView!!.hideProgress()
-                    }
+//    override fun login(phone:String, code :String ) {
+//        val observable : Observable<ApiResult<UserBean>>? = mModel.login(phone,code )
+//        observable?.subscribeOn(Schedulers.io())
+//                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+//                ?.observeOn(AndroidSchedulers.mainThread())
+//                ?.subscribe( object : Observer<ApiResult<UserBean>>{
+//                    override fun onComplete() {
+//                        mView!!.hideProgress()
+//                    }
+//
+//                    override fun onSubscribe(d: Disposable) {
+//                        mView!!.showProgress(Constants.TIP_LOADING)
+//                    }
+//
+//                    override fun onNext(t: ApiResult<UserBean>) {
+//                        mView!!.loginCallback( t )
+//                    }
+//
+//                    override fun onError(e: Throwable) {
+//                        mView!!.hideProgress()
+//                        mView!!.error(Constants.MESSAGE_ERROR)
+//                    }
+//                } )
+//    }
 
-                    override fun onSubscribe(d: Disposable) {
-                        mView!!.showProgress(Constants.TIP_LOADING)
-                    }
-
-                    override fun onNext(t: ApiResult<UserBean>) {
-                        mView!!.loginCallback( t )
-                    }
-
-                    override fun onError(e: Throwable) {
-                        mView!!.hideProgress()
-                        mView!!.error(Constants.MESSAGE_ERROR)
-                    }
-                } )
-    }
-
-    override fun register(mobile: String, inviteCode: String, smsCode: String) {
-        val observable : Observable<ApiResult<UserBean>>? = mModel.register( mobile ,inviteCode , smsCode )
-        observable?.subscribeOn(Schedulers.io())
-                ?.bindToLifecycle(mView as LifecycleProvider<*>)
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe( object : Observer<ApiResult<UserBean>>{
-                    override fun onComplete() {
-                        mView!!.hideProgress()
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                        mView!!.showProgress(Constants.TIP_LOADING)
-                    }
-
-                    override fun onNext(t: ApiResult<UserBean>) {
-                        mView!!.registerCallback( t )
-                    }
-
-                    override fun onError(e: Throwable) {
-                        mView!!.hideProgress()
-                        mView!!.error(Constants.MESSAGE_ERROR)
-                    }
-                } )
-    }
+//    override fun register(mobile: String, inviteCode: String, smsCode: String) {
+//        val observable : Observable<ApiResult<UserBean>>? = mModel.register( mobile ,inviteCode , smsCode )
+//        observable?.subscribeOn(Schedulers.io())
+//                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+//                ?.observeOn(AndroidSchedulers.mainThread())
+//                ?.subscribe( object : Observer<ApiResult<UserBean>>{
+//                    override fun onComplete() {
+//                        mView!!.hideProgress()
+//                    }
+//
+//                    override fun onSubscribe(d: Disposable) {
+//                        mView!!.showProgress(Constants.TIP_LOADING)
+//                    }
+//
+//                    override fun onNext(t: ApiResult<UserBean>) {
+//                        mView!!.registerCallback( t )
+//                    }
+//
+//                    override fun onError(e: Throwable) {
+//                        mView!!.hideProgress()
+//                        mView!!.error(Constants.MESSAGE_ERROR)
+//                    }
+//                } )
+//    }
 
     override fun onDestory() {
 

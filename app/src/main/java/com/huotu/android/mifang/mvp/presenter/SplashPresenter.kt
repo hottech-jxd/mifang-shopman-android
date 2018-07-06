@@ -100,6 +100,32 @@ class SplashPresenter(view: SplashContract.View) : SplashContract.Presenter {
                 } )
     }
 
+    override fun loginByUnionId(openid: String, unionId: String, nickName: String, userHead: String) {
+        val observable : Observable<ApiResult<UserBean>>? = mModel.loginByUnionId( openid ,unionId , nickName , userHead  )
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle( mView as LifecycleProvider<Any>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe( object : Observer<ApiResult<UserBean>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<UserBean> ) {
+                        mView!!.loginByUnionIdCallback( t )
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                } )
+    }
+
+
     //    override fun readCityData() {
 //        val observable : Observable<ArrayList<Province>>? = mModel.readCityData()
 //        observable?.subscribeOn(Schedulers.io())

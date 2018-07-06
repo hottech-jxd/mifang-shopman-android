@@ -86,36 +86,6 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         quanAdapter!!.onItemChildClickListener = this
         quanAdapter!!.setOnLoadMoreListener( this , quan_tab_recyclerview)
 
-
-//        quan_tab_recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//
-//            var firstVisibleItem: Int = 0
-//            var lastVisibleItem: Int = 0
-//
-//
-//            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//                firstVisibleItem = (recyclerView!!.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-//                lastVisibleItem = (recyclerView!!.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-//                //大于0说明有播放
-//                if (GSYVideoManager.instance().playPosition >= 0) {
-//                    //当前播放的位置
-//                    val position = GSYVideoManager.instance().playPosition
-//                    //对应的播放列表TAG
-//                    if (GSYVideoManager.instance().playTag == quanAdapter!!.TAG && (position < firstVisibleItem || position > lastVisibleItem)) {
-//
-//                        //如果滑出去了上面和下面就是否，和今日头条一样
-//                        //是否全屏
-//                        if (!GSYVideoManager.isFullState(activity)) {
-//                            GSYVideoManager.releaseAllVideos()
-//                            quanAdapter!!.notifyDataSetChanged()
-//                        }
-//                    }
-//                }
-//            }
-//        })
-
-
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -227,10 +197,12 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
                 hideProgress()
                 if ((task!!.tag as IdId).id == (task!!.tag as IdId).total) {
                     toast("图片已经保存在"+dir)
+
+                    if(needShare){
+                        share(quan)
+                    }
                 }
-                if(needShare){
-                    share(quan)
-                }
+
             }
 
             override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
@@ -289,7 +261,7 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
     }
 
     private fun shareImages(quan: Quan) {
-        if(!isDownPicture(quan)) savaImage(quan ,true)
+        if(isDownPicture(quan)) savaImage(quan ,true)
 
         var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
         intent.type = "image/*"
@@ -398,21 +370,6 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         return R.layout.fragment_quan_tab
     }
 
-    override fun onPause() {
-        super.onPause()
-        GSYVideoManager.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        GSYVideoManager.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        GSYVideoManager.releaseAllVideos()
-    }
-
 
     override fun showProgress(msg: String) {
         super.showProgress(msg)
@@ -447,7 +404,7 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         //borrow_refreshview.setRefreshing(false)
 
 
-        if (processCommonErrorCode(apiResult.code , apiResult.msg )) return
+        if (processCommonErrorCode(apiResult )) return
         if (apiResult.code  != ApiResultCodeEnum.SUCCESS.code ) {
             toast(apiResult.msg )
             return
@@ -471,9 +428,12 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
 
 
         if (pageIndex == 1) {
+            data.clear()
+            data.addAll(apiResult.data!!)
             quanAdapter!!.setNewData(apiResult.data)
             quanAdapter!!.disableLoadMoreIfNotFullPage(quan_tab_recyclerview)
         } else {
+            data.addAll(apiResult.data!!)
             quanAdapter!!.addData(apiResult.data!!)
         }
     }

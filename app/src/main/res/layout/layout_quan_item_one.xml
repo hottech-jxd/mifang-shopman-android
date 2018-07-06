@@ -11,17 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/quan_item_one_logo"
-        android:padding="5dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/quan_item_one_logo"
+            android:padding="5dp"
+            app:failureImage="@mipmap/ic_launcher"
+            app:placeholderImage="@mipmap/ic_launcher"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
 
-    <RelativeLayout
-        android:padding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/quan_item_one_title"
@@ -50,15 +51,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <android.support.v7.widget.RecyclerView
-            android:id="@+id/quan_item_one_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+                android:id="@+id/quan_item_one_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
             <android.support.v7.widget.RecyclerView
-            android:id="@+id/quan_item_one_videos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+                android:id="@+id/quan_item_one_videos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
         </LinearLayout>
@@ -71,6 +72,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="2018.05.12 15:20"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -82,6 +84,7 @@
             android:layout_toRightOf="@id/quan_item_one_time"
             android:layout_width="wrap_content"
             android:text="已被转发200次"
+            android:textSize="12sp"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -91,6 +94,7 @@
             android:layout_below="@id/quan_item_one_time"
             android:layout_alignLeft="@id/quan_item_one_time"
             android:text="可赚利润:"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -98,8 +102,9 @@
             android:layout_alignTop="@id/quan_item_one_label"
             android:layout_toRightOf="@id/quan_item_one_label"
             android:layout_width="wrap_content"
-            android:textColor="#A34D3F"
+            android:textColor="#e41436"
             android:text="100元"
+            android:textSize="12sp"
             android:layout_height="wrap_content" />
 
 
@@ -119,44 +124,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:background="@drawable/style_row_bg"
             android:visibility="visible"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
+            android:padding="8dp"
             android:id="@+id/quan_item_one_save_image"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/quan_item_one_save_logo"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@mipmap/download"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/quan_item_one_save_logo"-->
+                <!--android:layout_width="16dp"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:src="@mipmap/download"/>-->
             <TextView
+                android:drawableLeft="@mipmap/download"
+                android:drawablePadding="4dp"
                 android:id="@+id/quan_item_one_save_text"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="0dp"
                 android:text="保存图片"
+                android:padding="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <View
+            android:id="@+id/quan_item_one_line1"
             android:layout_width="1px"
+            android:layout_centerInParent="true"
             android:layout_height="35dp"
             android:background="#bababa"/>
         <LinearLayout
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
+            android:padding="8dp"
+            android:background="@drawable/style_row_bg"
             android:id="@+id/quan_item_one_share"
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@mipmap/share"/>
+            <!--<ImageView-->
+                <!--android:layout_width="16dp"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:src="@mipmap/share"/>-->
             <TextView
-                android:layout_marginLeft="5dp"
+
+                android:drawableLeft="@mipmap/share"
+                android:drawablePadding="4dp"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
                 android:text="一键转发"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

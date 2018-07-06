@@ -97,7 +97,7 @@ fun Fragment.showToast(message:String):Toast{
 
     inline fun<reified T: Activity> Activity.skipIntentForLogin(bundle: Bundle){
         if ( BaseApplication.instance!!.variable.userBean == null
-                || BaseApplication.instance!!.variable.userBean?.UserId == 0L) {
+                || BaseApplication.instance!!.variable.userBean?.userId == 0L) {
             skipIntent<LoginRegisterActivity>()
             return
         }
@@ -134,7 +134,7 @@ fun Fragment.showToast(message:String):Toast{
     inline fun<reified T: Activity> Activity.newIntentForLogin(){
 
         if ( BaseApplication.instance!!.variable.userBean == null
-                || BaseApplication.instance!!.variable.userBean?.UserId == 0L) {
+                || BaseApplication.instance!!.variable.userBean?.userId == 0L) {
             newIntent<LoginRegisterActivity>()
         }
         else {
@@ -145,7 +145,7 @@ fun Fragment.showToast(message:String):Toast{
     inline fun<reified T: Activity> Activity.newIntentForLogin(key : String, value:Long ){
 
         if ( BaseApplication.instance!!.variable.userBean == null
-                || BaseApplication.instance!!.variable.userBean?.UserId == 0L) {
+                || BaseApplication.instance!!.variable.userBean?.userId == 0L) {
             newIntent<LoginRegisterActivity>()
         }
         else {
@@ -156,7 +156,7 @@ fun Fragment.showToast(message:String):Toast{
     inline fun<reified T: Activity> Activity.newIntentForLogin(key : String, value:String ){
 
         if ( BaseApplication.instance!!.variable.userBean == null
-                || BaseApplication.instance!!.variable.userBean?.UserId == 0L) {
+                || BaseApplication.instance!!.variable.userBean?.userId == 0L) {
             newIntent<LoginRegisterActivity>()
         }
         else {
@@ -167,7 +167,7 @@ fun Fragment.showToast(message:String):Toast{
     inline fun<reified T: Activity> Activity.newIntentForLogin(bundle: Bundle){
 
         if ( BaseApplication.instance!!.variable.userBean == null
-                || BaseApplication.instance!!.variable.userBean?.UserId == 0L) {
+                || BaseApplication.instance!!.variable.userBean?.userId == 0L) {
             newIntent<LoginRegisterActivity>()
         }
         else {
@@ -213,8 +213,8 @@ inline fun<reified T: Activity> Fragment.newIntent(key:String, value:String ){
 inline fun<reified T: Activity> Fragment.newIntentForLogin(){
 
     if ( BaseApplication.instance!!.variable.userBean == null
-            || BaseApplication.instance!!.variable.userBean?.Token==""
-            || BaseApplication.instance!!.variable.userBean?.UserId == 0L) {
+            || BaseApplication.instance!!.variable.userBean?.token==""
+            || BaseApplication.instance!!.variable.userBean?.userId == 0L) {
         newIntent<LoginRegisterActivity>()
     }
     else {
@@ -225,8 +225,8 @@ inline fun<reified T: Activity> Fragment.newIntentForLogin(){
 inline fun<reified T: Activity> Fragment.newIntentForLogin(key : String, value:Long ){
 
     if ( BaseApplication.instance!!.variable.userBean == null
-            || BaseApplication.instance!!.variable.userBean?.Token==""
-            || BaseApplication.instance!!.variable.userBean?.UserId == 0L) {
+            || BaseApplication.instance!!.variable.userBean?.token==""
+            || BaseApplication.instance!!.variable.userBean?.userId == 0L) {
         newIntent<LoginRegisterActivity>()
     }
     else {

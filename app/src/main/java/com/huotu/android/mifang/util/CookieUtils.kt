@@ -19,8 +19,8 @@ object CookieUtils {
 
     fun setWebViewCookie() {
         try {
-            val youxinUserid =  BaseApplication.instance!!.variable.userBean!!.UserId
-            val youxinUserToken = BaseApplication.instance!!.variable.userBean!!.Token
+            val youxinUserid =  BaseApplication.instance!!.variable.userBean!!.userId
+            val youxinUserToken = BaseApplication.instance!!.variable.userBean!!.token
 
             val youxinDomain = Uri.parse( Constants.YOUXIN_BASE_URL ).host //"http://youxin.51huotao.com";
 
@@ -31,7 +31,7 @@ object CookieUtils {
             userInfo.userId = youxinUserid
             userInfo.customerId = Constants.CUSTOMERID
             userInfo.userName = BaseApplication.instance!!.variable.userBean!!.LoginName
-            userInfo.userToken = BaseApplication.instance!!.variable.userBean!!.Token
+            userInfo.userToken = BaseApplication.instance!!.variable.userBean!!.token
             userInfo.userType = 0
             userInfo.headimg = null
             userInfo.isAuthIdCard = false

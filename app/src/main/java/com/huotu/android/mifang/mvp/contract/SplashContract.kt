@@ -18,6 +18,8 @@ interface SplashContract {
         fun getWechatAccessToken(appid: String,appSecret:String , code :String)
 
         fun getWechatUserInfo( openid:String,accessToken:String)
+
+        fun loginByUnionId(openid: String, unionId:String,nickName:String,userHead:String)
     }
     interface View: IView<Presenter> {
 
@@ -27,6 +29,8 @@ interface SplashContract {
         fun getWechatAccessTokenCallback(result: WechatAccessToken)
 
         fun getWechatUserInfo(result: WechatUser)
+
+        fun loginByUnionIdCallback(apiResult: ApiResult<UserBean>)
 
     }
 }

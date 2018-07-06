@@ -53,12 +53,13 @@ class PicturePreviewDialog(context: Context )
 //        iv.adjustViewBounds =true
 //    }
 
-    fun show(imageUrls:ArrayList<String?>){
+    fun show(imageUrls:ArrayList<String?> , current:Int){
 
 
         previewAdapter = PicturePreviewAdapter(imageUrls , this)
         var viewPager = this.dialog!!.findViewById<ViewPager>(R.id.picture_preview_viewpager)
         viewPager.adapter = previewAdapter
+        viewPager.currentItem = current
 
         var container = this.dialog!!.findViewById<LinearLayout>(R.id.picture_preview_indexer)
         container.removeAllViews()
@@ -68,9 +69,9 @@ class PicturePreviewDialog(context: Context )
                 iv.id = i
                 var px = DensityUtils.dip2px(context, 9f)
                 var layoutPara = LinearLayout.LayoutParams(px, px)
-                layoutPara.setMargins(3, 3, 3, 3)
+                layoutPara.setMargins(4, 3, 4, 3)
                 iv.layoutParams = layoutPara
-                if (i == 0) {
+                if (i == current ) {
                     iv.setImageResource(R.drawable.shape_circle_gray)
                 } else {
                     iv.setImageResource(R.drawable.shape_circle_white)

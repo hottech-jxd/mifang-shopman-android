@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.huotu.android.mifang.BuildConfig
 import com.huotu.android.mifang.R
@@ -16,6 +17,7 @@ import com.huotu.android.mifang.mvp.presenter.MyPresenter
 import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.newIntentForResult
 import com.huotu.android.mifang.util.CookieUtils
+import com.huotu.android.mifang.util.DataCleanManager
 import com.huotu.android.mifang.util.MobileUtils
 import com.huotu.android.mifang.util.SPUtils
 import kotlinx.android.synthetic.main.activity_setting.*
@@ -40,8 +42,16 @@ class SettingActivity : BaseActivity<MyContract.Presenter>()
         setting_quit.setOnClickListener(this)
         setting_lay_one.setOnClickListener(this)
         setting_lay_paypassword.setOnClickListener(this)
+        setting_lay_three.setOnClickListener(this)
 
         setting_version.text = BuildConfig.VERSION_NAME
+
+        try {
+            setting_cache_size.text =DataCleanManager.getTotalCacheSize(this)
+        } catch (ex: Exception) {
+            Log.e(SettingActivity::class.java.name, "获得缓存大小失败")
+            setting_cache_size.text =""
+        }
 
         iPresenter.mySetting()
     }
@@ -60,6 +70,10 @@ class SettingActivity : BaseActivity<MyContract.Presenter>()
             }
             R.id.setting_lay_paypassword->{
                 payPassword()
+            }
+            R.id.setting_lay_three->{
+                DataCleanManager.clearAllCache(this)
+                setting_cache_size.text ="0k"
             }
             R.id.setting_quit->{
                 quit()
@@ -87,6 +101,10 @@ class SettingActivity : BaseActivity<MyContract.Presenter>()
     }
 
     override fun myIndexCallback(apiResult: ApiResult<MyBean>) {
+
+    }
+
+    override fun getQrcodeCallback(apiResult: ApiResult<String>) {
 
     }
 

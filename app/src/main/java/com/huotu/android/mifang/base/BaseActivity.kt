@@ -16,6 +16,7 @@ import com.huotu.android.mifang.mvp.IView
 import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.showToast
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.umeng.analytics.MobclickAgent
 
 
 open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
@@ -27,6 +28,16 @@ open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
 
 
         setStatusBar()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPause(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onResume(this)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -101,8 +112,8 @@ open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
 
     protected fun isLogin(): Boolean {
         return return !(BaseApplication.instance!!.variable.userBean == null
-                        || BaseApplication.instance!!.variable.userBean!!.Token == ""
-                        || BaseApplication.instance!!.variable.userBean!!.UserId == 0L)
+                        || BaseApplication.instance!!.variable.userBean!!.token == ""
+                        || BaseApplication.instance!!.variable.userBean!!.userId == 0L)
     }
 
 }

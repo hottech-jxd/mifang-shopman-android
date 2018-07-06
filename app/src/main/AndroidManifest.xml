@@ -63,10 +63,11 @@
         <activity android:name=".activity.BuyActivity" />
         <activity android:name=".activity.IncomeDetailActivity" />
         <activity android:name=".activity.WaitAccountsActivity" />
-        <activity
-            android:name=".activity.PushHandlerActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+        <activity android:name=".activity.PushHandlerActivity" android:launchMode="singleTask" android:screenOrientation="portrait" />
+        <activity android:name=".activity.BindPhoneActivity" />
+        <activity android:name=".activity.PayPasswordActivity"/>
+
+        <service android:name=".InitService"/>
 
         <!-- 极光推送消息接受服务 -->
         <receiver
@@ -78,15 +79,23 @@
             </intent-filter>
         </receiver>
         <!-- 极光推送 Required  . Enable it you can get statistics data with channel -->
-        <meta-data
-            android:name="JPUSH_CHANNEL"
-            android:value="huotu_mifang" />
-        <meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="" />
+        <meta-data android:name="JPUSH_CHANNEL"  android:value="huotu_mifang" />
+        <meta-data android:name="JPUSH_APPKEY"  android:value="" />
+        <!-- 友盟统计 -->
+        <meta-data android:value="" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="HUOTU" android:name="UMENG_CHANNEL"/>
 
-        <activity android:name=".activity.BindPhoneActivity" />
-        <activity android:name=".activity.PayPasswordActivity"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider"/>
+        </provider>
+
     </application>
 
 </manifest>

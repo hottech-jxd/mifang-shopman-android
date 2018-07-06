@@ -53,14 +53,33 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_margin="10dp"
+    <com.huotu.android.mifang.widget.SwiperRefreshView
+        android:id="@+id/wait_accounts_refreshView"
         app:layout_constraintTop_toBottomOf="@id/wait_accounts_summary"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/wait_accounts_recyclerview"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_margin="10dp"
+            android:id="@+id/wait_accounts_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.huotu.android.mifang.widget.SwiperRefreshView>
+
+    <com.huotu.android.mifang.widget.ProgressWidget
+        app:layout_constraintTop_toBottomOf="@id/wait_accounts_header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/wait_accounts_progress"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        />
 
 
 </android.support.constraint.ConstraintLayout>
