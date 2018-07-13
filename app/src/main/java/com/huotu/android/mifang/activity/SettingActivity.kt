@@ -16,6 +16,7 @@ import com.huotu.android.mifang.mvp.contract.MyContract
 import com.huotu.android.mifang.mvp.presenter.MyPresenter
 import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.newIntentForResult
+import com.huotu.android.mifang.update.UpdateManager
 import com.huotu.android.mifang.util.CookieUtils
 import com.huotu.android.mifang.util.DataCleanManager
 import com.huotu.android.mifang.util.MobileUtils
@@ -43,6 +44,7 @@ class SettingActivity : BaseActivity<MyContract.Presenter>()
         setting_lay_one.setOnClickListener(this)
         setting_lay_paypassword.setOnClickListener(this)
         setting_lay_three.setOnClickListener(this)
+        setting_lay_version.setOnClickListener(this)
 
         setting_version.text = BuildConfig.VERSION_NAME
 
@@ -77,6 +79,9 @@ class SettingActivity : BaseActivity<MyContract.Presenter>()
             }
             R.id.setting_quit->{
                 quit()
+            }
+            R.id.setting_lay_version->{
+                UpdateManager(this).check()
             }
         }
     }

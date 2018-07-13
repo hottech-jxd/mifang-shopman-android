@@ -3,11 +3,11 @@ package com.huotu.android.mifang.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.TextUtils
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.*
 import com.huotu.android.mifang.base.BaseFragment
-import com.huotu.android.mifang.base.GlideApp
 import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.MyContract
 import com.huotu.android.mifang.mvp.presenter.MyPresenter
@@ -55,6 +55,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
         my_lay_balance.setOnClickListener(this)
         my_lay_mibean.setOnClickListener(this)
         my_banner.setOnBannerListener(this)
+        my_message_deal.setOnClickListener(this)
     }
 
     override fun fetchData() {
@@ -98,7 +99,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
                 newIntent<IncomeActivity>()
             }
             R.id.my_lay_order->{
-                newIntent<OrderActivity>()
+                newIntent<OrderActivity>(Constants.INTENT_ORDER_SOURCE , -1 )
             }
             R.id.my_lay_myterm->{
                 newIntent<MyTermActivity>()
@@ -117,6 +118,9 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
             }
             R.id.my_lay_mibean->{
                 newIntent<WaitAccountsActivity>(Constants.INTENT_OPERATE_TYPE,ScoreTypeEnum.MiBean.id)
+            }
+            R.id.my_message_deal->{
+                newIntent<PayLoanActivity>()
             }
         }
     }
@@ -153,6 +157,16 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
         my_waitaccounts.text = myBean!!.UserTempIntegral.toString()
         my_balance.text = (myBean!!.UserIntegral/100).toString()
         my_mibean.text = myBean!!.UserMBean.toString()
+
+        if( !TextUtils.isEmpty( myBean!!.TipStr)){
+            my_lay_message.visibility=View.VISIBLE
+            my_message_tip.text = myBean!!.TipStr
+            my_message_deal.visibility = if( myBean!!.IsAgent ) View.VISIBLE else View.GONE
+        }else{
+            my_message_tip.text=""
+            my_message_deal.visibility=View.GONE
+            my_lay_message.visibility =View.GONE
+        }
 
         setAdBanner(myBean!!.ADList)
     }

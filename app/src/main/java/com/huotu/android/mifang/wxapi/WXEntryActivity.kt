@@ -1,16 +1,12 @@
-package com.huotu.mall.nton.wxapi
+package com.huotu.android.mifang.wxapi
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.util.Log
-
 import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.R
-import com.huotu.android.mifang.base.BaseActivity
 import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.util.ToastUtils
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp

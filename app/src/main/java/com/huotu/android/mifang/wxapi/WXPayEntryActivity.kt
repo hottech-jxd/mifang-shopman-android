@@ -1,18 +1,13 @@
-package com.huotu.mall.nton.wxapi
+package com.huotu.android.mifang.wxapi
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-
 import com.huotu.android.mifang.AppInit
-import com.huotu.android.mifang.base.BaseApplication
-import com.huotu.android.mifang.util.ToastUtils
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
-import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 
 /**
  * 微信支付回调类

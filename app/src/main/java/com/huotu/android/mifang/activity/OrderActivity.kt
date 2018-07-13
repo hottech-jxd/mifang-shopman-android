@@ -11,6 +11,7 @@ import com.huotu.android.mifang.adapter.MessagePageAdapter
 import com.huotu.android.mifang.base.BaseActivity
 import com.huotu.android.mifang.base.BaseFragment
 import com.huotu.android.mifang.bean.ClassTypeEnum
+import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.bean.MessageTypeEnum
 import com.huotu.android.mifang.bean.OrderStatusEnum
 import com.huotu.android.mifang.fragment.MessageFragment
@@ -37,6 +38,7 @@ class OrderActivity : BaseActivity<IPresenter>()
     private var searchMonth:Int=0
     private var searchDay :Int=0
     private var listener = ArrayList<OrderFilterListener>()
+    private var orderSourceType = -1 /*订单来源类型,默认-1，主要用于查看邀请的营养师订单，传入100 */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +52,19 @@ class OrderActivity : BaseActivity<IPresenter>()
         header_left_image.setOnClickListener(this)
         order_time.setOnClickListener(this)
 
+        if(intent.hasExtra(Constants.INTENT_ORDER_SOURCE)){
+            orderSourceType = intent.getIntExtra(Constants.INTENT_ORDER_SOURCE, -1)
+        }
 
         searchYear = Calendar.getInstance().get(Calendar.YEAR)
         searchMonth = Calendar.getInstance().get(Calendar.MONTH)
         searchDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
-        fragments.add(OrderFragment.newInstance(OrderStatusEnum.All.id , searchYear, searchMonth , searchDay) as BaseFragment<IPresenter>)
-        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Delivery.id, searchYear, searchMonth , searchDay) as BaseFragment<IPresenter>)
-        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Receive.id, searchYear, searchMonth , searchDay) as BaseFragment<IPresenter>)
-        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Finish.id, searchYear, searchMonth , searchDay) as BaseFragment<IPresenter>)
-        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Back.id, searchYear, searchMonth , searchDay) as BaseFragment<IPresenter>)
+        fragments.add(OrderFragment.newInstance(OrderStatusEnum.All.id , searchYear, searchMonth , searchDay , orderSourceType) as BaseFragment<IPresenter>)
+        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Delivery.id, searchYear, searchMonth , searchDay , orderSourceType) as BaseFragment<IPresenter>)
+        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Receive.id, searchYear, searchMonth , searchDay , orderSourceType) as BaseFragment<IPresenter>)
+        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Finish.id, searchYear, searchMonth , searchDay , orderSourceType ) as BaseFragment<IPresenter>)
+        fragments.add(OrderFragment.newInstance(OrderStatusEnum.Back.id, searchYear, searchMonth , searchDay , orderSourceType) as BaseFragment<IPresenter>)
         val titles = ArrayList<String>()
         titles.add(OrderStatusEnum.All.desc)
         titles.add(OrderStatusEnum.Delivery.desc)

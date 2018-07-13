@@ -6,8 +6,8 @@ import com.huotu.android.mifang.http.RetrofitManager
 import io.reactivex.Observable
 
 class MessageModel {
-    fun getMessageList(pageIndex:Int,pageSize:Int): Observable<ApiResult<ArrayList<MessageBean>>>? {
+    fun getMessageList( type :Int , pageIndex:Int,pageSize:Int): Observable<ApiResult<ArrayList<MessageBean>>>? {
         val apiService = RetrofitManager.getApiService()
-        return null
+        return apiService!!.getJPushList(type, pageIndex, pageSize)
     }
 }

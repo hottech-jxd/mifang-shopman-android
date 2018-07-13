@@ -1,9 +1,6 @@
 package com.huotu.android.mifang.mvp.presenter
 
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.MaterialCategory
-import com.huotu.android.mifang.bean.ScoreBean
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.QuanContract
 import com.huotu.android.mifang.mvp.contract.ScoreContract
 import com.huotu.android.mifang.mvp.model.QuanModel
@@ -42,6 +39,31 @@ class ScorePresenter(view: ScoreContract.View) : ScoreContract.Presenter {
 
                     override fun onNext(t: ApiResult<ScoreBean>) {
                         mView!!.getIntegralListCallback(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
+    override fun getMiBeanList(pageIndex: Int, pageSize: Int) {
+        val observable: Observable<ApiResult<MiBean>>? = mModel.getMiBeanList( pageIndex, pageSize)
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Observer<ApiResult<MiBean>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<MiBean>) {
+                        mView!!.getMiBeanListCallback(t)
                     }
 
                     override fun onError(e: Throwable) {

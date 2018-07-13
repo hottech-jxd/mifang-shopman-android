@@ -1,4 +1,4 @@
-<android.support.v7.widget.LinearLayoutCompat
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,6 +33,7 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_below="@id/promotion_header"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -51,11 +52,14 @@
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
+                app:roundAsCircle="true"
+                app:failureImage="@mipmap/ic_launcher"
+                app:placeholderImage="@mipmap/ic_launcher"
                 android:src="@mipmap/ic_launcher"
-            android:id="@+id/promotion_avator"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+                android:id="@+id/promotion_avator"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
             <LinearLayout
                 android:layout_marginLeft="10dp"
             android:orientation="vertical"
@@ -63,7 +67,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/promotion_username"
-                android:text="jinxiangdong"
+                android:text=""
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#6A6A6A"
@@ -100,16 +104,16 @@
             <TextView
                 android:textColor="#434343"
                 android:id="@+id/promotion_label2"
-                android:text="邀请店主"
+                android:text="开店收入"
                 android:paddingBottom="3dp"
                 android:layout_below="@id/promotion_label1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:layout_marginLeft="3dp"
-                android:text="15"
+                android:text="0"
                 android:textColor="#3E3E3E"
-                android:id="@+id/promotion_count"
+                android:id="@+id/promotion_profit"
                 android:layout_alignBottom="@id/promotion_label2"
                 android:textSize="25sp"
                 android:gravity="bottom"
@@ -118,53 +122,70 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:layout_toRightOf="@id/promotion_count"
-                android:layout_alignBottom="@id/promotion_count"
-                android:text="人"
+                android:layout_toRightOf="@id/promotion_profit"
+                android:layout_alignBottom="@id/promotion_profit"
+                android:text="元"
                 android:paddingBottom="3dp"
                 android:textColor="#3E3E3E"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/promotion_lay_shop_order"
+                android:layout_gravity="bottom"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
+                    android:id="@+id/promotion_label3"
+                    android:text="开店订单"
+                    android:textColor="#434343"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
                     android:id="@+id/promotion_label4"
-                    android:text="剩余"
-                    android:textColor="#434343"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:textColor="#434343"
-                    android:id="@+id/promotion_label5"
-                    android:text="开店账号"
-                    android:paddingBottom="3dp"
-                    android:layout_below="@id/promotion_label4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_marginLeft="3dp"
-                    android:text="500"
-                    android:textStyle="bold"
-                    android:id="@+id/promotion_count2"
-                    android:layout_alignBottom="@id/promotion_label5"
-                    android:textSize="25sp"
-                    android:textColor="#3E3E3E"
-                    android:layout_toRightOf="@id/promotion_label5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_toRightOf="@id/promotion_count2"
-                    android:layout_alignBottom="@id/promotion_count2"
-                    android:text="个"
-                    android:gravity="bottom"
-                    android:paddingBottom="3dp"
-                    android:textColor="#3E3E3E"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@id/promotion_label3"
+                    android:src="@mipmap/arrowright"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/promotion_label4"-->
+                    <!--android:text="剩余"-->
+                    <!--android:textColor="#434343"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!--<TextView-->
+                    <!--android:textColor="#434343"-->
+                    <!--android:id="@+id/promotion_label5"-->
+                    <!--android:text="开店账号"-->
+                    <!--android:paddingBottom="3dp"-->
+                    <!--android:layout_below="@id/promotion_label4"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!--<TextView-->
+                    <!--android:layout_marginLeft="3dp"-->
+                    <!--android:text="0"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:id="@+id/promotion_count2"-->
+                    <!--android:layout_alignBottom="@id/promotion_label5"-->
+                    <!--android:textSize="25sp"-->
+                    <!--android:textColor="#3E3E3E"-->
+                    <!--android:layout_toRightOf="@id/promotion_label5"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!--<TextView-->
+                    <!--android:layout_toRightOf="@id/promotion_count2"-->
+                    <!--android:layout_alignBottom="@id/promotion_count2"-->
+                    <!--android:text="个"-->
+                    <!--android:gravity="bottom"-->
+                    <!--android:paddingBottom="3dp"-->
+                    <!--android:textColor="#3E3E3E"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -177,12 +198,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:textColor="#434343"
-            android:textSize="12sp"
-            android:text="选择采购账号/成为代理商"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                    android:id="@+id/promotion_label5"
+                    android:text="累计邀请店主"
+                        android:textSize="12sp"
+                    android:textColor="#434343"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/promotion_invite_count"
+                        android:text="0"
+                        android:textSize="12sp"
+                        android:textColor="#FF3334"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:text="人,开店账号剩余"
+                        android:textSize="12sp"
+                        android:textColor="#434343"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/promotion_sy_count"
+                        android:text="0"
+                        android:textSize="12sp"
+                        android:textColor="#FF3334"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="#434343"
+                        android:textSize="12sp"
+                        android:text="人"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+        <!--<TextView-->
+            <!--android:textColor="#434343"-->
+            <!--android:textSize="12sp"-->
+            <!--android:text="选择采购账号/成为代理商"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <RelativeLayout
             android:id="@+id/promotion_operate_1"
@@ -273,6 +334,51 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:visibility="gone"
+                    android:id="@+id/promotion_operate_3"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingBottom="40dp"
+                    android:background="@drawable/shape_promotion_bg2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/promotion_pic3"
+                        android:src="@mipmap/agent"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp" />
+                    <LinearLayout
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/promotion_pic3"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:textColor="@android:color/white"
+                            android:text="邀请好友成为代理商"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textColor="@android:color/white"
+                            android:text="转发邀请函"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/arrowwhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
 
     </LinearLayout>
 
@@ -298,37 +404,10 @@
     </android.support.v4.widget.NestedScrollView>
 
 
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/promotion_progress"
+        android:visibility="visible"/>
 
-
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/promotion_lay_banner"-->
-        <!--android:orientation="vertical"-->
-        <!--android:clipChildren="false"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<com.huotu.android.mifang.widget.ViewPager-->
-            <!--android:clipToPadding="false"-->
-            <!--android:id="@+id/promotion_banner"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:paddingLeft="20dp"-->
-            <!--android:paddingRight="40dp"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:layout_height="wrap_content"/>-->
-    <!--</LinearLayout>-->
-
-
-
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/promotion_banner"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
-
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/promotion_viewPager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:background="@color/bottom_container_bg"-->
-        <!--android:layout_height="match_parent"/>-->
-
-</android.support.v7.widget.LinearLayoutCompat>
+</RelativeLayout>

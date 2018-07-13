@@ -12,11 +12,12 @@ class OrderModel {
             SearchMonth:Int=-1 /*	查询月，默认-1 */,
             SearchDay:Int=-1	/*查询天,默认-1*/,
             WeekNum:Int=-1 /*	查询周,默认-1*/,
+            OrderSourceType:Int=-1 /*订单来源类型,默认-1，主要用于查看邀请的营养师订单，传入100 —新增条件*/,
             PageIndex:Int=1	/*页码，默认1*/,
             PageSize:Int = Constants.PAGE_SIZE
     ): Observable<ApiResult<ArrayList<OrderBean>>> {
         val apiService = RetrofitManager.getApiService()
-        return  apiService!!.getProfitOrderList(SearchTime ,ShipStatus, SearchYear , SearchMonth,SearchDay,WeekNum,PageIndex,PageSize )
+        return  apiService!!.getProfitOrderList(SearchTime ,ShipStatus, SearchYear , SearchMonth,SearchDay,WeekNum, OrderSourceType , PageIndex,PageSize )
     }
 
 }

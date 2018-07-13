@@ -21,6 +21,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashActivity"
+            android:launchMode="singleTask"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,11 +38,11 @@
             android:name=".activity.LoginRegisterActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.huotu.mall.nton.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name="com.huotu.mall.nton.wxapi.WXPayEntryActivity"
+            android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity android:name=".activity.MessageActivity" />
@@ -63,11 +64,14 @@
         <activity android:name=".activity.BuyActivity" />
         <activity android:name=".activity.IncomeDetailActivity" />
         <activity android:name=".activity.WaitAccountsActivity" />
-        <activity android:name=".activity.PushHandlerActivity" android:launchMode="singleTask" android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PushHandlerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.BindPhoneActivity" />
-        <activity android:name=".activity.PayPasswordActivity"/>
+        <activity android:name=".activity.PayPasswordActivity" />
 
-        <service android:name=".InitService"/>
+        <service android:name=".InitService" />
 
         <!-- 极光推送消息接受服务 -->
         <receiver
@@ -79,12 +83,19 @@
             </intent-filter>
         </receiver>
         <!-- 极光推送 Required  . Enable it you can get statistics data with channel -->
-        <meta-data android:name="JPUSH_CHANNEL"  android:value="huotu_mifang" />
-        <meta-data android:name="JPUSH_APPKEY"  android:value="" />
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="huotu_mifang" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="" />
         <!-- 友盟统计 -->
-        <meta-data android:value="" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="HUOTU" android:name="UMENG_CHANNEL"/>
-
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="HUOTU" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -93,9 +104,12 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider"/>
+                android:resource="@xml/provider" />
         </provider>
 
+        <activity android:name=".activity.PayLoanActivity" />
+        <activity android:name=".activity.PayLoanFlowActivity" />
+        <activity android:name=".activity.SetShopperActivity"></activity>
     </application>
 
 </manifest>

@@ -16,7 +16,7 @@ class MessageAdapter(data:List<MessageBean> )
 
     override fun convert(helper: BaseViewHolder?, item: MessageBean?) {
 
-       when( item!!.type ){
+       when( item!!.JpushType ){
            MessageTypeEnum.SystemMessage.id->{
                setSystemMessage(helper, item)
            }

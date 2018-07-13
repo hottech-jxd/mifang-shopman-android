@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_order.*
 const val ARG_YEAR = "year"
 const val ARG_MONTH = "month"
 const val ARG_DAY = "day"
+const val ARG_ORDER_SOURCE_TYPE="order_source_type"
 /**
  * A simple [Fragment] subclass.
  * Use the [OrderFragment.newInstance] factory method to
@@ -41,6 +42,7 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
     var day:Int = -1
     var searchTimeType = -1
     var weekNum = -1
+    var orderSourceType =-1
 
     private var type: Int = OrderStatusEnum.All.id
 
@@ -51,6 +53,7 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
             year = it.getInt(ARG_YEAR )
             month = it.getInt(ARG_MONTH)
             day = it.getInt(ARG_DAY)
+            orderSourceType = it.getInt(ARG_ORDER_SOURCE_TYPE , -1 )
         }
     }
 
@@ -64,13 +67,13 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
     }
 
     override fun onLoadMoreRequested() {
-        iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , pageIndex+1 )
+        iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum ,  orderSourceType ,pageIndex+1 )
     }
 
     override fun fetchData() {
         pageIndex = 0
         isShowProgress=true
-        iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , pageIndex+1 )
+        iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , orderSourceType, pageIndex+1 )
     }
 
     override fun getLayoutResourceId(): Int {
@@ -99,7 +102,8 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
         this.month = month
         this.day = day
         if(isViewPrepared && isVisibleToUser) {
-            iPresenter.getProfitOrderList()
+            //iPresenter.getProfitOrderList()
+            iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , orderSourceType, pageIndex+1 )
         }
     }
 
@@ -145,13 +149,14 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
          * @return A new instance of fragment ShopperClass1Fragment.
          */
         @JvmStatic
-        fun newInstance(type:Int, year: Int , month: Int,day: Int) =
+        fun newInstance(type:Int, year: Int , month: Int,day: Int , orderSourceType:Int=-1) =
                 OrderFragment().apply {
                     arguments = Bundle().apply {
                         putInt(ARG_TYPE, type )
                         putInt(ARG_YEAR, year)
                         putInt(ARG_MONTH , month)
                         putInt(ARG_DAY, day)
+                        putInt(ARG_ORDER_SOURCE_TYPE , orderSourceType)
                     }
                 }
     }

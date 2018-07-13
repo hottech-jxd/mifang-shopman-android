@@ -1,16 +1,33 @@
 package com.huotu.android.mifang.util
 
 import android.app.Activity
+import android.os.Handler
+import android.os.Message
+import android.text.TextUtils
 import android.util.Log
 
 import com.alipay.sdk.app.PayTask
+import com.huotu.android.library.libpay.alipay.AliOrderInfo
+import com.huotu.android.library.libpay.alipayV2.AliPayResultV2
+import com.huotu.android.library.libpay.weixin.WeiXinOrderInfo
+import com.huotu.android.library.libpay.weixin.WeiXinPayInfo
+import com.huotu.android.library.libpay.weixin.WeiXinPayUtil
+import com.huotu.android.mifang.base.BaseApplication
+import com.huotu.android.mifang.bean.PayModel
 import com.huotu.android.mifang.bean.PayOrderBean
+import java.util.*
 
 
 /**
  * Created by jinxiangdong on 2017/12/20.
  */
 class PayUtils {
+
+    companion object {
+        val SDK_Ali_PAY_V2_FLAG = 6001
+    }
+
+
 
     //    public static void paySuccessCallback(Context context, BaseResp resp) {
     //        PayResp payResp = (PayResp) resp;
@@ -49,7 +66,7 @@ class PayUtils {
      * @param aty
      * @param payInfo
      */
-    fun aliNativePay(payOrderBean: PayOrderBean, aty: Activity, payInfo: String) {
+    fun aliNativePay( aliOrderInfo: AliOrderInfo , aty: Activity, payInfo: String, handler: Handler) {
 
         val payRunnable = Runnable {
             val alipay = PayTask(aty)
@@ -57,6 +74,13 @@ class PayUtils {
             Log.i("msp", result.toString())
             //todo 支付宝 支付完成回调
             //EventBus.getDefault().post(new AliPayReturnEvent( result , payOrderBean ));
+
+            val msg = Message()
+            msg.what = SDK_Ali_PAY_V2_FLAG
+            val aliPayResultV2 = AliPayResultV2(result, aliOrderInfo)
+            msg.obj = aliPayResultV2
+            handler.sendMessage(msg)
+
         }
 
         val payThread = Thread(payRunnable)
@@ -71,40 +95,29 @@ class PayUtils {
      * @param mHandler
      * @param payModel
      */
-    //    public void wxPay(Activity aty ,Handler mHandler , PayModel payModel ){
-    //        if (!BaseApplication.single.scanWx()) {//缺少支付信息
-    //            ToastUtils.showLongToast("缺少支付信息");
-    //        } else {
-    //
-    //            payModel.setAttach(payModel.getCustomId() + "_0");
-    //            //添加微信回调路径
-    //            payModel.setNotifyurl( getNotifyUrl( BaseApplication.single.readWeixinDomain() , BaseApplication.single.readWeixinNotify() , BaseApplication.single.obtainMerchantUrl() ) );
-    //
-    //
-    //            WeiXinOrderInfo weiXinOrderInfo = new WeiXinOrderInfo();
-    //            weiXinOrderInfo.setBody(payModel.getDetail());
-    //            //weiXinOrderInfo.setOrderNo(payModel.getTradeNo());
-    //            weiXinOrderInfo.setOrderNo( payModel.getTradeNo() +"_"+ payModel.getCustomId() + "_" + new Random().nextInt(999));
-    //            weiXinOrderInfo.setTotal_fee(payModel.getAmount());
-    //            weiXinOrderInfo.setAttach(payModel.getAttach());
-    //
-    //            String wxAppId = BaseApplication.single.readWxpayAppId();
-    //            String wxAppSecret = EncryptUtil.getInstance().decryptDES( BaseApplication.single.readWxpayAppKey() , Constants.getDES_KEY());
-    //            String wxPartner=BaseApplication.single.readWxpayParentId();
-    //            String notifyUrl = BaseApplication.single.obtainMerchantUrl() + BaseApplication.single.readWeixinNotify();
-    //
-    //            WeiXinPayInfo weiXinPayInfo = new WeiXinPayInfo( wxAppId , wxPartner , wxAppSecret , notifyUrl);
-    //            WeiXinPayUtil weiXinPayUtil = new WeiXinPayUtil(aty , mHandler , weiXinPayInfo);
-    //            weiXinPayUtil.pay(weiXinOrderInfo);
-    //        }
-    //    }
+     fun wxPay(aty :Activity, mHandler : Handler, payModel:PayModel ) {
 
 
-    //    protected String getNotifyUrl( String domain , String notifyUrl , String mallUrl){
-    //        if( domain == null || domain.trim().isEmpty() ){
-    //            return mallUrl + notifyUrl;
-    //        }else{
-    //            return domain+notifyUrl;
-    //        }
-    //    }
+
+
+        if (TextUtils.isEmpty(payModel.wxAppId) || TextUtils.isEmpty(payModel.wxAppMchId)) {//缺少支付信息
+            ToastUtils.getInstance().showToast("缺少微信支付Appid,mechid信息")
+            return
+        } else {
+
+            var weiXinOrderInfo =WeiXinOrderInfo()
+            weiXinOrderInfo.body = payModel.detail
+            weiXinOrderInfo.orderNo = payModel.tradeNo + "_" + payModel.customId + "_" + Random().nextInt(999)
+            weiXinOrderInfo.attach = payModel.attach
+            weiXinOrderInfo.total_fee = payModel.amount
+            var weiXinPayInfo = WeiXinPayInfo(payModel.wxAppId , payModel.wxAppMchId, "" , payModel.notifyurl )
+
+            WeiXinPayUtil(aty , mHandler , weiXinPayInfo ).sendPayReq(weiXinOrderInfo , payModel.wxPrePayId )
+
+            var weiXinPayUtil = WeiXinPayUtil(aty, mHandler, weiXinPayInfo)
+            weiXinPayUtil.pay(weiXinOrderInfo)
+        }
+    }
+
+
 }

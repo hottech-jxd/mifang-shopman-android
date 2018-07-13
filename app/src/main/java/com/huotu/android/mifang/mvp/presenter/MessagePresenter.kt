@@ -25,10 +25,10 @@ class MessagePresenter(view: MessageContract.View): MessageContract.Presenter {
         mView=view
     }
 
-    override fun getMessageList(pageIndex: Int, pageSize: Int) {
+    override fun getMessageList( type :Int , pageIndex: Int, pageSize: Int) {
 
 
-        val observable : Observable<ApiResult<ArrayList<MessageBean>>>? = mModel.getMessageList(pageIndex , pageSize)
+        val observable : Observable<ApiResult<ArrayList<MessageBean>>>? = mModel.getMessageList( type , pageIndex , pageSize)
         observable?.subscribeOn(Schedulers.io())
                 ?.bindToLifecycle(mView as LifecycleProvider<*>)
                 ?.observeOn(AndroidSchedulers.mainThread())

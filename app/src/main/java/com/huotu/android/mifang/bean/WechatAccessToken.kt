@@ -1,6 +1,7 @@
 package com.huotu.android.mifang.bean
 
-data class WechatAccessToken (var access_token :String,
+data class WechatAccessToken (
+        var access_token :String,
     var expires_in:Long,
     var refresh_token :String,
 var   openid:String,

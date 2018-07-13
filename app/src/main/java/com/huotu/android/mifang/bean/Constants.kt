@@ -47,9 +47,10 @@ object Constants {
     val INTENT_PUSH_KEY = "intent_push_key"
     val INTENT_PAY_ACCOUNT="pay_account"
     val INTENT_PAY_ACCOUNT_ID="pay_account_id"
-
+    val INTENT_ORDER_SOURCE="order_source"
 
     val PREF_FILENAME="pref_filename_phonerecycle"
+    val PREF_WECHAT_USER="pref_wechat_user"
     var PREF_USER = "pref_user"
     val PREF_SEARCH_FILENAME="pref_filename_search"
     var PREF_KEY="pref_key"

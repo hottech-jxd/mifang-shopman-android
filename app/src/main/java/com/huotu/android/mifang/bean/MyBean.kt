@@ -16,6 +16,8 @@ data class MyBean (
         var UnDeliverCount:Int,
         var ExpireTime:String,
         var SurplusDays:Int,
+        var TipStr:String, /*TipStr*/
+        var IsAgent:Boolean,/*是否是代理商*/
         var BackGroundModel:BackGroundModelBean?,
         var ADList:ArrayList<ADBean>?
 ){

@@ -23,11 +23,11 @@ class OrderPresenter(view: OrderContract.View) : OrderContract.Presenter {
     }
 
     override fun getProfitOrderList(SearchTime: Int, ShipStatus: Int, SearchYear: Int,
-                                    SearchMonth: Int, SearchDay: Int, WeekNum: Int, PageIndex: Int, PageSize: Int) {
+                                    SearchMonth: Int, SearchDay: Int, WeekNum: Int,OrderSourceType:Int, PageIndex: Int, PageSize: Int) {
 
 
         val observable: Observable<ApiResult<ArrayList<OrderBean>>>? = mModel.getProfitOrderList(
-                SearchTime,ShipStatus,SearchYear,SearchMonth,SearchDay,WeekNum,PageIndex,PageSize )
+                SearchTime,ShipStatus,SearchYear,SearchMonth,SearchDay,WeekNum,OrderSourceType , PageIndex,PageSize )
         observable?.subscribeOn(Schedulers.io())
                 ?.bindToLifecycle(mView as LifecycleProvider<*>)
                 ?.observeOn(AndroidSchedulers.mainThread())

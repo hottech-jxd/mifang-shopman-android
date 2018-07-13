@@ -14,6 +14,7 @@ import com.huotu.android.mifang.bean.KeyValue
 import com.huotu.android.mifang.fragment.*
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.receiver.PushProcess
+import com.huotu.android.mifang.update.UpdateManager
 import com.huotu.android.mifang.util.DensityUtils
 import com.huotu.android.mifang.widget.MsgDialog
 import com.huotu.android.mifang.widget.OperateDialog
@@ -25,7 +26,7 @@ class MainActivity : BaseActivity<IPresenter>()
         , ViewPager.OnPageChangeListener
         , OperateDialog.OnOperateListener {
     var fragments = ArrayList<BaseFragment<IPresenter>>()
-    var fragmentAdapter : MainFragmentAdapter?=null
+    private var fragmentAdapter : MainFragmentAdapter?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,12 @@ class MainActivity : BaseActivity<IPresenter>()
         initPush(intent)
 
         initFragments()
+
+        checkAppVersion()
+    }
+
+    private fun checkAppVersion(){
+        UpdateManager(this).check()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -59,7 +66,7 @@ class MainActivity : BaseActivity<IPresenter>()
         fragments.clear()
         fragments.add(QuanFragment.newInstance() as BaseFragment<IPresenter>)
         fragments.add(MyShopperFragment.newInstance() as BaseFragment<IPresenter>)
-        fragments.add(PromotionFragment.newInstance())
+        fragments.add(PromotionFragment.newInstance() as BaseFragment<IPresenter>)
         fragments.add(MyFragment.newInstance() as BaseFragment<IPresenter>)
 
         fragmentAdapter = MainFragmentAdapter(supportFragmentManager , fragments )

@@ -1,11 +1,16 @@
 package com.huotu.android.mifang.update
 
 import android.app.Activity
+import android.app.Notification
+import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.support.v4.app.NotificationCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
@@ -28,42 +33,57 @@ import java.io.FileInputStream
 import java.math.BigInteger
 import java.security.MessageDigest
 
-class UpdateManager : CommonContract.View ,DialogInterface.OnClickListener {
-    var mUrl: String? = null
-
+/***
+ * app升级检测类
+ */
+class UpdateManager (var mContext:Context ): CommonContract.View ,DialogInterface.OnClickListener {
     // 非wifi网络不检查更新
-    var mIsWifiOnly = true
+    private var mIsWifiOnly = true
 
-    var mNotifyId = 0
+    private var mNotifyId = 998
 
-    var mIsManual: Boolean = false
+    private var mIsManual: Boolean = false
 
-    var mContext: Context?=null
+    //private var mContext: Context?=null
 
-    private var sLastTime: Long = 0
+    private var mLastTime: Long = 0
 
-    var appVersionBean:AppVersionBean?=null
+    private var mAppVersionBean:AppVersionBean?=null
 
-    var commonPresenter=CommonPresenter(this)
+    private var commonPresenter=CommonPresenter( this )
+
+    private var notificationDownloadListener:DefaultNotificationDownloadListener?=null
+
+    private var mTempFile:String?=null
 
     fun check(){
-        val now = System.currentTimeMillis()
-        if (now - sLastTime < 3000) {
-            return
+        try {
+            val now = System.currentTimeMillis()
+            if (now - mLastTime < 3000) {
+                return
+            }
+            mLastTime = now
+
+            if (mIsWifiOnly) {
+                if (UpdateUtil.checkWifi(mContext!!)) {
+                    checkVersion()
+                } else {
+                }
+            } else {
+                if (UpdateUtil.checkNetwork(mContext!!)) {
+                    checkVersion()
+                } else {
+                }
+            }
+        }catch (ex:Exception){
+            ex.printStackTrace()
         }
-        sLastTime = now
-        if (TextUtils.isEmpty(mUrl)) {
-            throw Exception("url参数值空!")
-        }
-
-
-
     }
 
-    fun checkVersion(){
+
+    private fun checkVersion(){
         commonPresenter.checkAppVersion( Constants.OS_TYPE.toString() , BuildConfig.VERSION_NAME )
     }
-
 
     override fun showProgress(msg: String) {
 
@@ -74,6 +94,7 @@ class UpdateManager : CommonContract.View ,DialogInterface.OnClickListener {
     }
 
     override fun toast(msg: String) {
+        hideProgress()
         ToastUtils.single.showLongToast( mContext!! , msg )
     }
 
@@ -81,26 +102,40 @@ class UpdateManager : CommonContract.View ,DialogInterface.OnClickListener {
         toast(err)
     }
 
+    override fun feedbackCallback(apiResult: ApiResult<Any>) {
+
+    }
+
     override fun checkAppVersionCallback(apiResult: ApiResult<AppVersionBean>) {
-        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+        if (apiResult.code != ApiResultCodeEnum.SUCCESS.code) {
             toast(apiResult.msg)
             return
         }
-        if(apiResult.data==null){
+        if (apiResult.data == null) {
             toast("检测更新发生错误")
             return
         }
 
-        appVersionBean = apiResult.data
+        mAppVersionBean = apiResult.data
+        UpdateUtil.ensureExternalCacheDir(mContext!!)
+        var apkFile = File(mContext!!.externalCacheDir, mAppVersionBean!!.md5 + ".apk")
+
+
+        if (UpdateUtil.verify( apkFile, mAppVersionBean!!.md5)) {
+            doInstall()
+        } else {
+            tip()
+        }
+
     }
 
-    fun tip(appVersionBean: AppVersionBean){
+    private fun tip(){
 
-        if (mContext is Activity && (mContext as Activity).isFinishing) {
+        if ( mContext==null || mContext is Activity && (mContext as Activity).isFinishing) {
             return
         }
 
-        val info = appVersionBean
+        val info = mAppVersionBean!!
         val size = Formatter.formatShortFileSize(mContext, info.size)
         val content = String.format("最新版本：%1\$s\n新版本大小：%2\$s\n\n更新内容\n%3\$s", info.version, size, info.updateDesc)
 
@@ -120,9 +155,6 @@ class UpdateManager : CommonContract.View ,DialogInterface.OnClickListener {
 
         dialog.setView(tv, (25 * density).toInt(), (15 * density).toInt(), (25 * density).toInt(), 0)
 
-
-        //val listener = DefaultPromptClickListener(agent, true)
-
         if (info.updateType==1) {
             tv.text = "您需要更新应用才能继续使用\n\n$content"
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", this)
@@ -130,34 +162,36 @@ class UpdateManager : CommonContract.View ,DialogInterface.OnClickListener {
             tv.text = content
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, "立即更新", this)
             dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "以后再说", this)
-//            if (info.isIgnorable) {
-//                dialog.setButton(DialogInterface.BUTTON_NEUTRAL, "忽略该版", listener)
-//            }
         }
         dialog.show()
     }
 
 
-    fun update( appVersionBean: AppVersionBean ){
-        var mApkFile = File(mContext!!.externalCacheDir , appVersionBean.md5 + ".apk")
-        if (UpdateUtil.verify(mApkFile, appVersionBean.md5!!)) {
-            UpdateUtil.install(mContext!! , mApkFile , true )
+    private fun update() {
+        var apkFile = File(mContext!!.externalCacheDir, mAppVersionBean!!.md5 + ".apk")
+        if (UpdateUtil.verify(apkFile, mAppVersionBean!!.md5)) {
+            doInstall()
         } else {
             download()
         }
     }
 
-    fun download( appVersionBean: AppVersionBean){
-        var tempFile = mContext!!.externalCacheDir.path + appVersionBean.md5
-        FileDownloader.getImpl().create( appVersionBean.updateLink)
-                .setPath(tempFile)
+    private fun download(){
+
+        if(notificationDownloadListener==null){
+            notificationDownloadListener= DefaultNotificationDownloadListener(mContext!!, mNotifyId)
+        }
+
+        mTempFile = mContext!!.externalCacheDir.path + "\\" + mAppVersionBean!!.md5
+        FileDownloader.getImpl().create( mAppVersionBean!!.updateLink)
+                .setPath(mTempFile)
                 .setListener(object :FileDownloadListener(){
                     override fun warn(task: BaseDownloadTask?) {
 
                     }
 
                     override fun completed(task: BaseDownloadTask?) {
-
+                        onDownloadFinish(null)
                     }
 
                     override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
@@ -165,32 +199,52 @@ class UpdateManager : CommonContract.View ,DialogInterface.OnClickListener {
                     }
 
                     override fun error(task: BaseDownloadTask?, e: Throwable?) {
-
+                        onDownloadFinish( "app下载失败" )
                     }
 
                     override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-
+                        notificationDownloadListener!!.onProgress( soFarBytes * 100 / totalBytes  )
                     }
 
                     override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
 
                     }
                 }).start()
-    }
 
-    fun ignore(){
+        notificationDownloadListener!!.onStart()
 
     }
 
     override fun onClick(dialog: DialogInterface , which: Int) {
         when (which) {
             DialogInterface.BUTTON_POSITIVE -> update()
-            DialogInterface.BUTTON_NEUTRAL -> ignore()
             DialogInterface.BUTTON_NEGATIVE -> {
             }
         }
         dialog.dismiss()
     }
+
+
+    private fun onDownloadFinish(  error :String? ) {
+        notificationDownloadListener!!.onFinish()
+
+        if (error != null) {
+            toast(error)
+        } else {
+
+            var apkFile = File(mContext!!.externalCacheDir, mAppVersionBean!!.md5 + ".apk")
+            File(mTempFile).renameTo(apkFile)
+
+            doInstall()
+        }
+    }
+
+    private fun doInstall(){
+        var apkFile =File(mContext!!.externalCacheDir , mAppVersionBean!!.md5+".apk")
+
+        UpdateUtil.install(mContext!!, apkFile, mAppVersionBean!!.updateType == 1)
+    }
+
 }
 
 
@@ -260,4 +314,70 @@ object UpdateUtil{
     }
 
 
+    fun checkWifi(context: Context): Boolean {
+        var connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val info = connectivity.activeNetworkInfo
+        return info != null && info.isConnected && info.type == ConnectivityManager.TYPE_WIFI
+    }
+
+    fun checkNetwork(context: Context): Boolean {
+        val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val info = connectivity.activeNetworkInfo
+        return info != null && info.isConnected
+    }
+
+    fun ensureExternalCacheDir(context: Context) {
+        val state = Environment.getExternalStorageState()
+        if (Environment.MEDIA_MOUNTED == state) {
+            var file = context.externalCacheDir
+            if (file == null) {
+                file = context.getExternalFilesDir(null)
+                if (file != null) {
+                    file = File(file.parentFile, "cache")
+                }
+            }
+            file?.mkdirs()
+        }
+    }
+}
+
+
+private class DefaultNotificationDownloadListener(private val mContext: Context, private val mNotifyId: Int)  {
+    private var mBuilder: NotificationCompat.Builder? = null
+
+    fun onStart() {
+        if (mBuilder == null) {
+            val title = "下载中 - " + mContext.getString(mContext.applicationInfo.labelRes)
+            mBuilder = NotificationCompat.Builder(mContext)
+            mBuilder!!.setOngoing(true)
+                    .setAutoCancel(false)
+                    .setPriority(Notification.PRIORITY_MAX)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setSmallIcon(mContext.applicationInfo.icon)
+                    .setTicker(title)
+                    .setContentTitle(title)
+        }
+        onProgress(0)
+    }
+
+    fun onProgress(progress: Int) {
+        if (mBuilder != null) {
+            if (progress > 0) {
+                mBuilder!!.priority =Notification.PRIORITY_DEFAULT
+                mBuilder!!.setDefaults(Notification.DEFAULT_ALL)
+            }
+            mBuilder!!.setProgress(100, progress, false)
+            mBuilder!!.setContentText("下载中 - "+ progress +"%")
+
+            val nm = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(mNotifyId, mBuilder!!.build())
+        }
+    }
+
+    fun onFinish() {
+        val nm = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        nm.cancel(mNotifyId)
+    }
 }

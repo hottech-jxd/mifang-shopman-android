@@ -1,7 +1,7 @@
 package com.huotu.android.mifang.fragment
 
 
-import android.content.Intent
+import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,8 +13,6 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 
 import android.provider.MediaStore.Images
-import android.content.ContentResolver
-import android.content.ContentValues
 import android.os.Environment
 import android.support.v4.content.ContextCompat
 import com.huotu.android.mifang.AppInit
@@ -262,6 +260,12 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
 
     private fun shareImages(quan: Quan) {
         if(isDownPicture(quan)) savaImage(quan ,true)
+
+        val cm = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        // 将文本内容放到系统剪贴板里。
+        val clipData = ClipData.newPlainText( quan.ShareTitle , quan.ShareDescription )
+        cm.primaryClip = clipData
+
 
         var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
         intent.type = "image/*"

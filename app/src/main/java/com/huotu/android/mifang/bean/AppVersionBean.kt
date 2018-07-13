@@ -26,7 +26,7 @@ data class AppVersionBean(
                                 /**
                                  *
                                  */
-                                var md5: String? = null,
+                                var md5: String ,
                                         /**
                                          * apk文件大小
                                          */

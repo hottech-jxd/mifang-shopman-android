@@ -24,38 +24,39 @@ android {
     }
 
     signingConfigs {
-        config {
+        mifang {
             keyAlias 'huotumifang'
             keyPassword 'huotumifang'
             storeFile file('../key/key.jks')
             storePassword 'huotumifang'
         }
 
-        nton {
-            keyAlias 'huotunton'
-            keyPassword 'huotunton'
-            storeFile file('G:/myjob/keystore/nton/nton.jks')
-            storePassword 'huotunton'
-        }
+//        nton {
+//            keyAlias 'huotunton'
+//            keyPassword 'huotunton'
+//            storeFile file('G:/myjob/keystore/nton/nton.jks')
+//            storePassword 'huotunton'
+//        }
     }
 
     productFlavors {
-        nton {
-            applicationId 'com.huotu.mall.nton'
-            buildConfigField 'String', 'wechat_app_id', '\"wxdea5143895b3597b\"'
-            buildConfigField 'String', 'wechat_app_secret', '\"f679646cc9becda3440938ff0a13e6cf\"'
-            signingConfig signingConfigs.nton
+        mifang{
+            applicationId 'com.huotu.android.mifang'
+            buildConfigField 'String', 'wechat_app_id', '\"wx39f5c1402223a602\"'
+            buildConfigField 'String', 'wechat_app_secret', '\"17410824682424d5cb0f6d07e644774e\"'
+            signingConfig signingConfigs.mifang
         }
+
     }
 
 
     buildTypes {
         debug {
-            signingConfig signingConfigs.nton
+            signingConfig signingConfigs.mifang
         }
 
         release {
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.mifang
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -125,7 +126,7 @@ dependencies {
     /*滚动选择控件*/
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     /*微信，支付宝支付帮助库*/
-    implementation 'com.huotu.android.library:libPay:1.0.5-SNAPSHOT'
+    implementation 'com.huotu.android.library:libPay:1.0.6-SNAPSHOT'
     /*加载进度条组件库*/
     implementation project(':libloadingballs')
     /*极关推送库*/

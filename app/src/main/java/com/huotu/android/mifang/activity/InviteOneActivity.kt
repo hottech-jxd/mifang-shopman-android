@@ -1,9 +1,11 @@
 package com.huotu.android.mifang.activity
 
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.base.BaseActivity
+import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.newIntent
 import kotlinx.android.synthetic.main.activity_invite_one.*
@@ -24,7 +26,7 @@ class InviteOneActivity : BaseActivity<IPresenter>(),View.OnClickListener {
         when(v!!.id){
             R.id.header_left_image->{finish()}
             R.id.invite_one_buy->{
-                newIntent<BuyActivity>()
+                newIntent<BuyActivity>(Constants.INTENT_OPERATE_TYPE , 0)
             }
         }
     }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.adapter.MiAdapter
 import com.huotu.android.mifang.adapter.ScoreAdapter
 import com.huotu.android.mifang.base.BaseActivity
 import com.huotu.android.mifang.bean.*
@@ -29,6 +30,7 @@ class WaitAccountsActivity : BaseActivity<ScoreContract.Presenter>()
         , BaseQuickAdapter.RequestLoadMoreListener {
     var data= ScoreBean(0,0,null)
     var scoreAdapter:ScoreAdapter?=null
+    var miAdapter:MiAdapter?=null
     var type = ScoreTypeEnum.WaitAccounts.id
     var iPresenter=ScorePresenter(this)
     var pageIndex=0
@@ -59,13 +61,23 @@ class WaitAccountsActivity : BaseActivity<ScoreContract.Presenter>()
         wait_accounts_recyclerview.layoutManager=LinearLayoutManager(this)
         wait_accounts_recyclerview.addItemDecoration(RecyclerViewDivider(this , ContextCompat.getColor(this, R.color.bg_line), 10f))
 
-        scoreAdapter = ScoreAdapter(ArrayList())
-        var emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty, null)
-        scoreAdapter!!.emptyView = emptyView
-        scoreAdapter!!.isUseEmpty(false)
 
-        scoreAdapter!!.setOnLoadMoreListener(this, wait_accounts_recyclerview)
-        wait_accounts_recyclerview.adapter = scoreAdapter
+
+        if( type == ScoreTypeEnum.MiBean.id){
+            miAdapter = MiAdapter(ArrayList())
+            var emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty, null)
+            miAdapter!!.emptyView = emptyView
+            miAdapter!!.isUseEmpty(false)
+            miAdapter!!.setOnLoadMoreListener(this, wait_accounts_recyclerview)
+            wait_accounts_recyclerview.adapter = miAdapter
+        }else {
+            scoreAdapter = ScoreAdapter(ArrayList())
+            var emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty, null)
+            scoreAdapter!!.emptyView = emptyView
+            scoreAdapter!!.isUseEmpty(false)
+            scoreAdapter!!.setOnLoadMoreListener(this, wait_accounts_recyclerview)
+            wait_accounts_recyclerview.adapter = scoreAdapter
+        }
 
         getData()
     }
@@ -79,7 +91,7 @@ class WaitAccountsActivity : BaseActivity<ScoreContract.Presenter>()
                 iPresenter.getIntegralList(1,pageIndex +1 , Constants.PAGE_SIZE)
             }
             ScoreTypeEnum.MiBean.id->{
-                //todo
+                iPresenter.getMiBeanList(pageIndex+1 , Constants.PAGE_SIZE)
             }
         }
     }
@@ -133,8 +145,51 @@ class WaitAccountsActivity : BaseActivity<ScoreContract.Presenter>()
             setUiData_waitScore(apiResult)
         }else if(type == ScoreTypeEnum.Balance.id){
             setUiData_balance(apiResult)
-        }else if(type==ScoreTypeEnum.MiBean.id){
-            //todo
+        }
+    }
+
+
+    override fun getMiBeanListCallback(apiResult: ApiResult<MiBean>) {
+        isShowProgress = false
+        wait_accounts_refreshView.isRefreshing = false
+        miAdapter!!.isUseEmpty(true)
+        hideProgress()
+        if (processCommonErrorCode(apiResult)) {
+            return
+        }
+        if (apiResult.code != ApiResultCodeEnum.SUCCESS.code) {
+            toast(apiResult.msg)
+            return
+        }
+
+        if (apiResult.data == null) return
+
+        setUiDataMi(apiResult)
+    }
+
+    private fun setUiDataMi(apiResult: ApiResult<MiBean>){
+        if(apiResult!!.data!!.Items==null) return
+        if(apiResult!!.data!!.Items!!.size < Constants.PAGE_SIZE) {
+            //没有数据了
+            if (pageIndex == 0) {
+                miAdapter!!.loadMoreEnd(true)
+            } else {
+                miAdapter!!.loadMoreEnd()
+            }
+
+            pageIndex++
+
+        } else {
+            miAdapter!!.loadMoreComplete()
+            pageIndex++
+        }
+
+        if (pageIndex == 1) {
+
+            miAdapter!!.setNewData(apiResult.data!!.Items)
+            miAdapter!!.disableLoadMoreIfNotFullPage( wait_accounts_recyclerview )
+        } else {
+            miAdapter!!.addData(apiResult.data!!.Items!!)
         }
     }
 

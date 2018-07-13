@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@drawable/style_message_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/message_item_pay_4_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:text="会员订单支付成功通知"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="2dp"
+        android:id="@+id/message_item_pay_4_time"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_4_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:text="中午 13:99"
+        android:textSize="12sp"
+        android:layout_height="wrap_content" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/message_item_pay_4_avator"
+        app:failureImage="@mipmap/ic_launcher"
+        app:placeholderImage="@mipmap/ic_launcher"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_4_time"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:text="asdfa阿是打发是发阿暗示法凡阿斯法师法师 sf"
+        android:textColor="@android:color/black"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/message_item_pay_4_avator"
+        app:layout_constraintTop_toTopOf="@id/message_item_pay_4_avator"
+        android:id="@+id/message_item_pay_4_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/message_item_pay_4_nickname"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_4_sub_title"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_4_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/message_item_pay_4_registertime"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_4_nickname"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_4_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="推荐人："
+        android:id="@+id/message_item_pay_4_RefereeNickName"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_4_registertime"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_4_registertime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="XXXX"
+        android:id="@+id/message_item_pay_4_memo"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_4_RefereeNickName"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_4_RefereeNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</android.support.constraint.ConstraintLayout>

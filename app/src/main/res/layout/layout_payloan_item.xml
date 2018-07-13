@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:text="0元"
+        android:gravity="center"
+        android:id="@+id/payloan_item_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingRight="0dp"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="right"
+        android:textSize="16sp"
+        android:text="冥想寄件积分冥想寄件积分"
+        android:textColor="@android:color/black"
+        android:id="@+id/payloan_item_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:text="erwer"
+            android:layout_gravity="right"
+            android:id="@+id/payloan_item_desc2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_gravity="right"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:text="申请日期：2018.10.15 12:12:00"
+        app:layout_constraintTop_toBottomOf="@id/score_item_name"
+        app:layout_constraintLeft_toRightOf="@id/score_item_score"
+        android:textSize="12sp"
+        android:textColor="#A6A6B3"
+        android:id="@+id/payloan_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

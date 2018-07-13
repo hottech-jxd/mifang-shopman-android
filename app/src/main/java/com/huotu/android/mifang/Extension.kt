@@ -204,7 +204,7 @@ inline fun<reified T: Activity> Fragment.newIntent(key:String, value:Long ){
     startActivity(intent)
 }
 
-inline fun<reified T: Activity> Fragment.newIntent(key:String, value:String ){
+inline fun<reified T: Activity> Fragment.newIntent(key:String, value:String? ){
     val intent = Intent(this.context , T::class.java)
     intent.putExtra(key,value)
     startActivity(intent)

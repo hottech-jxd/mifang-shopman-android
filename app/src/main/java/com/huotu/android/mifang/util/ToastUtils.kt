@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
+import com.huotu.android.mifang.base.BaseApplication
 
 
 class ToastUtils {
@@ -23,6 +24,10 @@ class ToastUtils {
 
     fun showLongToast( context: Context , msg: String) {
         showToast(context ,msg, Toast.LENGTH_LONG)
+    }
+
+    fun showToast(msg:String){
+        showLongToast(BaseApplication.instance as Context , msg )
     }
 
     fun showToast(context: Context, msg: String, resId: Int, duration: Int) {

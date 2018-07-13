@@ -170,6 +170,7 @@ interface ApiService {
                            @Query("SearchMonth") SearchMonth: Int = -1 /*	查询月，默认-1 */,
                            @Query("SearchDay") SearchDay: Int = -1    /*查询天,默认-1*/,
                            @Query("WeekNum") WeekNum: Int = -1 /*	查询周,默认-1*/,
+                           @Query("OrderSourceType") OrderSourceType:Int =-1 /*订单来源类型,默认-1，主要用于查看邀请的营养师订单，传入100 —新增条件*/,
                            @Query("PageIndex") PageIndex: Int = 1    /*页码，默认1*/,
                            @Query("PageSize") PageSize: Int = Constants.PAGE_SIZE    /*每页显示数量，默认10)*/): Observable<ApiResult<ArrayList<OrderBean>>>
 
@@ -215,5 +216,70 @@ interface ApiService {
     @POST("sys/checkAppVersion")
     @FormUrlEncoded
     fun checkAppVersion(@Field("appType") appType:String,@Field("version") version:String):Observable<ApiResult<AppVersionBean>>
+
+    /**
+     * 邀请入驻页面
+     */
+    @GET("Profit/Invitations")
+    fun invitations():Observable<ApiResult<InviteBean>>
+
+    /**
+     * 觅豆列表
+     */
+    @GET("User/GetMiBeanList")
+    fun getMiBeanList(@Query("PageIndex") PageIndex:Int , @Query("PageSize") PageSize:Int=Constants.PAGE_SIZE):Observable<ApiResult<MiBean>>
+
+    /**
+     * 获取支付方式
+     */
+    @GET("Order/GetPaymentItem")
+    fun getPaymentItem():Observable<ApiResult<ArrayList<PaymentItem>>>
+
+    /**
+     * 获取采购账号商品
+     */
+    @GET("Order/GetRenewGoods")
+    fun getRenewGoods():Observable<ApiResult<GoodsBean>>
+
+    /**
+     * 采购账号提交订单
+     */
+    @POST("Order/SubmitInvitationPurchseOrder")
+    @FormUrlEncoded
+    fun submotInviteOrder(@Field("quantity") quantity:Int , @Field("payType") payType:Int):Observable<ApiResult<InviteOrderBean>>
+
+    /**
+     * 店主课堂分类
+     */
+    @POST("ShopClassRoom/categorys")
+    fun getShopClassCategorys():Observable<ApiResult<ArrayList<ShopperClassCategoryBean>>>
+
+    /**
+     * 店主课堂列表
+     */
+    @POST("ShopClassRoom/list")
+    @FormUrlEncoded
+    fun getShopClassList(@Field("typeId") typeId:Int , @Field("pageIndex") pageIndex:Int):Observable<ApiResult<ArrayList<ShopperClassBean>>>
+
+    /**
+     * 反馈与建议
+     */
+    @POST("User/FeedbackSuggestion")
+    @FormUrlEncoded
+    fun feedback(@Field("SubmitType") SubmitType:Int /*反馈or建议， 0-反馈 1-建议*/, @Field("Memo") Memo:String, @Field("UserMobile") UserMobile:String):Observable<ApiResult<Any>>
+
+    /**
+     * 货款列表
+     */
+    @POST("User/GetDepositList")
+    @FormUrlEncoded
+    fun getDepositList(@Field("PageIndex") PageIndex:Int, @Field("PageSize") PageSize:Int):Observable<ApiResult<ArrayList<PayLoanBean>>>
+
+
+    /**
+     * 消息列表
+     */
+    @GET("User/GetJPushList")
+    fun getJPushList(@Query("Type")Type:Int, @Query("PageIndex") PageIndex:Int, @Query("PageSize") PageSize:Int):Observable<ApiResult<ArrayList<MessageBean>>>
 
 }

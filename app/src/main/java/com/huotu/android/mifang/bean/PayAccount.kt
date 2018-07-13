@@ -9,3 +9,5 @@ data class PayAccount(var AccountId:Long,
                       var AccountType:Int, /*1支付宝 2 银行卡 4 微信零钱*/
                       var Account:String,
                       var checked:Boolean=false) :Serializable
+
+data class PaymentItem(var PaymentType:Int , var PaymentName:String , var checked:Boolean=false )

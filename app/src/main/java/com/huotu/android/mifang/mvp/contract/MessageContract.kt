@@ -7,7 +7,7 @@ import com.huotu.android.mifang.mvp.IView
 
 interface MessageContract {
     interface Presenter: IPresenter {
-        fun getMessageList(pageIndex:Int , pageSize:Int)
+        fun getMessageList( type :Int , pageIndex:Int , pageSize:Int)
 
     }
 

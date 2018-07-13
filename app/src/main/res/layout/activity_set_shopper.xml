@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="#F0EFF5"
+    tools:context="com.huotu.android.mifang.activity.SetShopperActivity">
+
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_header"
+        android:id="@+id/setshopper_header"/>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/setshopper_lay_1"
+        app:layout_constraintTop_toBottomOf="@id/setshopper_header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="店铺头像"
+            android:textColor="@color/black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/setshopper_logo"
+            app:placeholderImage="@mipmap/ic_launcher"
+            app:failureImage="@mipmap/ic_launcher"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:id="@+id/setshopper_lay_2"
+        app:layout_constraintTop_toBottomOf="@id/setshopper_lay_1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="店铺名称"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/setshopper_name"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:text="asdfas"
+            android:textColor="@color/black"
+            android:drawableRight="@mipmap/arrowrightgray"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <View
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setshopper_lay_2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/setshopper_line2"
+        android:background="#DFDEE3"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/setshopper_lay_3"
+        app:layout_constraintTop_toBottomOf="@id/setshopper_line2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="分享标题"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/setshopper_share_title"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:text="asdfas"
+            android:textColor="@color/black"
+            android:drawableRight="@mipmap/arrowrightgray"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:id="@+id/setshopper_lay_4"
+        app:layout_constraintTop_toBottomOf="@id/setshopper_lay_3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="分享内容"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/setshopper_share_content"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:text="asdfas"
+            android:textColor="@color/black"
+            android:drawableRight="@mipmap/arrowrightgray"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <View
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setshopper_lay_4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/setshopper_line1"
+        android:background="#DFDEE3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <TextView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setshopper_line1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="预览"
+        android:layout_margin="15dp"
+        android:background="@drawable/style_cash_operate"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:id="@+id/setshopper_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</android.support.constraint.ConstraintLayout>

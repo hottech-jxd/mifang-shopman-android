@@ -19,8 +19,18 @@ import android.R.attr.data
 import android.os.Environment
 import com.luck.picture.lib.entity.LocalMedia
 import android.os.Environment.getExternalStorageDirectory
+import android.support.v4.content.ContextCompat
+import android.text.TextUtils
+import com.huotu.android.mifang.bean.ApiResult
+import com.huotu.android.mifang.bean.ApiResultCodeEnum
+import com.huotu.android.mifang.bean.AppVersionBean
+import com.huotu.android.mifang.mvp.contract.CommonContract
+import com.huotu.android.mifang.mvp.presenter.CommonPresenter
+import com.huotu.android.mifang.util.KeybordUtils
+import com.huotu.android.mifang.util.MobileUtils
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.layout_header.*
+import org.w3c.dom.Text
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File
@@ -28,12 +38,16 @@ import java.util.jar.Manifest
 
 
 @RuntimePermissions
-class FeedbackActivity : BaseActivity<IPresenter>(),View.OnClickListener
+class FeedbackActivity : BaseActivity<CommonContract.Presenter>()
+        ,CommonContract.View
+        ,View.OnClickListener
         ,BaseQuickAdapter.OnItemClickListener
         ,BaseQuickAdapter.OnItemChildClickListener {
     var feedbackAdapter:FeedbackAdapter?=null
     var data=ArrayList<FeedbackBean>()
     var MAX_IMAGE_COUNT = 5
+    var iPresenter=CommonPresenter(this)
+    var submitType = 0 /*反馈or建议， 0-反馈 1-建议*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +61,9 @@ class FeedbackActivity : BaseActivity<IPresenter>(),View.OnClickListener
         feedback_images.adapter = feedbackAdapter
         feedbackAdapter!!.onItemChildClickListener =this
         feedbackAdapter!!.onItemClickListener=this
+        feedback_submit.setOnClickListener(this)
+        feedback_suggest.setOnClickListener(this)
+        feedback_feedback.setOnClickListener(this)
 
     }
 
@@ -72,8 +89,62 @@ class FeedbackActivity : BaseActivity<IPresenter>(),View.OnClickListener
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.header_left_image->{finish()}
+            R.id.header_left_image->{
+                KeybordUtils.closeKeyboard(this )
+                finish()
+            }
+            R.id.feedback_feedback->{
+                submitType = 0
+                var drawable = ContextCompat.getDrawable(this, R.mipmap.check2)
+                var drawable2 = ContextCompat.getDrawable(this,R.mipmap.uncheck2)
+                feedback_feedback.setCompoundDrawables(drawable,null,null,null)
+                feedback_suggest.setCompoundDrawables(drawable2,null,null,null)
+            }
+            R.id.feedback_suggest->{
+                submitType = 1
+                var drawable = ContextCompat.getDrawable(this, R.mipmap.check2)
+                var drawable2 = ContextCompat.getDrawable(this,R.mipmap.uncheck2)
+                feedback_feedback.setCompoundDrawables(drawable2,null,null,null)
+                feedback_suggest.setCompoundDrawables(drawable,null,null,null)
+            }
+            R.id.feedback_submit->{
+                submit()
+            }
         }
+    }
+
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+        feedback_progress.visibility=View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        feedback_progress.visibility = View.GONE
+    }
+
+    private fun submit(){
+
+        var memo = feedback_content.text.trim().toString()
+        var mobile = feedback_phone.text.trim().toString()
+        if(TextUtils.isEmpty(memo)){
+            feedback_content.requestFocus()
+            KeybordUtils.openKeybord(this,feedback_content)
+            return
+        }
+        if(TextUtils.isEmpty(mobile)){
+            feedback_phone.requestFocus()
+            KeybordUtils.openKeybord(this,feedback_phone)
+            return
+        }
+        if(!MobileUtils.isPhone(mobile)){
+            toast("请输入正确的手机号码!")
+            feedback_phone.requestFocus()
+            KeybordUtils.openKeybord(this,feedback_phone)
+            return
+        }
+
+        iPresenter.feedback(submitType , memo , mobile )
     }
 
     override fun onDestroy() {
@@ -153,5 +224,26 @@ class FeedbackActivity : BaseActivity<IPresenter>(),View.OnClickListener
                 .selectionMode(PictureConfig.MULTIPLE)
                 .minimumCompressSize(150) //150k以下不压缩
                 .forResult(PictureConfig.CHOOSE_REQUEST)
+    }
+
+
+    override fun checkAppVersionCallback(apiResult: ApiResult<AppVersionBean>) {
+
+    }
+
+    override fun feedbackCallback(apiResult: ApiResult<Any>) {
+        if(processCommonErrorCode(apiResult)){return}
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+
+        if(submitType==0) {
+            toast("谢谢您的反馈")
+        }else{
+            toast("谢谢您的建议")
+        }
+        KeybordUtils.closeKeyboard(this)
+        this.finish()
     }
 }
