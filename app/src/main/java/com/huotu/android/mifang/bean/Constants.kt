@@ -48,6 +48,10 @@ object Constants {
     val INTENT_PAY_ACCOUNT="pay_account"
     val INTENT_PAY_ACCOUNT_ID="pay_account_id"
     val INTENT_ORDER_SOURCE="order_source"
+    val INTENT_SETTING_TYPE = "setting_type"
+    val INTENT_SETTING_CONTENT="setting_content"
+    val INTENT_TITLE = "title"
+    val INTENT_FIRST_OPEN_SHOPPER = "first_open_shopper"
 
     val PREF_FILENAME="pref_filename_phonerecycle"
     val PREF_WECHAT_USER="pref_wechat_user"

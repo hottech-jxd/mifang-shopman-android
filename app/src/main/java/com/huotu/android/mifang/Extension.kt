@@ -186,6 +186,12 @@ inline fun<reified T: Activity> Fragment.newIntent() {
     startActivity(intent)
 }
 
+inline fun<reified T: Activity> Fragment.newIntent(bundle: Bundle){
+    val intent = Intent(this.context , T::class.java)
+    intent.putExtras(bundle)
+    startActivity(intent)
+}
+
 inline fun<reified T: Activity> Fragment.newIntent(key:String, value:Boolean=false){
     val intent = Intent(this.context , T::class.java)
     intent.putExtra(key,value)

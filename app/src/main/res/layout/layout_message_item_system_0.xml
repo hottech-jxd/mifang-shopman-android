@@ -17,7 +17,7 @@
         android:id="@+id/message_item_system_0_title"
         app:layout_constraintTop_toTopOf="@id/message_item_system_0_logo"
         app:layout_constraintLeft_toRightOf="@id/message_item_system_0_logo"
-        android:text="sdfadf阿斯顿飞"
+        android:text="系统消息"
         android:textColor="#838383"
         android:textSize="16sp"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:id="@+id/message_item_system_0_time"
         app:layout_constraintBottom_toBottomOf="@id/message_item_system_0_logo"
         app:layout_constraintLeft_toRightOf="@id/message_item_system_0_logo"
-        android:text="sdfadf"
+        android:text="2018-08-08 12:00:00"
         android:textColor="#c3c3c3"
         android:textSize="14sp"
         android:layout_width="wrap_content"
@@ -37,6 +37,7 @@
         android:id="@+id/message_item_system_0_bg"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_0_logo"
         android:layout_marginTop="8dp"
+        android:src="@mipmap/ic_launcher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -44,6 +45,7 @@
         android:layout_marginTop="8dp"
         android:textSize="14sp"
         android:textColor="#838383"
+        android:text="xdsdfsdfasfasdfasfsafasfa"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_0_bg"
         android:id="@+id/message_item_system_0_content"
         android:layout_width="match_parent"

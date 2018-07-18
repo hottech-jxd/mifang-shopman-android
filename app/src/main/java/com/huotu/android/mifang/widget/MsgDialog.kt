@@ -19,7 +19,7 @@ import com.huotu.android.mifang.widget.OperateDialog.OnOperateListener
 /**
  * 首页消息弹出框
  */
-class MsgDialog(context: Context, onOperateListener: OnOperateListener?)
+class MsgDialog(context: Context, onOperateListener: OnOperateListener<KeyValue>?)
     : BaseDialog(context), View.OnClickListener {
 
 

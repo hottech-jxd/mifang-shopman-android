@@ -16,15 +16,15 @@ import com.huotu.android.mifang.bean.KeyValue
 /**
  * 操作对话框
  */
-class OperateDialog(context: Context,
-                    var onOperateListener: OnOperateListener?,
-                     var list: List<KeyValue>, titleString: String)
+class OperateDialog<T>(context: Context,
+                    var onOperateListener: OnOperateListener<T>?,
+                     var list: List<T>, titleString: String)
     : BaseDialog(context), BaseQuickAdapter.OnItemClickListener {
-    internal var operateAdapter: OperateAdapter
+    internal var operateAdapter: OperateAdapter<T>
     internal var title: TextView
 
-    interface OnOperateListener {
-        fun operate(keyValue: KeyValue)
+    interface OnOperateListener<T> {
+        fun operate(keyValue: T)
     }
 
     init {
@@ -35,8 +35,12 @@ class OperateDialog(context: Context,
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.layout_operate_dialog, null)
 
+
         this.addContentView(view)
         val recyclerView = view.findViewById<RecyclerView>(R.id.operate_dialog_list)
+
+        recyclerView.isVerticalScrollBarEnabled=true
+
         recyclerView.layoutManager =LinearLayoutManager(context)
         title = view.findViewById(R.id.operate_dialog_title)
         title.text = titleString
@@ -57,13 +61,13 @@ class OperateDialog(context: Context,
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         dialog!!.dismiss()
-        onOperateListener!!.operate(adapter.getItem(position) as KeyValue)
+        onOperateListener!!.operate(adapter.getItem(position) as T)
     }
 
-    inner class OperateAdapter(data: List<KeyValue>?) : BaseQuickAdapter<KeyValue, BaseViewHolder>(R.layout.layout_operate_dialog_item, data) {
+    inner class OperateAdapter<T>(data: List<T>?) : BaseQuickAdapter<T, BaseViewHolder>(R.layout.layout_operate_dialog_item, data) {
 
-        override fun convert(helper: BaseViewHolder, item: KeyValue) {
-            helper.setText(R.id.operate_dialog_item_name, item.name )
+        override fun convert(helper: BaseViewHolder, item: T) {
+            helper.setText(R.id.operate_dialog_item_name, item.toString() )
         }
     }
 

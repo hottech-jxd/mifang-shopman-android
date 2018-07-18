@@ -19,7 +19,8 @@ data class MyBean (
         var TipStr:String, /*TipStr*/
         var IsAgent:Boolean,/*是否是代理商*/
         var BackGroundModel:BackGroundModelBean?,
-        var ADList:ArrayList<ADBean>?
+        var ADList:ArrayList<ADBean>?,
+        var MiFangModelURL:String //觅方模式讲解地址 —新增
 ){
     data class BackGroundModelBean( var Id:Long,
                 var CustomerId:Long,

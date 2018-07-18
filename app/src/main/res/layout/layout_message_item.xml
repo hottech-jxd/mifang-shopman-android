@@ -6,22 +6,22 @@
     android:orientation="vertical">
 
     <include layout="@layout/layout_message_item_system"
+        android:visibility="gone"
         android:id="@+id/message_layout_system"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
 
     <include layout="@layout/layout_message_item_pay"
+        android:visibility="gone"
         android:id="@+id/message_layout_pay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <include layout="@layout/layout_message_item_register"
         android:id="@+id/message_layout_register"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
-
 
 </LinearLayout>

@@ -9,7 +9,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.FeedbackAdapter
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.bean.FeedbackBean
 import com.huotu.android.mifang.mvp.IPresenter
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -21,9 +20,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import android.os.Environment.getExternalStorageDirectory
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.ApiResultCodeEnum
-import com.huotu.android.mifang.bean.AppVersionBean
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.CommonContract
 import com.huotu.android.mifang.mvp.presenter.CommonPresenter
 import com.huotu.android.mifang.util.KeybordUtils
@@ -245,5 +242,9 @@ class FeedbackActivity : BaseActivity<CommonContract.Presenter>()
         }
         KeybordUtils.closeKeyboard(this)
         this.finish()
+    }
+
+    override fun getProvinceCityAreaCallback(result: ArrayList<ProvinceCityArea>) {
+
     }
 }

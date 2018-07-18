@@ -5,10 +5,10 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -16,7 +16,7 @@
                 android:id="@+id/header_left_image"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
-                android:paddingLeft="0dp"
+                android:paddingLeft="10dp"
                 android:paddingRight="20dp"
                 android:src="@mipmap/back"
                 android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_alignParentRight="true"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
@@ -51,10 +51,19 @@
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
+                <View
+                    android:visibility="gone"
+                    android:layout_marginTop="4dp"
+                    android:layout_alignTop="@id/header_right_image"
+                    android:layout_alignRight="@id/header_right_image"
+                    android:id="@+id/header_right_circle"
+                    android:background="@drawable/shape_circle"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp" />
+            </RelativeLayout>
         </RelativeLayout>
 
-    </android.support.v7.widget.Toolbar>
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <View
         app:layout_constraintBottom_toBottomOf="parent"

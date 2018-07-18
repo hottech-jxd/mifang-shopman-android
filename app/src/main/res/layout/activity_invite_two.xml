@@ -20,7 +20,7 @@
         android:background="@android:color/white"
         android:paddingLeft="20dp"
         android:paddingRight="15dp"
-        app:layout_constraintBottom_toTopOf="@id/invite_two_buy"
+        app:layout_constraintBottom_toTopOf="@id/invite_two_applyAgent"
         app:layout_constraintTop_toBottomOf="@id/invite_two_header"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
@@ -221,7 +221,7 @@
         android:gravity="center"
         android:text="申请代理商"
         android:textColor="@android:color/white"
-        android:id="@+id/invite_two_buy"
+        android:id="@+id/invite_two_applyAgent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

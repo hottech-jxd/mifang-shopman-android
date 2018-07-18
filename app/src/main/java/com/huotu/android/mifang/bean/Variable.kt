@@ -6,6 +6,8 @@ data class Variable (
      */
     var userBean: UserBean? = null,
     var initDataBean:InitDataBean?=null,
-    var wechatUser:WechatUser?=null
-
+    var wechatUser:WechatUser?=null,
+    /*省市区数据集合*/
+    var proviceData:ArrayList<ProvinceCityArea>?=null,
+    var cityData:ArrayList<ProvinceCityArea>?=null
 )

@@ -46,7 +46,7 @@ object CookieUtils {
             userInfo.realEstateType = 10
             val userInfoStr = GsonUtils.gson!!.toJson(userInfo)
 
-            val cookies = HashMap<String, String>()
+            val cookies = HashMap<String, String?>()
             cookies["User-Id"] = youxinUserid.toString()
             cookies["User-Token"] = youxinUserToken
             cookies["User-Info"] = userInfoStr
@@ -60,7 +60,7 @@ object CookieUtils {
     }
 
 
-    private fun setWebViewCookie(context: Context, url: String, cookies: Map<String, String>) {
+    private fun setWebViewCookie(context: Context, url: String, cookies: Map<String, String?>) {
         CookieSyncManager.createInstance(context)
         val cookieManager = CookieManager.getInstance()
 

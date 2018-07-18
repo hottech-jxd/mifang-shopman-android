@@ -38,9 +38,11 @@ class ShareDialog(context: Context,
 
         this.addContentView(view)
         val recyclerView = view.findViewById<RecyclerView>(R.id.share_dialog_recyclerview)
-        recyclerView.layoutManager =GridLayoutManager(context,3)
-        //title = view.findViewById(R.id.operate_dialog_title)
-        //title.text = titleString
+
+        val columnCount = if( list.size<=3) list.size else 3
+
+        recyclerView.layoutManager =GridLayoutManager(context,columnCount )
+
         shareAdapter = ShareAdapter(list)
         shareAdapter!!.onItemClickListener = this
         recyclerView.adapter = shareAdapter

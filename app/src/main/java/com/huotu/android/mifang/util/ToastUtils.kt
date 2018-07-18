@@ -43,9 +43,7 @@ class ToastUtils {
 
     companion object {
         var single = ToastUtils()
-        fun getInstance():ToastUtils{
-            return single
-        }
+
     }
 
 }

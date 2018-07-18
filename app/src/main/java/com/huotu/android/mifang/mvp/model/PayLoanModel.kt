@@ -9,5 +9,8 @@ class PayLoanModel {
         val apiService = RetrofitManager.getApiService()
         return  apiService!!.getDepositList( pageIndex , pageSize)
     }
-
+    fun getFrozenFlow( pageIndex :Int , pageSize:Int ): Observable<ApiResult<ArrayList<FrozenFlow>>> {
+        val apiService = RetrofitManager.getApiService()
+        return  apiService!!.getFrozenFlow( pageIndex , pageSize)
+    }
 }

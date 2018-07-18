@@ -27,10 +27,10 @@ class PayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
         , PayAccountContract.View
         , BaseQuickAdapter.OnItemClickListener
         , BaseQuickAdapter.OnItemChildClickListener
-        , OperateDialog.OnOperateListener {
+        , OperateDialog.OnOperateListener<KeyValue> {
     var data=ArrayList<PayAccount>()
     var payAccountAdapter:PayAccountAdapter?=null
-    var operateDialog :OperateDialog?=null
+    var operateDialog :OperateDialog<KeyValue>?=null
     var currentPosition=-1
     var iPresenter=PayAccountPresenter(this)
     var accountId =0L

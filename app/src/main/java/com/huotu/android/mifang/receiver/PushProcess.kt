@@ -79,7 +79,7 @@ object PushProcess {
      * 打开广告推送消息框
      * */
     private fun openAdDialog(context: Activity, pushMessageActivityBean: PushMessageActivityBean) {
-        var msgDialog = MsgDialog(context, object : OperateDialog.OnOperateListener {
+        var msgDialog = MsgDialog(context, object : OperateDialog.OnOperateListener<KeyValue> {
             override fun operate(keyValue: KeyValue) {
                 context.newIntent<WebActivity>(Constants.INTENT_URL, pushMessageActivityBean.link)
             }

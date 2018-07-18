@@ -2,11 +2,13 @@ package com.huotu.android.mifang.http
 
 import com.huotu.android.mifang.bean.*
 import io.reactivex.Observable
+import okhttp3.Address
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
 
-    @POST("recycle/sys/init")
+    @POST("user/appInit")
     fun init(): Observable<ApiResult<InitDataBean>>
 
     /**
@@ -232,7 +234,7 @@ interface ApiService {
     /**
      * 获取支付方式
      */
-    @GET("Order/GetPaymentItem")
+    @POST("Order/paytypelist")
     fun getPaymentItem():Observable<ApiResult<ArrayList<PaymentItem>>>
 
     /**
@@ -281,5 +283,85 @@ interface ApiService {
      */
     @GET("User/GetJPushList")
     fun getJPushList(@Query("Type")Type:Int, @Query("PageIndex") PageIndex:Int, @Query("PageSize") PageSize:Int):Observable<ApiResult<ArrayList<MessageBean>>>
+
+    /**
+     * 小店首页
+     */
+    @POST("store/index")
+    @FormUrlEncoded
+    fun getStoreIndex(@Field("page") page:Int , @Field("pageSize")pageSize:Int):Observable<ApiResult<ArrayList<GoodsInfoBean>>>
+
+    /**
+     * 商品详情
+     */
+    @POST("store/goodsInfo")
+    @FormUrlEncoded
+    fun getGoodsInfo(@Field("goodsId") goodsId:Long):Observable<ApiResult<GoodsDetailBean>>
+
+    /**
+     * 小店货款信息
+     */
+    @POST("user/userAccountInfo")
+    fun getShopperAccountInfo():Observable<ApiResult<ShopperAccountInfo>>
+
+    /***
+     * 获得小店设置信息
+     */
+    @POST("store/info")
+    fun getStoreInfo():Observable<ApiResult<ShopperInfo>>
+
+    /**
+     * 店铺设置
+     * 类型 0店铺头像1店铺名称2分享标题3分享内容
+     */
+    @POST("store/setting")
+    @FormUrlEncoded
+    fun shopperSetting(@Field("type") type:Int , @Field("content") content:String):Observable<ApiResult<Any>>
+
+    /**
+     * 上传店铺logo
+     */
+    @POST("store/setting")
+    @Multipart
+    fun uploadImage(@PartMap  params : Map<String, RequestBody> ):Observable<ApiResult<Map<String,String>>>
+
+    /**
+     * 升级商品详情
+     */
+    @POST("/store/upgradeGoodsInfo")
+    @FormUrlEncoded
+    fun agentUpgrade(@Field("goodsId") goodsId:Long):Observable<ApiResult<GoodsDetailBean>>
+
+    /**
+     * 冻结货款流水
+     */
+    @POST("store/frozenFlow")
+    @FormUrlEncoded
+    fun getFrozenFlow(@Field("page") page:Int , @Field("pageSize") pageSize:Int ):Observable<ApiResult<ArrayList<FrozenFlow>>>
+
+
+    /**
+     * 获取成为代理商商品
+     */
+    @GET("Order/GetAgentUpgradeGoods")
+    fun getAgentUpgradeGoods():Observable<ApiResult<AgentUpgradeGoodsBean>>
+
+    /**
+     * 收货地址管理
+     */
+    @POST("user/addressList")
+    fun getAddressList():Observable<ApiResult<ArrayList<AddressBean>>>
+
+    /**
+     * 提交代理商申请订单
+     */
+    @POST("order/SubmitAgentUpgradeOrder")
+    @FormUrlEncoded
+    fun submitAgentUpgradeOrder(@Field("shipName") shipName:String
+                                ,@Field("shipMobile") shipMobile:String
+                                ,@Field("shipAddress") shipAddress:String
+                                ,@Field("shipArea") shipArea:String
+                                ,@Field("shipAreaCode") shipAreaCode:String
+                                ,@Field("payType")payType:Int):Observable<ApiResult<InviteOrderBean>>
 
 }

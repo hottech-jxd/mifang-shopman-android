@@ -35,10 +35,14 @@ class RecyclerViewDividerEmpty(context: Context ):Y_DividerItemDecoration(contex
 
 class RecyclerViewDivider4(context: Context , @ColorInt var dividerColor: Int ,var width: Float ):Y_DividerItemDecoration(context){
     override fun getDivider(itemPosition: Int): Y_Divider {
-        if(itemPosition== 0 || itemPosition==1) return Y_DividerBuilder()
-                .setRightSideLine(true, dividerColor , width , 0f,0f )
+        if(itemPosition %2 == 0 )
+            return Y_DividerBuilder()
+                .setRightSideLine(true, dividerColor , width/2 , 0f,0f )
+                    .setBottomSideLine(true,dividerColor, width,0f,0f)
                 .create()
-        else  return Y_DividerBuilder().create()
+        else  return Y_DividerBuilder()
+                .setLeftSideLine(true, dividerColor, width/2,0f,0f)
+                .setBottomSideLine(true,dividerColor,width,0f,0f).create()
     }
 }
 

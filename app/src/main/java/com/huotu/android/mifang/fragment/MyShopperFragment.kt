@@ -2,18 +2,27 @@ package com.huotu.android.mifang.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.huotu.android.mifang.BuildConfig
 import com.huotu.android.mifang.R
-import com.huotu.android.mifang.activity.SetShopperActivity
+import com.huotu.android.mifang.activity.*
 import com.huotu.android.mifang.adapter.ShopGoodsAdapter
 import com.huotu.android.mifang.base.BaseFragment
-import com.huotu.android.mifang.bean.GoodsBean
-import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.bean.*
+import com.huotu.android.mifang.mvp.contract.GoodsContract
+import com.huotu.android.mifang.mvp.presenter.GoodsPresenter
 import com.huotu.android.mifang.newIntent
+import com.huotu.android.mifang.newIntentForLogin
+import com.huotu.android.mifang.util.SPUtils
+import com.huotu.android.mifang.util.WechatShareUtil
+import com.huotu.android.mifang.widget.RecyclerViewDivider4
+import com.huotu.android.mifang.widget.ShareDialog
 import kotlinx.android.synthetic.main.fragment_my_shopper.*
 import kotlinx.android.synthetic.main.layout_header_3.*
-import java.math.BigDecimal
 
 
 /**
@@ -22,11 +31,20 @@ import java.math.BigDecimal
  * create an instance of this fragment.
  *
  */
-class MyShopperFragment : BaseFragment<IPresenter>()
-    , View.OnClickListener{
+class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
+        ,GoodsContract.View
+        , ShareDialog.OnOperateListener
+        ,SwipeRefreshLayout.OnRefreshListener
+        ,BaseQuickAdapter.RequestLoadMoreListener
+        ,BaseQuickAdapter.OnItemClickListener
+        , View.OnClickListener{
 
     var shopGoodsAdapter:ShopGoodsAdapter?=null
-    var data=ArrayList<GoodsBean>()
+    var data=ArrayList<GoodsInfoBean>()
+    var iPresenter = GoodsPresenter(this)
+    var pageIndex= 0
+    var isShowProgress = true
+    var isFirstOpen=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +55,37 @@ class MyShopperFragment : BaseFragment<IPresenter>()
 
 
     override fun initView() {
+        header_title.text = "我的小店"
         header_left_image.setImageResource(R.mipmap.myshop)
         header_left_image.setOnClickListener(this)
         header_right_image.setImageResource(R.mipmap.three)
         header_right_image.setOnClickListener(this)
 
+        isFirstOpen = SPUtils.getInstance(context!! , Constants.PREF_FILENAME)
+                .readBoolean(Constants.INTENT_FIRST_OPEN_SHOPPER,true)
+        header_right_circle.visibility= if(isFirstOpen) View.VISIBLE else View.GONE
+
+        myshopper_menu_cash.setOnClickListener(this)
+        myshopper_menu_share.setOnClickListener(this)
+        myshopper_menu_flow.setOnClickListener(this)
+        myshopper_menu_lay.setOnClickListener(this)
+        myshopper_preview.setOnClickListener(this)
+        myshopper_freeze.setOnClickListener(this)
+
+        myshopper_refreshview.setOnRefreshListener(this)
         myshopper_recyclerview.layoutManager = GridLayoutManager(context ,2)
         shopGoodsAdapter = ShopGoodsAdapter(data)
+        shopGoodsAdapter!!.onItemClickListener=this
+        shopGoodsAdapter!!.setOnLoadMoreListener(this, myshopper_recyclerview)
         myshopper_recyclerview.adapter = shopGoodsAdapter
+
+        myshopper_recyclerview.addItemDecoration(RecyclerViewDivider4(context!! , ContextCompat.getColor(context!! , R.color.white)
+                ,10f ))
+    }
+
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        var goodsId = (adapter!!.data[position] as GoodsInfoBean).GoodsId
+        newIntent<GoodsDetailActivity>(Constants.INTENT_GOODSID , goodsId)
     }
 
     override fun onClick(v: View?) {
@@ -52,22 +93,143 @@ class MyShopperFragment : BaseFragment<IPresenter>()
             R.id.header_left_image->{
                 newIntent<SetShopperActivity>()
             }
+            R.id.myshopper_menu_lay,
             R.id.header_right_image->{
+                if(isFirstOpen) {
+                    isFirstOpen=false
+                    header_right_circle.visibility=View.GONE
+                    SPUtils.getInstance(context!!, Constants.INTENT_FIRST_OPEN_SHOPPER).writeBoolean(Constants.INTENT_FIRST_OPEN_SHOPPER, isFirstOpen)
+                }
 
+                myshopper_menu_lay.visibility = if( myshopper_menu_lay.visibility==View.GONE) View.VISIBLE else View.GONE
+            }
+            R.id.myshopper_menu_cash->{
+                myshopper_menu_lay.visibility=View.GONE
+                newIntent<PayLoanActivity>()
+            }
+            R.id.myshopper_menu_share->{
+                myshopper_menu_lay.visibility=View.GONE
+                share()
+            }
+            R.id.myshopper_menu_flow->{
+                myshopper_menu_lay.visibility=View.GONE
+                newIntent<PayLoanFlowActivity>()
+            }
+            R.id.myshopper_preview->{
+                //预览小店
+                WechatShareUtil().runMinProgram("pages/index/index")
+            }
+            R.id.myshopper_freeze->{
+                //冻结详情
+                newIntentForLogin<FrozenFlowActivity>()
             }
         }
     }
 
-    override fun fetchData() {
-        for(i in 0..10){
-            data.add(GoodsBean("","", BigDecimal.ZERO))
-        }
+    fun share(){
+        var list = ArrayList<KeyValue>()
+        list.add(KeyValue(R.mipmap.ssdk_oks_classic_wechat,"微信好友"))
+        //list.add(KeyValue(R.mipmap.ssdk_oks_classic_wechatmoments ,"微信朋友圈"))
+        //list.add(KeyValue(R.mipmap.ssdk_oks_classic_wechatfavorite,"微信收藏夹"))
+        var shareDialog = ShareDialog(context!! , this , list )
+        shareDialog.show()
+    }
 
-        shopGoodsAdapter!!.notifyDataSetChanged()
+    override fun operate(keyValue: KeyValue) {
+        WechatShareUtil().shareMiniProgram( resources ,getString(R.string.app_name) ,"小程序描述",
+                "http://www.baidu.com",
+                BuildConfig.wechat_miniprogram_id ,
+                "pages/index/index" )
+    }
+
+    override fun onRefresh() {
+        pageIndex=0
+        data.clear()
+        fetchData()
+    }
+
+    override fun onLoadMoreRequested() {
+        isShowProgress=false
+        iPresenter.getStoreIndex(pageIndex+1, Constants.PAGE_SIZE)
+    }
+
+    override fun fetchData() {
+
+        iPresenter.getShopperAccountInfo()
+
+        iPresenter.getStoreIndex(pageIndex+1, Constants.PAGE_SIZE)
+    }
+
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+        if(isShowProgress){
+            myshopper_progress.visibility=View.VISIBLE
+        }else{
+            myshopper_progress.visibility=View.GONE
+        }
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        myshopper_progress.visibility=View.GONE
+        myshopper_refreshview.isRefreshing=false
+        isShowProgress=false
     }
 
     override fun getLayoutResourceId(): Int {
         return R.layout.fragment_my_shopper
+    }
+
+    override fun getGoodsInfoCallback(apiResult: ApiResult<GoodsDetailBean>) {
+
+    }
+
+    override fun getStoreIndexCallback(apiResult: ApiResult<ArrayList<GoodsInfoBean>>) {
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if (apiResult.data == null) return
+
+        if (  apiResult.data!!.size < Constants.PAGE_SIZE) {
+            //没有数据了
+            if (pageIndex == 0) {
+                shopGoodsAdapter!!.loadMoreEnd(true)
+            } else {
+                shopGoodsAdapter!!.loadMoreEnd()
+            }
+            pageIndex++
+
+        } else {
+            shopGoodsAdapter!!.loadMoreComplete()
+            pageIndex++
+        }
+
+        if (pageIndex == 1) {
+            shopGoodsAdapter!!.setNewData(apiResult.data)
+            shopGoodsAdapter!!.disableLoadMoreIfNotFullPage(myshopper_recyclerview)
+        } else {
+            shopGoodsAdapter!!.addData(apiResult.data!!)
+        }
+    }
+
+    override fun getShopperAccountInfoCallback(apiResult: ApiResult<ShopperAccountInfo>) {
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+
+        myshopper_hk.text = apiResult.data!!.goodsDeposit
+    }
+
+    override fun agentUpgradeCallback(apiResult: ApiResult<GoodsDetailBean>) {
+
     }
 
     companion object {

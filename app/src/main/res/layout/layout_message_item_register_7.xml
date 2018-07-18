@@ -8,20 +8,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/message_item_pay_5_title"
+        android:id="@+id/message_item_register_7_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
-        android:text="代理商升级通知"
+        android:text="成功邀请用户成为代理商"
         android:textSize="16sp"
         android:textColor="@android:color/black"
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_marginTop="2dp"
-        android:id="@+id/message_item_pay_5_time"
-        app:layout_constraintTop_toBottomOf="@id/message_item_pay_5_title"
+        android:id="@+id/message_item_register_7_time"
+        app:layout_constraintTop_toBottomOf="@id/message_item_register_7_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
@@ -30,48 +30,48 @@
         android:layout_height="wrap_content" />
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/message_item_pay_5_avator"
+        android:id="@+id/message_item_register_7_avator"
         app:failureImage="@mipmap/ic_launcher"
         app:placeholderImage="@mipmap/ic_launcher"
-        app:layout_constraintTop_toBottomOf="@id/message_item_pay_5_time"
+        app:layout_constraintTop_toBottomOf="@id/message_item_register_7_time"
         android:layout_width="50dp"
         android:layout_height="50dp" />
 
     <TextView
         android:layout_marginTop="4dp"
         android:textSize="14sp"
-        android:text="asdfa阿是打发是发阿暗示法凡阿斯法师法师 sf"
+        android:text="您好,恭喜您成功邀请了好友升级成为代理商"
         android:textColor="@android:color/black"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/message_item_pay_5_avator"
-        app:layout_constraintTop_toTopOf="@id/message_item_pay_5_avator"
-        android:id="@+id/message_item_pay_5_sub_title"
+        app:layout_constraintLeft_toRightOf="@id/message_item_register_7_avator"
+        app:layout_constraintTop_toTopOf="@id/message_item_register_7_avator"
+        android:id="@+id/message_item_register_7_sub_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="好友昵称:XXX"
+        android:id="@+id/message_item_register_7_nickname"
+        app:layout_constraintTop_toBottomOf="@id/message_item_register_7_sub_title"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_register_7_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="昵称"
-        android:id="@+id/message_item_pay_5_nickname"
-        app:layout_constraintTop_toBottomOf="@id/message_item_pay_5_sub_title"
-        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_5_sub_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:text="现有货款：1000"
-        android:id="@+id/message_item_pay_5_registertime"
-        app:layout_constraintTop_toBottomOf="@id/message_item_pay_5_nickname"
-        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_5_nickname"
+        android:text="升级时间：2018-07-07 11:00:00"
+        android:id="@+id/message_item_register_7_UpgradeTime"
+        app:layout_constraintTop_toBottomOf="@id/message_item_register_7_nickname"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_register_7_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 
 
     <TextView
-        android:text="查看小店"
-        android:id="@+id/message_item_pay_5_see"
-        app:layout_constraintTop_toBottomOf="@id/message_item_pay_4_RefereeNickName"
-        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_4_RefereeNickName"
+        android:text="获取货款：0"
+        android:id="@+id/message_item_register_7_ProfitAmount"
+        app:layout_constraintTop_toBottomOf="@id/message_item_register_7_UpgradeTime"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_register_7_UpgradeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

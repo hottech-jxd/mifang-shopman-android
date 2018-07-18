@@ -182,8 +182,12 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
         var token = result.data!!.token
         var bindedMobile = result.data!!.bindedMobile
         var wxHeadImg = userHead
+        var mobile=result.data!!.mobile
+        var userRole=result.data!!.userRoleType
+        var userRolename = result.data!!.userRoleName
 
-        BaseApplication.instance!!.variable.userBean = UserBean(userId, loginname, wxNickName, nickname, token, userHead, bindedMobile, wxHeadImg)
+        BaseApplication.instance!!.variable.userBean = UserBean(userId, loginname,
+                wxNickName, nickname, token, userHead, bindedMobile,  mobile,userRole , userRolename ,wxHeadImg )
         SPUtils.getInstance(this, Constants.PREF_FILENAME)
                 .writeString(Constants.PREF_USER, GsonUtils.gson!!.toJson(BaseApplication.instance!!.variable.userBean))
 

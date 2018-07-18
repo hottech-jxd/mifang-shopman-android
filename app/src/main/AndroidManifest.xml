@@ -64,12 +64,19 @@
         <activity android:name=".activity.BuyActivity" />
         <activity android:name=".activity.IncomeDetailActivity" />
         <activity android:name=".activity.WaitAccountsActivity" />
-        <activity
-            android:name=".activity.PushHandlerActivity"
+        <activity android:name=".activity.PushHandlerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.BindPhoneActivity" />
         <activity android:name=".activity.PayPasswordActivity" />
+        <activity android:name=".activity.GoodsDetailActivity" />
+        <activity android:name=".activity.PayLoanActivity" />
+        <activity android:name=".activity.PayLoanFlowActivity" />
+        <activity android:name=".activity.SetShopperActivity" />
+        <activity android:name=".activity.EditInfoActivity" />
+        <activity android:name=".activity.AgentUpgradeActivity" />
+        <activity android:name=".activity.FrozenFlowActivity" />
+        <activity android:name=".activity.ApplyAgentActivity"/>
 
         <service android:name=".InitService" />
 
@@ -107,9 +114,7 @@
                 android:resource="@xml/provider" />
         </provider>
 
-        <activity android:name=".activity.PayLoanActivity" />
-        <activity android:name=".activity.PayLoanFlowActivity" />
-        <activity android:name=".activity.SetShopperActivity"></activity>
+
     </application>
 
 </manifest>

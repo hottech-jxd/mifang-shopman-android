@@ -33,7 +33,7 @@
         android:layout_height="wrap_content" />
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/message_item_3_logo"
+        android:id="@+id/message_item_system_3_logo"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_3_time"
         android:layout_marginTop="8dp"
         app:failureImage="@mipmap/ic_launcher"
@@ -43,19 +43,20 @@
 
     <TextView
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:textSize="14sp"
         android:textColor="#838383"
-        app:layout_constraintTop_toTopOf="@id/message_item_3_logo"
-        app:layout_constraintLeft_toRightOf="@id/message_item_3_logo"
+        app:layout_constraintTop_toTopOf="@id/message_item_system_3_logo"
+        app:layout_constraintLeft_toRightOf="@id/message_item_system_3_logo"
+        app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/message_item_system_3_sub_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:text="子标题"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/message_item_system_3_nickname"
-        android:text="昵称"
+        android:text="会员昵称:xxx"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_3_sub_title"
         app:layout_constraintLeft_toLeftOf="@id/message_item_system_3_sub_title"
         android:layout_width="wrap_content"
@@ -63,7 +64,7 @@
 
     <TextView
         android:id="@+id/message_item_system_3_LockIntegral"
-        android:text="冻结收益:1005"
+        android:text="冻结收益:0"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_3_nickname"
         app:layout_constraintLeft_toLeftOf="@id/message_item_system_3_nickname"
         android:layout_width="wrap_content"
@@ -71,17 +72,31 @@
 
     <TextView
         android:id="@+id/message_item_system_3_OweDeposit"
-        android:text="已欠货款:1545"
+        android:text="已欠货款:0"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_3_LockIntegral"
         app:layout_constraintLeft_toLeftOf="@id/message_item_system_3_LockIntegral"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <View
+        android:layout_marginTop="8dp"
+        android:id="@+id/message_item_register_3_line"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/message_item_system_3_OweDeposit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/line_color"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
     <TextView
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:padding="5dp"
+        android:textColor="@color/bgcolor2"
         android:id="@+id/message_item_system_3_cash"
         android:text="立即充值"
-        app:layout_constraintTop_toBottomOf="@id/message_item_system_3_OweDeposit"
-        app:layout_constraintLeft_toLeftOf="@id/message_item_system_3_OweDeposit"
+        app:layout_constraintTop_toBottomOf="@id/message_item_register_3_line"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_register_3_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

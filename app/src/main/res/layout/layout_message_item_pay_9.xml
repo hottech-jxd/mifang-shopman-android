@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@drawable/style_message_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/message_item_pay_9_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:text="下线会员订单支付成功通知"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="2dp"
+        android:id="@+id/message_item_pay_9_time"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:text="中午 13:99"
+        android:textSize="12sp"
+        android:layout_height="wrap_content" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/message_item_pay_9_avator"
+        app:failureImage="@mipmap/ic_launcher"
+        app:placeholderImage="@mipmap/ic_launcher"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_time"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="0dp"
+        android:textSize="14sp"
+        android:text="您的好友购买了商品，您又有新的收益了！"
+        android:textColor="@android:color/black"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/message_item_pay_9_avator"
+        app:layout_constraintTop_toTopOf="@id/message_item_pay_9_avator"
+        android:id="@+id/message_item_pay_9_sub_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/message_item_pay_9_OrderName"
+        android:text="订单商品:XXXXXX"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_sub_title"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_9_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="订单编号:6465464654564"
+        android:id="@+id/message_item_pay_9_OrderId"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_OrderName"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_9_OrderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="支付金额：0"
+        android:id="@+id/message_item_pay_9_OrderAmount"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_OrderId"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_9_OrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="支付时间：2019-07-07 12:11:00"
+        android:id="@+id/message_item_pay_9_paytime"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_OrderAmount"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_9_OrderAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="购买人昵称：XXX"
+        android:id="@+id/message_item_pay_9_UserWxNickName"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_paytime"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_9_paytime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="获取返利：0"
+        android:id="@+id/message_item_pay_9_ProfitAmount"
+        app:layout_constraintTop_toBottomOf="@id/message_item_pay_9_UserWxNickName"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_pay_9_UserWxNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</android.support.constraint.ConstraintLayout>

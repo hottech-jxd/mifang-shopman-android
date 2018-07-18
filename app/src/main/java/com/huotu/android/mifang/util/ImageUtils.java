@@ -1923,4 +1923,13 @@ public final class ImageUtils {
             }
         }
     }
+
+    public static byte[] fileToByte(String filePath){
+        try {
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            return input2Byte(fileInputStream);
+        }catch (IOException ioex){
+            return null;
+        }
+    }
 }

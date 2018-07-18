@@ -18,10 +18,7 @@ import android.text.format.Formatter
 import android.text.method.ScrollingMovementMethod
 import android.widget.TextView
 import com.huotu.android.mifang.BuildConfig
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.ApiResultCodeEnum
-import com.huotu.android.mifang.bean.AppVersionBean
-import com.huotu.android.mifang.bean.Constants
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.CommonContract
 import com.huotu.android.mifang.mvp.presenter.CommonPresenter
 import com.huotu.android.mifang.util.ToastUtils
@@ -103,6 +100,10 @@ class UpdateManager (var mContext:Context ): CommonContract.View ,DialogInterfac
     }
 
     override fun feedbackCallback(apiResult: ApiResult<Any>) {
+
+    }
+
+    override fun getProvinceCityAreaCallback(result: ArrayList<ProvinceCityArea>) {
 
     }
 

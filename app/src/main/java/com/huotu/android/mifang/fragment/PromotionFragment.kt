@@ -40,6 +40,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
         ,View.OnClickListener{
     var iPresenter = InvitePresenter(this)
     var shareDialog:ShareDialog?=null
+    var inviteBean:InviteBean?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
 
         promotion_operate_1.setOnClickListener(this)
         promotion_operate_2.setOnClickListener(this)
+        promotion_operate_3.setOnClickListener(this)
         promotion_lay_shop_order.setOnClickListener(this)
         promotion_invite.setOnClickListener(this)
 
@@ -69,6 +71,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
             toast("数据格式不对")
             return
         }
+        inviteBean =apiResult.data
 
         promotion_avator.setImageURI( apiResult.data!!.UserHeadImgURL )
         promotion_username.text = apiResult.data!!.UserNickName
@@ -84,10 +87,29 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
     override fun onClick(v: View?) {
         when(v!!.id) {
             R.id.promotion_operate_1 -> {
-                newIntent<InviteOneActivity>()
+
+                if(inviteBean==null)return
+
+                var bundle=Bundle()
+                bundle.putInt(Constants.INTENT_OPERATE_TYPE,1)
+                bundle.putString(Constants.INTENT_URL,inviteBean!!.BuyBuddyNumURL )
+                newIntent<InviteOneActivity>(bundle)
             }
             R.id.promotion_operate_2 -> {
-                newIntent<InviteTwoActivity>()
+                if(inviteBean==null)return
+
+                var bundle=Bundle()
+                bundle.putInt(Constants.INTENT_OPERATE_TYPE,2)
+                bundle.putString(Constants.INTENT_URL, inviteBean!!.ApplyAgentURL)
+                newIntent<InviteOneActivity>(bundle)
+            }
+            R.id.promotion_operate_3->{
+                if(inviteBean==null)return
+
+                var bundle=Bundle()
+                bundle.putInt(Constants.INTENT_OPERATE_TYPE,3)
+                bundle.putString(Constants.INTENT_URL, inviteBean!!.UpgradeAgentURL )
+                newIntent<InviteOneActivity>(bundle)
             }
             R.id.promotion_lay_shop_order -> {
                 newIntent<OrderActivity>(Constants.INTENT_ORDER_SOURCE, 100 )

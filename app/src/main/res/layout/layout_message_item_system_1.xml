@@ -33,7 +33,7 @@
         android:layout_height="wrap_content" />
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/message_item_logo"
+        android:id="@+id/message_item_system_1_logo"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_time"
         android:layout_marginTop="8dp"
         app:failureImage="@mipmap/ic_launcher"
@@ -43,19 +43,22 @@
 
     <TextView
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:textSize="14sp"
         android:textColor="#838383"
-        app:layout_constraintTop_toTopOf="@id/message_item_logo"
-        app:layout_constraintLeft_toRightOf="@id/message_item_logo"
+        app:layout_constraintTop_toTopOf="@id/message_item_system_1_logo"
+        app:layout_constraintLeft_toRightOf="@id/message_item_system_1_logo"
+        app:layout_constraintRight_toRightOf="parent"
+        android:maxLength="3"
+        android:ellipsize="end"
         android:id="@+id/message_item_system_1_sub_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:text="子标题"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/message_item_system_1_nickname"
-        android:text="昵称"
+        android:text="会员昵称:XXX"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_1_sub_title"
         app:layout_constraintLeft_toLeftOf="@id/message_item_system_1_sub_title"
         android:layout_width="wrap_content"
@@ -77,11 +80,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <View
+        android:layout_marginTop="8dp"
+        android:id="@+id/message_item_register_1_line"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/message_item_system_1_SurplusDay"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/line_color"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
     <TextView
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:padding="5dp"
         android:id="@+id/message_item_system_1_cash"
         android:text="立即续费"
-        app:layout_constraintTop_toBottomOf="@id/message_item_system_1_SurplusDay"
-        app:layout_constraintLeft_toLeftOf="@id/message_item_system_1_SurplusDay"
+        android:textColor="@color/bgcolor2"
+        app:layout_constraintTop_toBottomOf="@id/message_item_register_1_line"
+        app:layout_constraintLeft_toLeftOf="@id/message_item_register_1_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

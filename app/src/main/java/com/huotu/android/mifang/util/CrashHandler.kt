@@ -83,7 +83,7 @@ class CrashHandler private constructor() : Thread.UncaughtExceptionHandler {
         object : Thread() {
             override fun run() {
                 Looper.prepare()
-                ToastUtils.getInstance().showLongToast( mContext!! , "很抱歉,程序出现异常,即将退出.")
+                ToastUtils.single.showLongToast( mContext!! , "很抱歉,程序出现异常,即将退出.")
                 Looper.loop()
             }
         }.start()

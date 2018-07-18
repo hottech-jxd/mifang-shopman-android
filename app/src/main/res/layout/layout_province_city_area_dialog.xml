@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/province_city_area_dialog_header"
+        android:paddingTop="0dp"
+        android:paddingBottom="8dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/province_city_area_dialog_cancel"
+            android:text="取消"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/province_city_area_dialog_title"
+            android:text="选择日期"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="确定"
+            android:id="@+id/province_city_area_dialog_ok"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/province_city_area_dialog_line"
+        android:layout_below="@id/province_city_area_dialog_header"
+        android:background="@color/bg_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_below="@id/province_city_area_dialog_line"
+        android:layout_height="wrap_content">
+
+    <com.aigestudio.wheelpicker.WheelPicker
+        android:id="@+id/province_city_area_dialog_province"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+         android:padding="0dp"
+        android:layout_height="wrap_content"
+        app:wheel_item_text_color="@android:color/black"
+        app:wheel_curtain_color="@color/colorAccent"
+        app:wheel_item_space="5dp"
+        app:wheel_item_text_size="16sp"
+        app:wheel_item_align="center"
+        app:wheel_curved="true"
+        app:wheel_selected_item_text_color="@color/textcolor4"
+        app:wheel_visible_item_count="4"
+        />
+
+
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/province_city_area_dialog_city"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:layout_height="wrap_content"
+            app:wheel_item_text_color="@android:color/black"
+            app:wheel_curtain_color="@color/colorAccent"
+            app:wheel_item_space="5dp"
+            app:wheel_item_text_size="16sp"
+            app:wheel_item_align="center"
+            app:wheel_curved="true"
+            app:wheel_selected_item_text_color="@color/textcolor4"
+            app:wheel_visible_item_count="4"
+            />
+
+
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/province_city_area_dialog_area"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:layout_height="wrap_content"
+            app:wheel_indicator="false"
+            app:wheel_indicator_color="@color/bgcolor2"
+            app:wheel_indicator_size="1dp"
+            app:wheel_selected_item_text_color="@color/textcolor4"
+            app:wheel_item_text_color="@android:color/black"
+            app:wheel_curtain_color="@color/colorAccent"
+            app:wheel_item_space="5dp"
+            app:wheel_item_text_size="16sp"
+            app:wheel_item_align="center"
+            app:wheel_curved="true"
+            app:wheel_visible_item_count="4"
+            />
+
+
+    </LinearLayout>
+
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/province_city_area_dialog_progress"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

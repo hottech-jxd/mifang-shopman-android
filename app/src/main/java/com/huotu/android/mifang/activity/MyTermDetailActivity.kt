@@ -30,7 +30,7 @@ class MyTermDetailActivity : BaseActivity<TermContract.Presenter>()
         , SwipeRefreshLayout.OnRefreshListener
         , BaseQuickAdapter.RequestLoadMoreListener
         , BaseQuickAdapter.OnItemChildClickListener
-        , OperateDialog.OnOperateListener {
+        , OperateDialog.OnOperateListener<KeyValue> {
     var type = 1
     var filterData = ArrayList<FilterEntry>()
     var filterAdapter :FilterAdapter?=null
@@ -244,7 +244,7 @@ class MyTermDetailActivity : BaseActivity<TermContract.Presenter>()
         var kvs = ArrayList<KeyValue>()
         kvs.add( KeyValue(0,"今日"))
         kvs.add(KeyValue(1,"本月"))
-        var dialog = OperateDialog(this, this , kvs ,"选择查询时间")
+        var dialog = OperateDialog<KeyValue>(this, this , kvs ,"选择查询时间")
         dialog.show()
     }
 

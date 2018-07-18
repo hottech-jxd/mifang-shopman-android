@@ -17,14 +17,14 @@ class InviteTwoActivity : BaseActivity<IPresenter>(), View.OnClickListener {
 
         header_title.text="邀请入驻"
         header_left_image.setOnClickListener(this)
-        invite_two_buy.setOnClickListener(this)
+        invite_two_applyAgent.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.header_left_image->{finish()}
-            R.id.invite_two_buy->{
-                newIntent<BuyActivity>()
+            R.id.invite_two_applyAgent->{
+                newIntent<AgentUpgradeActivity>()
             }
         }
     }

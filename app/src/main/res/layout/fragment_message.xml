@@ -5,11 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MessageFragment">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/message_recycle"
+    <com.huotu.android.mifang.widget.SwiperRefreshView
+        android:id="@+id/message_refreshview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/message_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.huotu.android.mifang.widget.SwiperRefreshView>
 
     <com.huotu.android.mifang.widget.ProgressWidget
         android:id="@+id/message_progress"

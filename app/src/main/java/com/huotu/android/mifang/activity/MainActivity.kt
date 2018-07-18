@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.layout_bottom_menu.*
 class MainActivity : BaseActivity<IPresenter>()
         , View.OnClickListener
         , ViewPager.OnPageChangeListener
-        , OperateDialog.OnOperateListener {
+        , OperateDialog.OnOperateListener<KeyValue> {
     var fragments = ArrayList<BaseFragment<IPresenter>>()
     private var fragmentAdapter : MainFragmentAdapter?=null
 

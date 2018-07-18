@@ -40,10 +40,11 @@ android {
     }
 
     productFlavors {
-        mifang{
+        mifang {
             applicationId 'com.huotu.android.mifang'
             buildConfigField 'String', 'wechat_app_id', '\"wx39f5c1402223a602\"'
             buildConfigField 'String', 'wechat_app_secret', '\"17410824682424d5cb0f6d07e644774e\"'
+            buildConfigField 'String', 'wechat_miniprogram_id', '\"gh_711dd7acb21e\"'
             signingConfig signingConfigs.mifang
         }
 

@@ -50,6 +50,31 @@ class PayLoanPresenter(view: PayLoanContract.View) : PayLoanContract.Presenter {
                 })
     }
 
+    override fun getFrozenFlow(pageIndex: Int, pageSize: Int) {
+        val observable: Observable<ApiResult<ArrayList<FrozenFlow>>>? = mModel.getFrozenFlow( pageIndex, pageSize)
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Observer<ApiResult<ArrayList<FrozenFlow>>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<ArrayList<FrozenFlow>>) {
+                        mView!!.getFrozenFlowCallback(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
     override fun onDestory() {
 
     }

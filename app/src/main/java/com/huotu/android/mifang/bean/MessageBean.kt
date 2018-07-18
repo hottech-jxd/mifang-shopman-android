@@ -1,6 +1,6 @@
 package com.huotu.android.mifang.bean
 
-data class MessageBean ( var JpushType:Int,  var NotificationContent:String?, var PushTime: Long)
+data class MessageBean ( var JpushType:Int, var NoticeScene:Int, var NotificationContent:String?, var PushTime: Long)
 
 
 enum class NoticeSceneEnum(var id:Int , var desc:String?) {
@@ -161,6 +161,10 @@ data class UserRegisterViewModel
     /// 被通知人微信昵称
     /// </summary>
     var  BuddyWxNickName :String?,
+     /// <summary>
+        /// 用户登录名
+        /// </summary>
+    var UserLoginName:String?,
     /// <summary>
     /// 用户微信昵称
     /// </summary>

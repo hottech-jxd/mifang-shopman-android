@@ -9,10 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.PayloanAdapter
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.ApiResultCodeEnum
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.PayLoanBean
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.PayLoanContract
 import com.huotu.android.mifang.mvp.presenter.PayLoanPresenter
@@ -21,6 +18,9 @@ import kotlinx.android.synthetic.main.activity_cash_record_item.*
 import kotlinx.android.synthetic.main.activity_pay_loan_flow.*
 import kotlinx.android.synthetic.main.layout_header.*
 
+/**
+ * 货款流水
+ */
 class PayLoanFlowActivity : BaseActivity<PayLoanContract.Presenter>()
     ,PayLoanContract.View
         ,BaseQuickAdapter.RequestLoadMoreListener
@@ -111,5 +111,9 @@ class PayLoanFlowActivity : BaseActivity<PayLoanContract.Presenter>()
         } else {
             payloanAdapter!!.addData(apiResult.data!!)
         }
+    }
+
+    override fun getFrozenFlowCallback(apiResult: ApiResult<ArrayList<FrozenFlow>>) {
+
     }
 }

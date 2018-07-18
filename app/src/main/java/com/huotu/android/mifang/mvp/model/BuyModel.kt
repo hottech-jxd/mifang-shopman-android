@@ -1,8 +1,6 @@
 package com.huotu.android.mifang.mvp.model
 
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.GoodsBean
-import com.huotu.android.mifang.bean.InviteOrderBean
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.http.RetrofitManager
 import io.reactivex.Observable
 
@@ -15,5 +13,25 @@ class BuyModel {
     fun submitInviteOrder(quantity:Int , payType:Int ):Observable<ApiResult<InviteOrderBean>>{
         val apiService =RetrofitManager.getApiService()
         return apiService!!.submotInviteOrder(quantity , payType)
+    }
+
+    fun getAgentUpgradeGoods():Observable<ApiResult<AgentUpgradeGoodsBean>>{
+        val apiService =RetrofitManager.getApiService()
+        return apiService!!.getAgentUpgradeGoods()
+    }
+
+    fun getAddressList():Observable<ApiResult<ArrayList<AddressBean>>>{
+        val apiService =RetrofitManager.getApiService()
+        return apiService!!.getAddressList()
+    }
+
+    fun submitAgentUpgradeOrder(shipName:String
+                                ,shipMobile:String
+                                , shipAddress:String
+                                ,shipArea:String
+                                , shipAreaCode:String
+                                ,payType:Int ):Observable<ApiResult<InviteOrderBean>>{
+        val apiService =RetrofitManager.getApiService()
+        return apiService!!.submitAgentUpgradeOrder(shipName , shipMobile ,shipAddress, shipArea,shipAreaCode , payType)
     }
 }

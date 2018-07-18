@@ -335,7 +335,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:visibility="gone"
+            android:visibility="visible"
                     android:id="@+id/promotion_operate_3"
                     android:layout_marginTop="5dp"
                     android:paddingTop="15dp"

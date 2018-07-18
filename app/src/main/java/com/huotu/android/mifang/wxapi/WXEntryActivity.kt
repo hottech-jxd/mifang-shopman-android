@@ -8,8 +8,10 @@ import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.util.ToastUtils
+import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 
@@ -53,21 +55,58 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
 
     override fun onResp(baseResp: BaseResp) {
         Log.d(TAG, "baseResp.type =" + baseResp.type)
-        when (baseResp.errCode) {
-            BaseResp.ErrCode.ERR_OK -> {
-                ToastUtils.getInstance().showLongToast(this, "操作成功" + baseResp.errStr)
-                var intent = Intent()
-                intent.setAction(Constants.ACTION_WECHAT_LOGIN)
-                intent.putExtra("code", (baseResp as SendAuth.Resp).code )
-                sendBroadcast( intent)
+
+        when(baseResp.type){
+            ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM->{//启动小程序，回调
+                var launchMinProResp =   baseResp as WXLaunchMiniProgram.Resp
+                var extraData = launchMinProResp.extMsg//
             }
-            BaseResp.ErrCode.ERR_AUTH_DENIED -> ToastUtils.getInstance().showLongToast(this, "授权失败" + baseResp.errStr)
-            BaseResp.ErrCode.ERR_UNSUPPORT -> ToastUtils.getInstance().showLongToast(this, "操作不支持" + baseResp.errStr)
-            BaseResp.ErrCode.ERR_USER_CANCEL -> ToastUtils.getInstance().showLongToast(this, "用户取消操作" + baseResp.errStr)
-            else -> ToastUtils.getInstance().showLongToast(this, "操作异常=" + baseResp.errCode + baseResp.errStr)
+            ConstantsAPI.COMMAND_SENDAUTH->{//微信授权登录,回调
+                authLogin(baseResp)
+            }
+
         }
 
+//        when (baseResp.errCode) {
+//            BaseResp.ErrCode.ERR_OK -> {
+//                ToastUtils.single.showLongToast(this, "操作成功" + baseResp.errStr)
+//                var intent = Intent()
+//                intent.setAction(Constants.ACTION_WECHAT_LOGIN)
+//                intent.putExtra("code", (baseResp as SendAuth.Resp).code )
+//                sendBroadcast( intent)
+//            }
+//            BaseResp.ErrCode.ERR_AUTH_DENIED -> ToastUtils.single.showLongToast(this, "授权失败" + baseResp.errStr)
+//            BaseResp.ErrCode.ERR_UNSUPPORT -> ToastUtils.single.showLongToast(this, "操作不支持" + baseResp.errStr)
+//            BaseResp.ErrCode.ERR_USER_CANCEL -> ToastUtils.single.showLongToast(this, "用户取消操作" + baseResp.errStr)
+//            else -> ToastUtils.single.showLongToast(this, "操作异常=" + baseResp.errCode + baseResp.errStr)
+//        }
+
         finish()
+    }
+
+    private fun authLogin( baseResp : BaseResp){
+
+        when(baseResp.errCode) {
+            BaseResp.ErrCode.ERR_OK -> {
+                ToastUtils.single.showLongToast(this, "授权成功" )
+                var intent = Intent()
+                intent.action =Constants.ACTION_WECHAT_LOGIN
+                intent.putExtra("code", (baseResp as SendAuth.Resp).code)
+                sendBroadcast(intent)
+            }
+            BaseResp.ErrCode.ERR_AUTH_DENIED -> {
+                ToastUtils.single.showLongToast(this, "授权失败" + baseResp.errStr)
+            }
+            BaseResp.ErrCode.ERR_UNSUPPORT ->{
+                ToastUtils.single.showLongToast(this, "操作不支持" + baseResp.errStr)
+            }
+            BaseResp.ErrCode.ERR_USER_CANCEL ->{
+                ToastUtils.single.showLongToast(this, "用户取消操作" + baseResp.errStr)
+            }
+            else ->{
+                ToastUtils.single.showLongToast(this, "操作异常=" + baseResp.errCode + baseResp.errStr)
+            }
+        }
     }
 
     private fun getAccessToken( code :String  ){

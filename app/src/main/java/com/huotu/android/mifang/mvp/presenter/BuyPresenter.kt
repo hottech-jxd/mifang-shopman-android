@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
 
 class BuyPresenter(view: BuyContract.View):BuyContract.Presenter {
 
-    var mView: BuyContract.View?=null
+    private var mView: BuyContract.View?=null
     private val mModel: BuyModel by lazy { BuyModel() }
     private val mCommonModel:CommonModel by lazy { CommonModel() }
 
@@ -126,6 +126,84 @@ class BuyPresenter(view: BuyContract.View):BuyContract.Presenter {
 
                     override fun onNext(t: ApiResult<InviteOrderBean>) {
                         mView!!.submitOrderCallback( t )
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                } )
+    }
+
+    override fun getAgentUpgradeGoods() {
+        val observable : Observable<ApiResult<AgentUpgradeGoodsBean>>? = mModel.getAgentUpgradeGoods()
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe( object : Observer<ApiResult<AgentUpgradeGoodsBean>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<AgentUpgradeGoodsBean>) {
+                        mView!!.getAgentUpgradeGoodsCallback( t )
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                } )
+    }
+
+    override fun getAddressList() {
+        val observable : Observable<ApiResult<ArrayList<AddressBean>>>? = mModel.getAddressList()
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe( object : Observer<ApiResult<ArrayList<AddressBean>>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<ArrayList<AddressBean>>) {
+                        mView!!.getAddressListCallback( t )
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                } )
+    }
+
+
+    override fun submitAgentUpgradeOrder(shipName: String, shipMobile: String, shipAddress: String,
+                                         shipArea: String, shipAreaCode: String, payType: Int) {
+        val observable : Observable<ApiResult<InviteOrderBean>>? = mModel.submitAgentUpgradeOrder(shipName,shipMobile
+        ,shipAddress,shipArea,shipAreaCode,payType)
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe( object : Observer<ApiResult<InviteOrderBean>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<InviteOrderBean>) {
+                        mView!!.submitAgentUpgradeOrderCallback( t )
                     }
 
                     override fun onError(e: Throwable) {

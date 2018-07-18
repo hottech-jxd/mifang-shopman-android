@@ -8,8 +8,20 @@
     android:background="@drawable/style_message_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/layout_message_item_pay_8"
-        android:id="@+id/message_item_layout_pay_8"
+    <!--<include layout="@layout/layout_message_item_pay_8"-->
+        <!--android:id="@+id/message_item_layout_pay_8"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
+
+    <include layout="@layout/layout_message_item_pay_9"
+        android:id="@+id/message_item_layout_pay_9"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/layout_message_item_pay_10"
+        android:id="@+id/message_item_layout_pay_10"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

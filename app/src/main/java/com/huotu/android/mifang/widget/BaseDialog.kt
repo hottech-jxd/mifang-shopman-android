@@ -116,6 +116,7 @@ open class BaseDialog(internal var context: Context) : DialogInterface.OnKeyList
             params.height = height
         }
         contentLayout!!.layoutParams = params
+
     }
 
 

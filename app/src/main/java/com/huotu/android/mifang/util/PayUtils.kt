@@ -101,7 +101,7 @@ class PayUtils {
 
 
         if (TextUtils.isEmpty(payModel.wxAppId) || TextUtils.isEmpty(payModel.wxAppMchId)) {//缺少支付信息
-            ToastUtils.getInstance().showToast("缺少微信支付Appid,mechid信息")
+            ToastUtils.single.showToast("缺少微信支付Appid,mechid信息")
             return
         } else {
 

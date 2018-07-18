@@ -250,6 +250,18 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
         PayUtils().aliNativePay(aliOrderInfo ,this , orderBean.aliPayOrderString ,handler )
     }
 
+    override fun getAgentUpgradeGoodsCallback(apiResult: ApiResult<AgentUpgradeGoodsBean>) {
+
+    }
+
+    override fun getAddressListCallback(apiResult: ApiResult<ArrayList<AddressBean>>) {
+
+    }
+
+    override fun submitAgentUpgradeOrderCallback(apiResult: ApiResult<InviteOrderBean>) {
+
+    }
+
     override fun handleMessage(msg: Message?): Boolean {
         when( msg!!.what){
             PayUtils.SDK_Ali_PAY_V2_FLAG->{

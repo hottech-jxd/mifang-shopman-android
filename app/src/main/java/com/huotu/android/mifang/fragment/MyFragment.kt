@@ -44,7 +44,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
         my_repay.setOnClickListener(this)
         my_lay_message.setOnClickListener(this)
         my_lay_feedback.setOnClickListener(this)
-        my_lay_set.setOnClickListener(this)
+        my_lay_model.setOnClickListener(this)
         my_lay_shopper.setOnClickListener(this)
         my_lay_aboutme.setOnClickListener(this)
         my_lay_wallet.setOnClickListener(this)
@@ -82,8 +82,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
             R.id.my_lay_feedback->{
                 newIntent<FeedbackActivity>()
             }
-            R.id.my_setting,
-            R.id.my_lay_set->{
+            R.id.my_setting->{
                 newIntent<SettingActivity>()
             }
             R.id.my_lay_shopper->{
@@ -121,6 +120,10 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
             }
             R.id.my_message_deal->{
                 newIntent<PayLoanActivity>()
+            }
+            R.id.my_lay_model->{
+                if(myBean==null)return
+                newIntent<WebActivity>(Constants.INTENT_URL, myBean!!.MiFangModelURL)
             }
         }
     }

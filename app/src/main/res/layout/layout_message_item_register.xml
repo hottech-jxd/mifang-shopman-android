@@ -10,6 +10,25 @@
 
     <include layout="@layout/layout_message_item_register_4"
         android:id="@+id/layout_message_item_register_4"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/layout_message_item_register_5"
+        android:id="@+id/layout_message_item_register_5"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/layout_message_item_register_6"
+        android:id="@+id/layout_message_item_register_6"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/layout_message_item_register_7"
+        android:id="@+id/layout_message_item_register_7"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
