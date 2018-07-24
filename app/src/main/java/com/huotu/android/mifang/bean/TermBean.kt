@@ -10,7 +10,7 @@ var RegisterTime :String,
 var Recommender:String,
 var Memo :String,
 var Relation:Int, /*0直接1间接*/
-var LastLoginTime :String,
+var LastLoginTime :Long,
 var UserType:Int,
 var ExpireTime:Long)
 

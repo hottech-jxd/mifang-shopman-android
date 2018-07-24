@@ -12,6 +12,8 @@ import com.huotu.android.mifang.mvp.presenter.ProfitPresenter
 import com.huotu.android.mifang.newIntent
 import kotlinx.android.synthetic.main.layout_header.*
 import kotlinx.android.synthetic.main.activity_income.*
+import kotlinx.android.synthetic.main.fragment_my.*
+import java.math.BigDecimal
 
 class IncomeActivity : BaseActivity<ProfitContract.Presenter>()
         ,ProfitContract.View
@@ -73,25 +75,62 @@ class IncomeActivity : BaseActivity<ProfitContract.Presenter>()
         }
 
         var data =apiResult.data!!
-        income_balance.text = (data.UserIntegral/100).toString()
-        income_waitaccount.text = data.UserTempIntegral.toString()
 
-        income_today_income.text = data.UserProfitByToday.toString()+"元"
+        var userIntegral = data!!.UserIntegral
+        userIntegral.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userIntegral = userIntegral.divide(BigDecimal(100))
+        income_balance.text = userIntegral.toString()
+
+        var userTempIntegral = data!!.UserTempIntegral
+        userTempIntegral.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userTempIntegral = userTempIntegral.divide(BigDecimal(100))
+        income_waitaccount.text = userTempIntegral.toString()
+
+
+        var userProfitByToday = data.UserProfitByToday
+        userProfitByToday.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userProfitByToday = userProfitByToday.divide(BigDecimal(100))
+
+        income_today_income.text = userProfitByToday.toString()+"元"
         income_today_count.text = "预估"+ data.UserOrderNumByToday.toString()+"单"
 
-        income_yestoday_income.text = data.UserProfitByYesterday.toString()+"元"
+
+        var userProfitByYesterday = data.UserProfitByYesterday
+        userProfitByYesterday.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userProfitByYesterday = userProfitByYesterday.divide(BigDecimal(100))
+
+        income_yestoday_income.text = userProfitByYesterday.toString()+"元"
         income_yestoday_count.text =  "预估"+data.UserOrderNumByYesterday.toString()+"单"
 
-        income_this_week_income.text = data.UserProfitByWeek.toString()+"元"
+
+        var userProfitByWeek = data.UserProfitByWeek
+        userProfitByWeek.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userProfitByWeek = userProfitByWeek.divide(BigDecimal(100))
+
+
+        income_this_week_income.text = userProfitByWeek.toString()+"元"
         income_this_week_count.text =  "预估"+data.UserOrderNumByWeek.toString()+"单"
 
-        income_yestoday_week_income.text = data.UserProfitByLastWeek.toString()+"元"
+        var userProfitByLastWeek = data.UserProfitByLastWeek
+        userProfitByLastWeek.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userProfitByLastWeek = userProfitByLastWeek.divide(BigDecimal(100))
+
+        income_yestoday_week_income.text =userProfitByLastWeek.toString()+"元"
         income_yestoday_week_count.text =  "预估"+data.UserOrderNumByLastWeek.toString()+"单"
 
-        income_month_income.text = data.UserProfitByMonth.toString()+"元"
+        var userProfitByMonth = data.UserProfitByMonth
+        userProfitByMonth.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userProfitByMonth = userProfitByMonth.divide(BigDecimal(100))
+
+        income_month_income.text = userProfitByMonth.toString()+"元"
         income_month_count.text =  "预估"+data.UserOrderNumByMonth.toString()+"单"
 
-        income_yestoday_month_income.text = data.UserProfitByLastMonth.toString()+"元"
+
+        var userProfitByLastMonth = data.UserProfitByLastMonth
+        userProfitByLastMonth.setScale(2, BigDecimal.ROUND_HALF_UP)
+        userProfitByLastMonth = userProfitByLastMonth.divide(BigDecimal(100))
+        
+        income_yestoday_month_income.text = userProfitByLastMonth.toString()+"元"
         income_yestoday_month_count.text =  "预估"+data.UserOrderNumByLastMonth.toString()+"单"
 
     }

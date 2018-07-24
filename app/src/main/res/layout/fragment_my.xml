@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+
+<com.huotu.android.mifang.widget.SwiperRefreshView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F0EFF5"
-    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/my_refreshview"
+    android:layout_height="match_parent"
+    tools:context=".fragment.MyFragment">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#F0EFF5"
+    android:layout_height="match_parent"
     tools:context=".fragment.MyFragment">
 
 
+<!--<android.support.design.widget.CoordinatorLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="#F0EFF5"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--tools:context=".fragment.MyFragment">-->
 
-    <android.support.design.widget.AppBarLayout
+
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+    <LinearLayout
+        android:id="@+id/my_lay_header"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/my_header"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -40,7 +66,8 @@
 
 
         <LinearLayout
-            android:visibility="visible"
+            android:layout_above="@+id/my_scrollview"
+            android:visibility="gone"
             android:id="@+id/my_lay_tip"
             android:orientation="horizontal"
             android:paddingLeft="15dp"
@@ -73,6 +100,8 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+    </LinearLayout>
+
 
         <!--<android.support.design.widget.CollapsingToolbarLayout-->
             <!--android:layout_width="match_parent"-->
@@ -86,10 +115,11 @@
         <!--</android.support.design.widget.CollapsingToolbarLayout>-->
 
 
-    </android.support.design.widget.AppBarLayout>
+    <!--</android.support.design.widget.AppBarLayout>-->
 
 
     <android.support.v4.widget.NestedScrollView
+        android:layout_below="@id/my_lay_header"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_marginTop="0dp"
         android:id="@+id/my_scrollview"
@@ -608,10 +638,80 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+
+
+
+<!--</android.support.design.widget.CoordinatorLayout>-->
+
+
+    <RelativeLayout
+        android:clickable="true"
+        android:visibility="gone"
+        android:id="@+id/my_qrcode_lay"
+        android:orientation="vertical"
+        android:paddingTop="0dp"
+        android:paddingBottom="20dp"
+        android:background="@color/bgColor3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/my_qrcode_back"
+            android:drawableLeft="@mipmap/arrowleft"
+            android:drawablePadding="4dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="16sp"
+            android:text="二维码名片"
+            android:textColor="@color/white"
+            android:layout_gravity="left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            app:placeholderImage="@mipmap/avator"
+            app:placeholderImageScaleType="centerCrop"
+            app:failureImage="@mipmap/avator"
+            app:failureImageScaleType="centerCrop"
+            app:actualImageScaleType="centerCrop"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="80dp"
+            android:background="@color/white"
+            android:id="@+id/my_qrcode_image"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/my_qrcode_image"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="6dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/style_splash_login_bg"
+            android:id="@+id/my_qrcode_share"
+            android:text="分享"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
     <com.huotu.android.mifang.widget.ProgressWidget
         android:id="@+id/my_progress"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>
+
+
+</com.huotu.android.mifang.widget.SwiperRefreshView>

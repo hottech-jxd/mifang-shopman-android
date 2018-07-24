@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.huotu.android.mifang.activity.LoginRegisterActivity
+import com.huotu.android.mifang.activity.SplashActivity
 import com.huotu.android.mifang.bean.ApiResult
 import com.huotu.android.mifang.bean.ApiResultCodeEnum
 import com.huotu.android.mifang.mvp.IView
@@ -125,7 +126,7 @@ abstract class BaseFragment<T> : RxFragment() , IView<T>  {
 
             //EventBus.getDefault().post(LogoutEvent())
 
-            newIntent<LoginRegisterActivity>()
+            newIntent<SplashActivity>()
             return true
         }
         return false

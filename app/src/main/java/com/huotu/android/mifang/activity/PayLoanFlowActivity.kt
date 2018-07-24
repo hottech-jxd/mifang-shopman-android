@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
@@ -36,9 +37,13 @@ class PayLoanFlowActivity : BaseActivity<PayLoanContract.Presenter>()
         setContentView(R.layout.activity_pay_loan_flow)
 
         header_left_image.setOnClickListener(this)
+        header_title.text="货款流水"
 
+        var emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty, null)
         payloan_flow_refreshview.setOnRefreshListener(this)
         payloanAdapter = PayloanAdapter(ArrayList())
+        payloanAdapter!!.emptyView=emptyView
+        payloanAdapter!!.isUseEmpty(false)
         payloan_flow_recyclerview.addItemDecoration(RecyclerViewDivider(this, ContextCompat.getColor(this, R.color.line_color), 1f))
         payloan_flow_recyclerview.layoutManager=LinearLayoutManager(this)
         payloan_flow_recyclerview.adapter = payloanAdapter
@@ -60,6 +65,7 @@ class PayLoanFlowActivity : BaseActivity<PayLoanContract.Presenter>()
         super.hideProgress()
         payloan_flow_progress.visibility=View.GONE
         payloan_flow_refreshview.isRefreshing=false
+        payloanAdapter!!.isUseEmpty(true)
     }
 
     override fun onClick(v: View?) {
@@ -71,6 +77,7 @@ class PayLoanFlowActivity : BaseActivity<PayLoanContract.Presenter>()
     override fun onRefresh() {
         isShowProgress=false
         pageIndex=0
+        payloanAdapter!!.isUseEmpty(false)
         iPresenter.getDepositList(pageIndex+1,Constants.PAGE_SIZE)
     }
 
@@ -114,6 +121,18 @@ class PayLoanFlowActivity : BaseActivity<PayLoanContract.Presenter>()
     }
 
     override fun getFrozenFlowCallback(apiResult: ApiResult<ArrayList<FrozenFlow>>) {
+
+    }
+
+    override fun getDepositIndexCallback(apiResult: ApiResult<DepositBean>) {
+
+    }
+
+    override fun getPaymentItemsCallback(apiResult: ApiResult<ArrayList<PaymentItem>>) {
+
+    }
+
+    override fun submitGoodsDepositOrderCallback(apiResult: ApiResult<DepositOrderBean>) {
 
     }
 }

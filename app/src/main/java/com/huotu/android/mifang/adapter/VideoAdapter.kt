@@ -1,13 +1,5 @@
 package com.huotu.android.mifang.adapter
 
-import android.graphics.Bitmap
-import android.support.v7.widget.AppCompatImageView
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.facebook.drawee.view.SimpleDraweeView
@@ -35,7 +27,12 @@ class VideoAdapter( data :ArrayList<KVEntry> , var itemWidth :Int )
         var iv = helper!!.getView<SimpleDraweeView>(R.id.quan_video_item_picture )
 
 
-        FrescoDraweeController.loadImage(iv , itemWidth , 0, item.code , this )
+
+        //在加载图片之前，先给一个默认的宽高值
+        imageCallback(itemWidth , itemWidth , iv )
+
+
+        FrescoDraweeController.loadImage(iv , itemWidth , itemWidth , item.code , this )
 
 
 

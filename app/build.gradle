@@ -30,14 +30,8 @@ android {
             storeFile file('../key/key.jks')
             storePassword 'huotumifang'
         }
-
-//        nton {
-//            keyAlias 'huotunton'
-//            keyPassword 'huotunton'
-//            storeFile file('G:/myjob/keystore/nton/nton.jks')
-//            storePassword 'huotunton'
-//        }
     }
+
 
     productFlavors {
         mifang {

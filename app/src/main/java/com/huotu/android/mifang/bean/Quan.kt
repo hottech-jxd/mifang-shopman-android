@@ -19,3 +19,5 @@ data class Quan (
         var Time :String ,
         var Profit:String /*可赚利润*/
 )
+
+data class AdBean(var pictureUrl:String , var linkUrl:String)

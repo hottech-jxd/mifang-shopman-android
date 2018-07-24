@@ -11,3 +11,6 @@ data class SettingBean (
     var PayPassworded:Int /*支付密码是否已设置 0未重置 1已重置*/,
     var PayPasswordStatus:Int /*是否开启支付保护 0未开启 1已开启*/
 )
+
+
+data class UploadImageBean(var fullUrl:String, var url:String)

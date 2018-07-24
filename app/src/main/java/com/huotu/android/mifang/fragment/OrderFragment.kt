@@ -4,7 +4,9 @@ package com.huotu.android.mifang.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
@@ -29,6 +31,7 @@ const val ARG_ORDER_SOURCE_TYPE="order_source_type"
  */
 class OrderFragment : BaseFragment<OrderContract.Presenter>()
         ,OrderActivity.OrderFilterListener
+        ,SwipeRefreshLayout.OnRefreshListener
         ,OrderContract.View
         ,BaseQuickAdapter.RequestLoadMoreListener{
 
@@ -40,7 +43,7 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
     var year:Int= -1
     var month:Int = -1
     var day:Int = -1
-    var searchTimeType = -1
+    var searchTimeType = 2 //查询类型（默认-1全部,0-日,1-周,2-月）
     var weekNum = -1
     var orderSourceType =-1
 
@@ -61,18 +64,32 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
         if( orderAdapter==null)
             orderAdapter= OrderAdapter(data)
 
+        var emptyView = LayoutInflater.from(context).inflate(R.layout.layout_empty, null)
+        orderAdapter!!.emptyView= emptyView
+        orderAdapter!!.isUseEmpty(false)
+
+        order_refreshview.setOnRefreshListener(this)
         order_recyclerview.layoutManager=LinearLayoutManager(context)
         order_recyclerview.adapter=orderAdapter
         order_recyclerview.addItemDecoration(RecyclerViewDivider(context!!, ContextCompat.getColor(context!!, R.color.bg_line ) , 10f ))
     }
 
+    override fun onRefresh() {
+        pageIndex=0
+        isShowProgress=false
+        orderAdapter!!.isUseEmpty(false)
+        iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum ,  orderSourceType ,pageIndex+1 )
+    }
+
     override fun onLoadMoreRequested() {
+        orderAdapter!!.isUseEmpty(false)
         iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum ,  orderSourceType ,pageIndex+1 )
     }
 
     override fun fetchData() {
         pageIndex = 0
         isShowProgress=true
+        orderAdapter!!.isUseEmpty(false)
         iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , orderSourceType, pageIndex+1 )
     }
 
@@ -92,8 +109,11 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
 
     override fun hideProgress() {
         super.hideProgress()
+        if(order_loading==null)return
         order_loading.visibility=View.GONE
         isShowProgress=false
+        order_refreshview.isRefreshing=false
+        orderAdapter!!.isUseEmpty(true)
     }
 
     override fun filter(year: Int, month: Int, day: Int) {
@@ -101,6 +121,13 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
         this.year = year
         this.month = month
         this.day = day
+        pageIndex=0
+
+        if( orderAdapter==null)
+            orderAdapter= OrderAdapter(data)
+
+        orderAdapter!!.setNewData(data)
+
         if(isViewPrepared && isVisibleToUser) {
             //iPresenter.getProfitOrderList()
             iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , orderSourceType, pageIndex+1 )

@@ -22,9 +22,9 @@ object CookieUtils {
             val youxinUserid =  BaseApplication.instance!!.variable.userBean!!.userId
             val youxinUserToken = BaseApplication.instance!!.variable.userBean!!.token
 
-            val youxinDomain = Uri.parse( Constants.YOUXIN_BASE_URL ).host //"http://youxin.51huotao.com";
+            val youxinDomain =""// Uri.parse( Constants.YOUXIN_BASE_URL ).host //"http://youxin.51huotao.com";
 
-            val youxinCookie = "User-Id=$youxinUserid;User-Token=$youxinUserToken;User-Info=;domain=$youxinDomain;path=/"
+            //val youxinCookie = "User-Id=$youxinUserid;User-Token=$youxinUserToken;User-Info=;domain=$youxinDomain;path=/"
 
 
             val userInfo = UserInfo()

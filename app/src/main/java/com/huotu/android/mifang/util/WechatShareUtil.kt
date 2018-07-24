@@ -3,7 +3,9 @@ package com.huotu.android.mifang.util
 
 import android.content.UriMatcher
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.Image
 import android.net.Uri
 import android.provider.SyncStateContract
 import android.text.style.URLSpan
@@ -18,10 +20,7 @@ import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
-import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject
-import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
+import com.tencent.mm.opensdk.modelmsg.*
 import java.io.File
 
 class WechatShareUtil : FileDownloadListener() {
@@ -75,6 +74,23 @@ class WechatShareUtil : FileDownloadListener() {
                 .setAutoRetryTimes(1)
                 .start()
     }
+
+    fun shareWechatOfOneImage( thumbBitmap: Bitmap , bitmap: Bitmap, shareType:Int){
+        var wxImageObject = WXImageObject(bitmap)
+        var wxMediaMessage = WXMediaMessage()
+        wxMediaMessage.mediaObject = wxImageObject
+        //设置缩略图
+        //wxMediaMessage.thumbData = ImageUtils.bitmap2Bytes( ImageUtils.compressByQuality(thumbBitmap, 32*1024L) , Bitmap.CompressFormat.JPEG)
+
+        var req= SendMessageToWX.Req()
+        req.transaction="img"
+        req.message=wxMediaMessage
+        req.scene= shareType //SendMessageToWX.Req.WXSceneSession
+
+        AppInit.iwxApi!!.sendReq( req)
+    }
+
+
 
     fun shareWechatMoments(bean: ShareBean){
         var fileName = AppUtil.getFileName( bean.logoUrl )

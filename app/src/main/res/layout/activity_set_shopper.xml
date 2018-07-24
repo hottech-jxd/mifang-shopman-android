@@ -33,8 +33,12 @@
             android:layout_height="wrap_content" />
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/setshopper_logo"
-            app:placeholderImage="@mipmap/ic_launcher"
-            app:failureImage="@mipmap/ic_launcher"
+            app:placeholderImageScaleType="centerCrop"
+            app:placeholderImage="@mipmap/avator"
+            app:failureImage="@mipmap/avator"
+            app:failureImageScaleType="centerCrop"
+            app:actualImageScaleType="centerCrop"
+            app:roundedCornerRadius="5dp"
             android:layout_width="60dp"
             android:layout_height="60dp" />
     </LinearLayout>

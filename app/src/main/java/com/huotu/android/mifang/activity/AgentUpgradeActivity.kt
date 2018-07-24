@@ -6,7 +6,9 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
+import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.GoodsDetailAdapter
@@ -27,7 +29,7 @@ class AgentUpgradeActivity : BaseActivity<GoodsContract.Presenter>()
     var detailAdapter: GoodsDetailAdapter?=null
     var data:GoodsDetailBean?=null
     var images1 = ArrayList<String>()
-    var images2 = ArrayList<String>()
+    var images2 = ArrayList<String?>()
     var iPresenter = GoodsPresenter(this)
     var goodsId = 0L
 
@@ -82,7 +84,9 @@ class AgentUpgradeActivity : BaseActivity<GoodsContract.Presenter>()
 
         if( data ==null) return
 
-        images1 = data!!.pictures.split(",") as ArrayList<String>
+        if( !TextUtils.isEmpty( data!!.pictures)) {
+            images1 = data!!.pictures!!.split(",") as ArrayList<String>
+        }
 
         agentupgrade_images.setImageLoader(FrescoImageLoader( agentupgrade_images , DensityUtils.getScreenWidth(this)))
         agentupgrade_images.setImages(images1)
@@ -94,7 +98,9 @@ class AgentUpgradeActivity : BaseActivity<GoodsContract.Presenter>()
         agentupgrade_item_price.text ="￥"+ data!!.price
         agentupgrade_item_memo.text= data!!.memo
 
-        images2 = data.intro
+        if(data.intro!=null) {
+            images2 = data.intro!!
+        }
 
         detailAdapter!!.setNewData(images2)
 
@@ -108,7 +114,7 @@ class AgentUpgradeActivity : BaseActivity<GoodsContract.Presenter>()
         }
     }
 
-    override fun getStoreIndexCallback(apiResult: ApiResult<ArrayList<GoodsInfoBean>>) {
+    override fun getStoreIndexCallback(apiResult: ApiResult<StoreIndex>) {
 
     }
 

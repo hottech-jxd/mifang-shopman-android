@@ -72,6 +72,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
         myshopper_preview.setOnClickListener(this)
         myshopper_freeze.setOnClickListener(this)
 
+
         myshopper_refreshview.setOnRefreshListener(this)
         myshopper_recyclerview.layoutManager = GridLayoutManager(context ,2)
         shopGoodsAdapter = ShopGoodsAdapter(data)
@@ -111,7 +112,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
                 myshopper_menu_lay.visibility=View.GONE
                 share()
             }
-            R.id.myshopper_menu_flow->{
+            R.id.myshopper_menu_flow->{//货款流水
                 myshopper_menu_lay.visibility=View.GONE
                 newIntent<PayLoanFlowActivity>()
             }
@@ -184,7 +185,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
 
     }
 
-    override fun getStoreIndexCallback(apiResult: ApiResult<ArrayList<GoodsInfoBean>>) {
+    override fun getStoreIndexCallback(apiResult: ApiResult<StoreIndex>) {
         if(processCommonErrorCode(apiResult)){
             return
         }
@@ -194,7 +195,10 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
         }
         if (apiResult.data == null) return
 
-        if (  apiResult.data!!.size < Constants.PAGE_SIZE) {
+        var data = apiResult.data!!.Rows
+        if(data==null) return
+
+        if (  data!!.size < Constants.PAGE_SIZE) {
             //没有数据了
             if (pageIndex == 0) {
                 shopGoodsAdapter!!.loadMoreEnd(true)
@@ -209,10 +213,10 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
         }
 
         if (pageIndex == 1) {
-            shopGoodsAdapter!!.setNewData(apiResult.data)
+            shopGoodsAdapter!!.setNewData(data)
             shopGoodsAdapter!!.disableLoadMoreIfNotFullPage(myshopper_recyclerview)
         } else {
-            shopGoodsAdapter!!.addData(apiResult.data!!)
+            shopGoodsAdapter!!.addData(data)
         }
     }
 
@@ -225,7 +229,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
             return
         }
 
-        myshopper_hk.text = apiResult.data!!.goodsDeposit
+        myshopper_hk.text = apiResult.data!!.GoodsDeposit
     }
 
     override fun agentUpgradeCallback(apiResult: ApiResult<GoodsDetailBean>) {

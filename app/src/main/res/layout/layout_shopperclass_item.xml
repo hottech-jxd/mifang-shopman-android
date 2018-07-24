@@ -9,8 +9,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        app:failureImage="@mipmap/ic_launcher"
-        app:placeholderImage="@mipmap/ic_launcher"
+        app:failureImage="@mipmap/avator"
+        app:actualImageScaleType="centerCrop"
+        app:placeholderImageScaleType="centerCrop"
+        app:failureImageScaleType="centerCrop"
+        app:placeholderImage="@mipmap/avator"
         android:id="@+id/shopperclass_item_logo"
         android:layout_width="80dp"
         android:layout_height="80dp" />

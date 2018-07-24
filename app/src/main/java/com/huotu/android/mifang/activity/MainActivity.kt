@@ -9,10 +9,11 @@ import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.MainFragmentAdapter
 import com.huotu.android.mifang.base.BaseActivity
 import com.huotu.android.mifang.base.BaseFragment
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.KeyValue
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.fragment.*
 import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.mvp.contract.MainContract
+import com.huotu.android.mifang.mvp.presenter.MainPresenter
 import com.huotu.android.mifang.receiver.PushProcess
 import com.huotu.android.mifang.update.UpdateManager
 import com.huotu.android.mifang.util.DensityUtils
@@ -21,13 +22,14 @@ import com.huotu.android.mifang.widget.OperateDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_bottom_menu.*
 
-class MainActivity : BaseActivity<IPresenter>()
+class MainActivity : BaseActivity<MainContract.Presenter>()
+        ,MainContract.View
         , View.OnClickListener
         , ViewPager.OnPageChangeListener
         , OperateDialog.OnOperateListener<KeyValue> {
-    var fragments = ArrayList<BaseFragment<IPresenter>>()
+    private var fragments = ArrayList<BaseFragment<IPresenter>>()
     private var fragmentAdapter : MainFragmentAdapter?=null
-
+    private var iPresenter=MainPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,8 @@ class MainActivity : BaseActivity<IPresenter>()
         super.onNewIntent(intent)
 
         initPush(intent)
+
+
     }
 
     /***
@@ -81,16 +85,18 @@ class MainActivity : BaseActivity<IPresenter>()
         bottom_my.setOnClickListener(this)
         bottom_benefit.setOnClickListener(this)
 
-        openDialog()
+        //openDialog()
+
+        iPresenter.getAd()
     }
 
 
-    private fun openDialog(){
+    private fun openDialog( bean :AdBean ){
         var msgDialog = MsgDialog(this,this)
 
         msgDialog.setSize(DensityUtils.getScreenWidth(this) *80/100, 0)
         msgDialog.setMaxHeight( DensityUtils.getScreenHeight(this)*2/3 )
-        msgDialog.show()
+        msgDialog.show( bean )
     }
 
     override fun onClick(v: View?) {
@@ -136,5 +142,15 @@ class MainActivity : BaseActivity<IPresenter>()
 
     override fun operate(keyValue: KeyValue) {
 
+    }
+
+    override fun getAdCodeCallback(apiResult: ApiResult<AdBean>) {
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null)return
+
+        openDialog(apiResult.data!! )
     }
 }

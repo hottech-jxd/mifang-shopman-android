@@ -1,21 +1,34 @@
 package com.huotu.android.mifang.fragment
 
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.text.TextUtils
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.*
+import com.huotu.android.mifang.base.BaseApplication
 import com.huotu.android.mifang.base.BaseFragment
 import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.MyContract
 import com.huotu.android.mifang.mvp.presenter.MyPresenter
 import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.util.DensityUtils
+import com.huotu.android.mifang.util.FrescoDraweeController
 import com.huotu.android.mifang.widget.FrescoImageLoader
+import com.liulishuo.filedownloader.BaseDownloadTask
+import com.liulishuo.filedownloader.FileDownloadListener
+import com.liulishuo.filedownloader.FileDownloader
 import com.youth.banner.listener.OnBannerListener
 import kotlinx.android.synthetic.main.fragment_my.*
+import java.io.File
+import java.math.BigDecimal
 
 /**
  * A simple [Fragment] subclass.
@@ -25,11 +38,14 @@ import kotlinx.android.synthetic.main.fragment_my.*
  */
 class MyFragment : BaseFragment<MyContract.Presenter>()
         ,MyContract.View
+        ,SwipeRefreshLayout.OnRefreshListener
         ,OnBannerListener
         ,View.OnClickListener {
 
-    var myPresenter=MyPresenter(this)
-    var myBean :MyBean?=null
+    private var myPresenter=MyPresenter(this)
+    private var myBean :MyBean?=null
+    private var qrCodeUrl:String?=null
+    private var REQUEST_CODE_SHARE=2001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +72,15 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
         my_lay_mibean.setOnClickListener(this)
         my_banner.setOnBannerListener(this)
         my_message_deal.setOnClickListener(this)
+
+        my_qrcode_back.setOnClickListener(this)
+        my_qrcode_share.setOnClickListener(this)
+        my_refreshview.setOnRefreshListener(this)
+
+    }
+
+    override fun onRefresh() {
+        fetchData()
     }
 
     override fun fetchData() {
@@ -68,9 +93,9 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
 
     override fun OnBannerClick(position: Int) {
         if(myBean==null)return
-        if(myBean!!.ADList==null) return
+        if(myBean!!.ADLists==null) return
 
-        var url  =myBean!!.ADList!![position].LinkURL
+        var url  =myBean!!.ADLists!![position].LinkURL
         newIntent<WebActivity>(Constants.INTENT_URL , url)
     }
 
@@ -89,7 +114,8 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
                 newIntent<ShopperClassActivity>()
             }
             R.id.my_lay_aboutme->{
-                newIntent<WebActivity>( Constants.INTENT_URL , "http://www.baidu.com")
+                var aboutUs = if(BaseApplication.instance!!.variable.initDataBean==null) "" else BaseApplication.instance!!.variable.initDataBean!!.aboutUs
+                newIntent<WebActivity>( Constants.INTENT_URL , aboutUs )
             }
             R.id.my_lay_wallet->{
                 newIntent<MyWalletActivity>()
@@ -104,7 +130,8 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
                 newIntent<MyTermActivity>()
             }
             R.id.my_qrcode->{
-                newIntent<WebActivity>(Constants.INTENT_URL , "http://www.baidu.com")
+                //newIntent<WebActivity>(Constants.INTENT_URL , "http://www.baidu.com")
+                openQRCodeDialog()
             }
             R.id.my_repay->{
                 newIntent<BuyActivity>(Constants.INTENT_OPERATE_TYPE,1)
@@ -125,7 +152,93 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
                 if(myBean==null)return
                 newIntent<WebActivity>(Constants.INTENT_URL, myBean!!.MiFangModelURL)
             }
+            R.id.my_qrcode_back->{
+                my_qrcode_lay.visibility=View.GONE
+            }
+            R.id.my_qrcode_share->{
+
+                shareQrCode(qrCodeUrl)
+            }
         }
+    }
+
+    private fun shareQrCode(qrCodeUrl :String?){
+        if(TextUtils.isEmpty(qrCodeUrl)){
+            return
+        }
+
+        var qrCodeName= File(qrCodeUrl).name
+        var qrCodePath = Constants.ImageDirPath + qrCodeName
+        var qrCodeFile = File( qrCodePath )
+        if( !qrCodeFile.exists() ) {
+            downloadQrCode(qrCodeUrl!! , qrCodePath )
+            return
+        }
+
+        var images = ArrayList<Uri>()
+        //var file = File(qrCodePath)
+        images.add( Uri.fromFile(qrCodeFile) )
+        var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
+        intent.type = "image/*"
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, images)
+        intent.putExtra(Intent.EXTRA_SUBJECT, "二维码名片" )
+        intent.putExtra(Intent.EXTRA_TEXT, "二维码名片" )
+        intent.putExtra(Intent.EXTRA_TITLE, "二维码名片")
+        //intent.putExtra(Intent., quan.ShareTitle)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivityForResult( Intent.createChooser(intent, "分享") , REQUEST_CODE_SHARE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        //toast("分享了回调。。。。。")
+
+    }
+
+    private fun downloadQrCode(qrCodeUrl:String, qrCodePath :String){
+
+        FileDownloader
+                .getImpl()
+                .create(qrCodeUrl)
+                .setPath(qrCodePath)
+                .setListener(object:FileDownloadListener(){
+                    override fun warn(task: BaseDownloadTask?) {
+                        my_progress.visibility=View.GONE
+                    }
+
+                    override fun completed(task: BaseDownloadTask?) {
+                        my_progress.visibility=View.GONE
+                        shareQrCode(qrCodeUrl)
+                    }
+
+                    override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                        my_progress.visibility=View.GONE
+                    }
+
+                    override fun error(task: BaseDownloadTask?, e: Throwable?) {
+                        my_progress.visibility=View.GONE
+                        e!!.printStackTrace()
+                        toast("下载二维码失败,请重试")
+                    }
+
+                    override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                        my_progress.visibility=View.VISIBLE
+                    }
+
+                    override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                        my_progress.visibility=View.GONE
+                    }
+                }).start()
+
+    }
+
+
+    /**
+     *
+     */
+    private fun openQRCodeDialog(){
+        myPresenter.getQrcode()
     }
 
     override fun showProgress(msg: String) {
@@ -136,6 +249,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
     override fun hideProgress() {
         super.hideProgress()
         my_progress.visibility=View.GONE
+        my_refreshview.isRefreshing=false
     }
 
     override fun myIndexCallback(apiResult: ApiResult<MyBean>) {
@@ -157,9 +271,26 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
 
         my_account_type.text = myBean!!.LevelName
         my_ExpireTime.text="到期时间:"+ myBean!!.ExpireTime +"(剩"+ myBean!!.SurplusDays +"天)"
-        my_waitaccounts.text = myBean!!.UserTempIntegral.toString()
-        my_balance.text = (myBean!!.UserIntegral/100).toString()
-        my_mibean.text = myBean!!.UserMBean.toString()
+
+        if(myBean!!.SurplusDays<=30){
+            my_repay.visibility=View.VISIBLE
+        }else{
+            my_repay.visibility=View.GONE
+        }
+
+        var tempIntegral = myBean!!.UserTempIntegral
+        tempIntegral.setScale(2,BigDecimal.ROUND_HALF_UP)
+        tempIntegral = tempIntegral.divide(BigDecimal(100))
+        my_waitaccounts.text = tempIntegral.toString()
+        var balance = myBean!!.UserIntegral
+        balance.setScale(2, BigDecimal.ROUND_HALF_UP)
+        balance = balance.divide(BigDecimal(100))
+        my_balance.text = balance.toString()
+
+        var mibean = myBean!!.UserMBean
+        mibean.setScale(2,BigDecimal.ROUND_HALF_UP)
+        mibean = mibean.divide(BigDecimal(100))
+        my_mibean.text = mibean.toString()
 
         if( !TextUtils.isEmpty( myBean!!.TipStr)){
             my_lay_message.visibility=View.VISIBLE
@@ -171,7 +302,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
             my_lay_message.visibility =View.GONE
         }
 
-        setAdBanner(myBean!!.ADList)
+        setAdBanner(myBean!!.ADLists)
     }
 
 
@@ -200,8 +331,15 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
     }
 
     override fun getQrcodeCallback(apiResult: ApiResult<String>) {
-        //todo
+        if(apiResult.code!=ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
 
+        my_qrcode_lay.visibility = View.VISIBLE //if (my_qrcode_lay.visibility==View.GONE) View.VISIBLE else View.GONE
+        qrCodeUrl = apiResult.data
+        var imageWith = DensityUtils.getScreenWidth(context!!) * 2 / 3
+        FrescoDraweeController.loadImage( my_qrcode_image , imageWith , imageWith , qrCodeUrl)
     }
 
     companion object {

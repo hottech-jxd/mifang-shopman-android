@@ -4,7 +4,6 @@ package com.huotu.android.mifang.bean
  * Created by jinxiangdong on 2018/2/5.
  */
 data class InitDataBean (
-
         var userId:Long,
         var nickName:String?,
         var userHead:String?,

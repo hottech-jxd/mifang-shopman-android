@@ -1,6 +1,7 @@
 package com.huotu.android.mifang.widget
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
@@ -12,6 +13,9 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.activity.WebActivity
+import com.huotu.android.mifang.bean.AdBean
+import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.bean.KeyValue
 import com.huotu.android.mifang.util.DensityUtils
 import com.huotu.android.mifang.widget.OperateDialog.OnOperateListener
@@ -22,6 +26,7 @@ import com.huotu.android.mifang.widget.OperateDialog.OnOperateListener
 class MsgDialog(context: Context, onOperateListener: OnOperateListener<KeyValue>?)
     : BaseDialog(context), View.OnClickListener {
 
+    var bean:AdBean?=null
 
 //    interface OnOperateListener {
 //        fun operate(keyValue: KeyValue)
@@ -34,6 +39,9 @@ class MsgDialog(context: Context, onOperateListener: OnOperateListener<KeyValue>
         }
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.layout_msg_one_dialog, null)
+
+        val iv = view.findViewById<ImageView>(R.id.msg_one_logo)
+        iv.setOnClickListener(this)
 
         //var layout = view.layoutParams
         //layout.width = DensityUtils.getScreenWidth(context) *80/100
@@ -60,6 +68,16 @@ class MsgDialog(context: Context, onOperateListener: OnOperateListener<KeyValue>
                 .into(iv)
     }
 
+
+    fun show(bean: AdBean){
+        this.bean = bean
+        var iv = dialog!!.findViewById<ImageView>(R.id.msg_one_logo)
+        Glide.with(context).load( bean.pictureUrl)
+                .into(iv)
+
+        show()
+    }
+
     override fun show() {
 
         val window = this.dialog!!.window
@@ -71,8 +89,17 @@ class MsgDialog(context: Context, onOperateListener: OnOperateListener<KeyValue>
     }
 
     override fun onClick(v: View?) {
-        //dialog!!.dismiss()
-        //dialog=null
-        dismiss()
+        when( v!!.id ){
+            R.id.msg_one_close->{
+                dismiss()
+            }
+            R.id.msg_one_logo->{
+                dismiss()
+                var intent = Intent(context, WebActivity::class.java)
+                intent.putExtra(Constants.INTENT_URL, bean!!.linkUrl)
+                context.startActivity(intent)
+            }
+        }
+
     }
 }

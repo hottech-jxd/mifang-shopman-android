@@ -18,9 +18,9 @@
         app:path="line"
         app:movement_cycle_time="3000"
         app:enable_size_animation="true"
-        app:size_cycle_time="500"
+        app:size_cycle_time="1000"
         app:min_ball_size="5dp"
-        app:max_ball_size="18dp"
+        app:max_ball_size="10dp"
         app:ball_colors="@array/colors"
         android:layout_gravity="center"
         />

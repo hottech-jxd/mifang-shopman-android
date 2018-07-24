@@ -11,12 +11,15 @@ interface QuanContract {
     interface Presenter: IPresenter {
         fun materialCategprys()
         fun materialList(typeId:Int , pageIndex:Int=1)
+        fun shareSuccess(dataId:Long)
     }
 
     interface View: IView<Presenter> {
         fun materialCategprysCallback(apiResult: ApiResult<List<MaterialCategory>>)
 
         fun materialListCallback(apiResult: ApiResult<List<Quan>>)
+
+        fun shareSuccessCallback(apiResult: ApiResult<Any>)
     }
 
 }

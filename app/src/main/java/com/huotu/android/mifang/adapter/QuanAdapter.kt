@@ -210,7 +210,11 @@ class QuanAdapter(data:ArrayList<Quan>)
         helper.setGone(R.id.quan_item_one_images , false)
         helper.setGone(R.id.quan_item_one_videos , false)
 
-        helper.setGone(R.id.quan_item_one_save_image , false)
+        //helper.setGone(R.id.quan_item_one_save_image , false)
+
+        //helper.setVisible(R.id.quan_item_one_save_image, false)
+
+        helper.setText(R.id.quan_item_one_save_text , "复制文案")
     }
 
     /***
@@ -228,7 +232,10 @@ class QuanAdapter(data:ArrayList<Quan>)
 
         helper.setGone(R.id.quan_item_one_images , true)
         helper.setGone(R.id.quan_item_one_videos , false)
-        helper.setGone(R.id.quan_item_one_save_image, true)
+        //helper.setGone(R.id.quan_item_one_save_image, true)
+
+        helper.setVisible(R.id.quan_item_one_save_image,true)
+
         helper.setText(R.id.quan_item_one_save_text,"下载图片")
 
         setNineImage( helper.getView(R.id.quan_item_one_images) , quan.SmallImageUrls )
@@ -301,7 +308,10 @@ class QuanAdapter(data:ArrayList<Quan>)
         helper.setText(R.id.quan_item_one_money , quan.Profit+"元")
         helper.setGone(R.id.quan_item_one_images , false)
         helper.setGone(R.id.quan_item_one_videos , true)
-        helper.setGone(R.id.quan_item_one_save_image, true )
+        //helper.setGone(R.id.quan_item_one_save_image, true )
+        helper.setVisible(R.id.quan_item_one_save_image,true)
+
+
         helper.setText(R.id.quan_item_one_save_text , "下载视频")
 
         if(quan.VideoUrls==null|| quan.VideoUrls!!.size<1)return

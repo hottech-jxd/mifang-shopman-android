@@ -10,7 +10,7 @@ class SettingModel {
         val apiService = RetrofitManager.getApiService()
         return apiService!!.shopperSetting(type,content )
     }
-    fun uploadLogo( map:Map<String,RequestBody >): Observable<ApiResult<Map<String,String>>> {
+    fun uploadLogo( map:Map<String,RequestBody >): Observable<ApiResult<UploadImageBean>> {
         val apiService = RetrofitManager.getApiService()
         return apiService!!.uploadImage( map )
     }

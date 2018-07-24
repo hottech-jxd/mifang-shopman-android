@@ -14,6 +14,7 @@ interface SplashContract {
          * 读取省市区数据
          */
         //fun readCityData()
+        fun sendWechatLogin()
 
         fun getWechatAccessToken(appid: String,appSecret:String , code :String)
 
@@ -24,6 +25,8 @@ interface SplashContract {
     interface View: IView<Presenter> {
 
          fun initDataCallback(result: ApiResult<InitDataBean>)
+
+        //fun sendWechatLoginCallbak()
 
          //fun readCityDataCallback(list: ArrayList<Province>)
         fun getWechatAccessTokenCallback(result: WechatAccessToken)

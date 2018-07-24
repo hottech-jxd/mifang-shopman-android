@@ -210,6 +210,7 @@ class BindPhoneActivity : BaseActivity<BindPhoneContract.Presenter>()
         intent.putExtra(Constants.INTENT_PHONE, bindPhone_newPhone.text.toString().trim())
 
         setResult(Activity.RESULT_OK, intent )
+        KeybordUtils.closeKeyboard(this)
         finish()
     }
 

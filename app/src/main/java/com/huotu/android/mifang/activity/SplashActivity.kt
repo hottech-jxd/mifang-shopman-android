@@ -26,6 +26,8 @@ import com.huotu.android.mifang.receiver.WechatLoginReceiver
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import kotlinx.android.synthetic.main.activity_splash.*
 import permissions.dispatcher.BuildConfig
+import com.huotu.android.mifang.bean.UserBean
+
 
 @RuntimePermissions
 class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
@@ -54,16 +56,14 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
         tvVersion.text = getString(R.string.app_name) + " v" + BuildConfig.VERSION_NAME
 
-
-//        var userString = SPUtils.getInstance(this, Constants.PREF_FILENAME).readString(Constants.PREF_USER,"")
-//        if(!userString.trim().isEmpty()) {
-//            BaseApplication.instance!!.variable.userBean = GsonUtils.gson!!.fromJson(userString, UserBean::class.java)
-//        }
+        val json = SPUtils.getInstance(this,Constants.PREF_FILENAME).readString( Constants.PREF_USER, "")
+        if (!json.isEmpty()) {
+            BaseApplication.instance!!.variable.userBean = GsonUtils.gson!!.fromJson(json, UserBean::class.java)
+        }
 
         presenter = SplashPresenter(this)
         presenter!!.initData()
 
-        //isLoginStatus()
     }
 
 
@@ -126,21 +126,48 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
         var json = SPUtils.getInstance(this , Constants.PREF_FILENAME).readString(Constants.PREF_USER,"")
         if(!TextUtils.isEmpty(json)){
             BaseApplication.instance!!.variable.userBean = GsonUtils.gson!!.fromJson(json,UserBean::class.java)
-            setJpushAlias(BaseApplication.instance!!.variable.userBean!!)
-            return bindPhone()
+            return true
         }
         return false
     }
 
     private fun weChatLogin(){
 
-        if( isLoginStatus()) return
+        if( !isLoginStatus()) {
+            if( isGetWechatUser() ){
+                var wechatUser = BaseApplication.instance!!.variable.wechatUser
 
-        var req = SendAuth.Req()
-        req.scope = "snsapi_userinfo"
-        req.state="mifang"
-        AppInit.iwxApi!!.sendReq(req)
+                var unionid=wechatUser!!.unionid
+
+                if(com.huotu.android.mifang.BuildConfig.DEBUG) {//ttttesetstts
+                    unionid="ovFVjw7BF5u9VQBDdecRRdqKEGHA"
+                }
+
+
+                presenter!!.loginByUnionId( wechatUser!!.openid , unionid , wechatUser.nickname, wechatUser.headimgurl )
+            }else {
+//                var req = SendAuth.Req()
+//                req.scope = "snsapi_userinfo"
+//                req.state = "mifang"
+//                AppInit.iwxApi!!.sendReq(req)
+                presenter!!.sendWechatLogin()
+            }
+        }else if(bindPhone()){
+
+        }
     }
+
+    /**
+     * 检测是否已经获得了微信用户信息
+     */
+    private fun isGetWechatUser():Boolean{
+        var json = SPUtils.getInstance(this, Constants.PREF_FILENAME).readString(Constants.PREF_WECHAT_USER,"")
+        if(TextUtils.isEmpty( json)) return false
+
+        BaseApplication.instance!!.variable.wechatUser = GsonUtils.gson!!.fromJson(json, WechatUser::class.java)
+        return true
+    }
+
 
     override fun showProgress( msg:String){
         layError.visibility =View.GONE
@@ -153,6 +180,7 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
     override fun error(err:String){
         //gotoHome()
+        hideProgress()
         toast(err)
     }
 
@@ -166,13 +194,20 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
             toast(result.msg)
             return
         }
-        if (result.data == null) {
+        if (result.data == null ) {
             BaseApplication.instance!!.variable.userBean = null
             SPUtils.getInstance(this, Constants.PREF_FILENAME).writeString(Constants.PREF_USER, "")
             return
         }
 
         BaseApplication.instance!!.variable.initDataBean = result.data
+
+        if( TextUtils.isEmpty( result.data!!.token )){
+            BaseApplication.instance!!.variable.userBean=null
+            SPUtils.getInstance(this,Constants.PREF_FILENAME).writeString(Constants.PREF_USER,"")
+            return
+        }
+
 
         var userId = result.data!!.userId
         var loginname = ""
@@ -187,11 +222,11 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
         var userRolename = result.data!!.userRoleName
 
         BaseApplication.instance!!.variable.userBean = UserBean(userId, loginname,
-                wxNickName, nickname, token, userHead, bindedMobile,  mobile,userRole , userRolename ,wxHeadImg )
+                wxNickName, nickname, userHead ,token , bindedMobile,  mobile,userRole , userRolename ,wxHeadImg )
         SPUtils.getInstance(this, Constants.PREF_FILENAME)
                 .writeString(Constants.PREF_USER, GsonUtils.gson!!.toJson(BaseApplication.instance!!.variable.userBean))
 
-        CookieUtils.setWebViewCookie()
+        //CookieUtils.setWebViewCookie()
         gotoHome()
     }
 
@@ -235,9 +270,7 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
                 .writeString(Constants.PREF_WECHAT_USER , GsonUtils.gson!!.toJson( result ) )
         BaseApplication.instance!!.variable.wechatUser = result
 
-
         presenter!!.loginByUnionId( result.openid , result.unionid , result.nickname, result.headimgurl )
-
     }
 
     override fun loginByUnionIdCallback(apiResult: ApiResult<UserBean>) {
@@ -252,16 +285,18 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
         SPUtils.getInstance(this , Constants.PREF_FILENAME).writeString(Constants.PREF_USER , GsonUtils.gson!!.toJson(apiResult.data))
         BaseApplication.instance!!.variable.userBean = apiResult.data
-        setJpushAlias( apiResult.data!!  )
+        //setJpushAlias( apiResult.data!!  )
 
         bindPhone()
     }
 
     private fun bindPhone():Boolean{
+
         if(!BaseApplication.instance!!.variable.userBean!!.bindedMobile) {
             newIntentForResult<BindPhoneActivity>(REQUEST_CODE)
             return false
         }else{
+            setJpushAlias( BaseApplication.instance!!.variable.userBean!!  )
             gotoHome()
             return true
         }
@@ -283,7 +318,7 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
      * @param userBean
      */
     private fun setJpushAlias( user: UserBean ) {
-       PushHelper.bindingUserId( user.userId.toString() , user.LoginName , "", "", "")
+       PushHelper.bindingUserId( user.userId.toString() , user.mobile , "", "", "")
     }
 
 }

@@ -36,22 +36,20 @@ class HeaderIntercepter : Interceptor{
 
     private fun getHeaderParameter(): HeaderParameter {
 
-        val userid = if (BaseApplication.instance!!.variable.userBean == null) 0 else BaseApplication.instance!!.variable.userBean!!.userId
+        val userId = if (BaseApplication.instance!!.variable.userBean == null) 0 else BaseApplication.instance!!.variable.userBean!!.userId
         var userToken: String? = if (BaseApplication.instance!!.variable.userBean == null) "" else BaseApplication.instance!!.variable.userBean!!.token
         userToken = if (userToken == null) "" else userToken
-        //var platType = BaseApplication.instance!!.variable.platType
 
         val headerParameter = HeaderParameter()
 
         headerParameter.appVersion = BuildConfig.VERSION_NAME
         headerParameter.userToken =userToken
-        headerParameter.userId = userid
+        headerParameter.userId = userId
         headerParameter.hwid =  Build.ID
         headerParameter.mobileType = Build.MODEL
         headerParameter.osVersion = Build.VERSION.SDK_INT.toString()
         headerParameter.osType = Constants.OS_TYPE
         headerParameter.customerId = Constants.CUSTOMERID
-        //headerParameter.platType=platType
 
         return headerParameter
     }
@@ -74,6 +72,7 @@ class HeaderIntercepter : Interceptor{
         //maps.put("platType", getHeaderParameter(request , "platType"))
         //maps.put("userId" , getHeaderParameter(request, "userId"))
         maps.put("userToken" , getHeaderParameter(request, "userToken"))
+        maps["customerId"] = getHeaderParameter(request , "customerId")
 
         val timestamp = System.currentTimeMillis()
         var sign = ""
@@ -130,6 +129,7 @@ class HeaderIntercepter : Interceptor{
         //maps.put("platType", getHeaderParameter(request, "platType"))
         //maps.put("userId", getHeaderParameter(request, "userId"))
         maps.put("userToken", getHeaderParameter(request, "userToken"))
+        maps["customerId"] = getHeaderParameter(request,"customerId")
 
         val pv = paramsStr2.split("&".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         for (p in pv) {

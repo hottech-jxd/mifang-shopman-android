@@ -10,7 +10,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/msg_one_logo"
-        android:src="@mipmap/splash"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"

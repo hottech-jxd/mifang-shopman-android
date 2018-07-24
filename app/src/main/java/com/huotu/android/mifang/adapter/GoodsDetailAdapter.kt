@@ -10,7 +10,7 @@ import com.huotu.android.mifang.util.FrescoDraweeController
 import com.huotu.android.mifang.util.FrescoDraweeListener
 
 
-class GoodsDetailAdapter(data :ArrayList<String>)
+class GoodsDetailAdapter(data :ArrayList<String?>)
     :BaseQuickAdapter<String,BaseViewHolder>(R.layout.layout_goodsdetail_item ,  data) , FrescoDraweeListener.ImageCallback {
 
 

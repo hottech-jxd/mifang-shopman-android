@@ -32,7 +32,7 @@
     <View
         android:id="@+id/order_item_line"
         app:layout_constraintTop_toBottomOf="@id/order_item_lay_orderno"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:layout_width="match_parent"
         android:background="#E0E0E0"
         android:layout_height="1dp" />
@@ -79,7 +79,8 @@
             android:id="@+id/order_item_time"
             android:layout_gravity="bottom"
             android:textColor="#CECECE"
-            android:text="2018-06-25 12:55:00"
+            android:textSize="12sp"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         </LinearLayout>

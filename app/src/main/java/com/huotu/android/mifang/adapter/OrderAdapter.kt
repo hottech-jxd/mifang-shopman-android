@@ -6,6 +6,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.bean.OrderBean
+import com.huotu.android.mifang.util.DateUtils
+import java.util.*
 
 class OrderAdapter(data:ArrayList<OrderBean>)
     :BaseQuickAdapter<OrderBean,BaseViewHolder>(R.layout.layout_order_item , data ) {
@@ -14,7 +16,11 @@ class OrderAdapter(data:ArrayList<OrderBean>)
 
         helper!!.setText(R.id.order_item_orderNo , "订单号:"+ item!!.OrderID)
         helper!!.setText(R.id.order_item_status, item!!.OrderShipStatus)
-        helper!!.setText(R.id.order_item_time , item!!.CreatTime)
+
+
+        var createTime = DateUtils.formatDate(item!!.CreatTime)
+
+        helper!!.setText(R.id.order_item_time , createTime)
         helper!!.setText(R.id.order_item_label2, "共"+ item!!.OrderGoodsNum +"件商品 合计")
         helper!!.setText(R.id.order_item_total , "￥"+ item!!.OrderFinalAmount)
         helper!!.setText(R.id.order_item_score , item!!.Integral)

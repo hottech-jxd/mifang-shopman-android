@@ -12,8 +12,10 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/quan_video_item_picture"
-        app:placeholderImage="@mipmap/ic_launcher"
-        app:failureImage="@mipmap/ic_launcher"
+        app:placeholderImage="@mipmap/avator"
+        app:placeholderImageScaleType="centerCrop"
+        app:failureImage="@mipmap/avator"
+        app:failureImageScaleType="centerCrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

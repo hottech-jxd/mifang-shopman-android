@@ -37,7 +37,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content" />
            <TextView
-               android:text="12545.02"
+               android:text="0.00"
                android:textSize="25sp"
                android:textColor="@android:color/white"
                android:id="@+id/income_balance"
@@ -59,7 +59,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content" />
            <TextView
-               android:text="12545.02"
+               android:text="0.00"
                android:textSize="25sp"
                android:textColor="@android:color/white"
                android:id="@+id/income_waitaccount"

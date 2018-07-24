@@ -115,4 +115,15 @@ class FrozenFlowActivity : BaseActivity<PayLoanContract.Presenter>()
     override fun getDepositListCallback(apiResult: ApiResult<ArrayList<PayLoanBean>>) {
 
     }
+
+    override fun getDepositIndexCallback(apiResult: ApiResult<DepositBean>) {
+
+    }
+
+    override fun getPaymentItemsCallback(apiResult: ApiResult<ArrayList<PaymentItem>>) {
+    }
+
+    override fun submitGoodsDepositOrderCallback(apiResult: ApiResult<DepositOrderBean>) {
+
+    }
 }

@@ -3,7 +3,9 @@ package com.huotu.android.mifang.wxapi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.View
 import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.util.ToastUtils
@@ -11,13 +13,15 @@ import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.constants.ConstantsAPI
-
+import kotlinx.android.synthetic.main.activity_wx_pay.*
 
 
 /**
  * 微信支付回调类
  */
-class WXPayEntryActivity : Activity(), IWXAPIEventHandler {
+class WXPayEntryActivity : Activity()
+        ,View.OnClickListener
+        , IWXAPIEventHandler {
 
     //private val api: IWXAPI? = null
 
@@ -28,8 +32,9 @@ class WXPayEntryActivity : Activity(), IWXAPIEventHandler {
 
 
         setContentView ( R.layout.activity_wx_pay )
-        //        api = WXAPIFactory.createWXAPI ( this, application.readWxpayAppId ( ) );
-        //        api.handleIntent ( getIntent ( ), this );
+        wx_pay_lay.visibility=View.GONE
+        wx_pay_back.setOnClickListener(this)
+
 
         try {
             val isDeal = AppInit.iwxApi!!.handleIntent(intent, this)
@@ -41,30 +46,50 @@ class WXPayEntryActivity : Activity(), IWXAPIEventHandler {
         }
     }
 
+    override fun onClick(v: View?) {
+        when(v!!.id){
+            R.id.wx_pay_back->{
+                finish()
+            }
+        }
+    }
+
     private fun pay(resp: BaseResp) {
         when (resp.errCode) {
             BaseResp.ErrCode.ERR_OK -> {
                 var msg = "支付成功"
-                ToastUtils.single.showToast(msg)
-                finish()
+                wx_pay_lay.visibility=View.VISIBLE
+                //ToastUtils.single.showToast(msg)
+                wx_pay_text.text = msg
+                var drawable = ContextCompat.getDrawable(this, R.mipmap.right)
+                wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 return
             }
             BaseResp.ErrCode.ERR_COMM -> {
                 var msg = "支付失败"
-                ToastUtils.single.showToast(msg)
-                finish()
+                wx_pay_lay.visibility=View.VISIBLE
+                //ToastUtils.single.showToast(msg)
+                var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
+                wx_pay_text.setCompoundDrawables(null,drawable,null,null)
+                wx_pay_text.text = msg
                 return
             }
             BaseResp.ErrCode.ERR_USER_CANCEL -> {
                 var msg = "用户取消支付"
-                ToastUtils.single.showToast(msg)
-                finish()
+                wx_pay_lay.visibility=View.VISIBLE
+                //ToastUtils.single.showToast(msg)
+                wx_pay_text.text = msg
+                var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
+                wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 return
             }
             else -> {
                 var msg="支付失败 错误码="+ resp.errCode +" 错误信息="+resp.errStr
-                ToastUtils.single.showToast(msg)
-                finish()
+                //ToastUtils.single.showToast(msg)
+                wx_pay_lay.visibility=View.VISIBLE
+                wx_pay_text.text = msg
+                var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
+                wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 return
             }
         }

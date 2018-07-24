@@ -14,7 +14,7 @@ interface GoodsContract {
 
     interface View: IView<Presenter> {
         fun getGoodsInfoCallback(apiResult: ApiResult<GoodsDetailBean>)
-        fun getStoreIndexCallback(apiResult: ApiResult<ArrayList<GoodsInfoBean>>)
+        fun getStoreIndexCallback(apiResult: ApiResult<StoreIndex>)
         fun getShopperAccountInfoCallback(apiResult: ApiResult<ShopperAccountInfo>)
         fun agentUpgradeCallback(apiResult: ApiResult<GoodsDetailBean>)
     }

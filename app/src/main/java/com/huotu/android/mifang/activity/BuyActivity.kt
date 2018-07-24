@@ -3,8 +3,11 @@ package com.huotu.android.mifang.activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.KeyboardShortcutGroup
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -18,13 +21,16 @@ import com.huotu.android.mifang.mvp.contract.BuyContract
 import com.huotu.android.mifang.mvp.presenter.BuyPresenter
 import com.huotu.android.mifang.util.KeybordUtils
 import com.huotu.android.mifang.util.PayUtils
+import com.huotu.android.mifang.widget.RecyclerViewDivider5
 import kotlinx.android.synthetic.main.activity_buy.*
 import kotlinx.android.synthetic.main.layout_header.*
 import java.math.BigDecimal
+import java.text.NumberFormat
 
 class BuyActivity : BaseActivity<BuyContract.Presenter>()
         , BuyContract.View
         , Handler.Callback
+        , TextWatcher
         , BaseQuickAdapter.OnItemClickListener
         ,View.OnClickListener{
     private var type = 0 //0:购买店主账号，1：续费
@@ -68,14 +74,32 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
         buy_add.setOnClickListener(this)
         buy_jian.setOnClickListener(this)
         buy_operate.setOnClickListener(this)
+        buy_size.addTextChangedListener(this)
 
         paymentAdapter = PaymentAdapter(ArrayList())
         paymentAdapter!!.onItemClickListener=this
         buy_pay_recyclerView.layoutManager = GridLayoutManager(this ,3)
         buy_pay_recyclerView.adapter = paymentAdapter
+        buy_pay_recyclerView.addItemDecoration(RecyclerViewDivider5(this,ContextCompat.getColor(this ,R.color.white), 5f))
 
 
         iPresenter.getBuyInfo()
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+        try {
+            var size = buy_size.text.toString()
+            calc(size.toInt())
+        }catch (ex:Exception){
+            ex.printStackTrace()
+        }
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
     }
 
     override fun showProgress(msg: String) {
@@ -123,7 +147,7 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
     }
 
     private fun submitOrder(){
-        var countStr = buy_size.toString()
+        var countStr = buy_size.text.toString()
         if(TextUtils.isEmpty(countStr)){
             buy_size.requestFocus()
             KeybordUtils.openKeybord(this,buy_size)
@@ -147,6 +171,7 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
             return
         }
 
+        KeybordUtils.closeKeyboard(this)
         iPresenter.submitOrder( count , paymentType)
 
     }
@@ -156,13 +181,52 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
         var size = if( TextUtils.isEmpty( buy_size.text )) 1 else buy_size.text.toString().toInt()
         size +=1
         buy_size.setText(size.toString())
+        calc(size )
+//        buy_size.setText(size.toString())
+//
+//        if(type == 0 ) {
+//            buy_summary_count.text = "总共计：" + size + "个"
+//
+//            var moneyStr="￥0.00"
+//
+//            if( goodsBean !=null) {
+//                var momey = goodsBean!!.GoodsPrice
+//                momey.setScale(2, BigDecimal.ROUND_HALF_UP)
+//                momey.multiply(BigDecimal(size))
+//                var numberFormat = NumberFormat.getCurrencyInstance()
+//                numberFormat.minimumFractionDigits = 2
+//                numberFormat.maximumFractionDigits = 2
+//                moneyStr = numberFormat.format(momey.toDouble())
+//            }
+//            buy_money.text = moneyStr
+//        }else {
+//            buy_summary_count.text = "总共计：" + size + "个/抵扣：0个"
+//            buy_money.text = if( goodsBean==null ) "￥0.00" else  goodsBean!!.GoodsPrice.multiply( BigDecimal(size)).toString()
+//        }
+    }
 
-        if(type == 0 ) {
+    private fun calc( size :Int ){
+        //var size = if( TextUtils.isEmpty( buy_size.text )) 1 else buy_size.text.toString().toInt()
+        //size +=1
+
+
+        var moneyStr="￥0.00"
+        if(goodsBean!=null){
+            var momey = goodsBean!!.GoodsPrice
+            momey.setScale(2, BigDecimal.ROUND_HALF_UP)
+            momey = momey.multiply(BigDecimal(size))
+            var numberFormat = NumberFormat.getCurrencyInstance()
+            numberFormat.minimumFractionDigits = 2
+            numberFormat.maximumFractionDigits = 2
+            moneyStr = numberFormat.format(momey.toDouble())
+        }
+
+        if( type == 0){
             buy_summary_count.text = "总共计：" + size + "个"
-            buy_money.text = if( goodsBean ==null ) "0.00" else goodsBean!!.GoodsPrice.multiply( BigDecimal(size)).toString()
-        }else {
+            buy_money.text = moneyStr
+        }else{
             buy_summary_count.text = "总共计：" + size + "个/抵扣：0个"
-            buy_money.text = if( goodsBean==null ) "0.00" else  goodsBean!!.GoodsPrice.multiply( BigDecimal(size)).toString()
+            buy_money.text = moneyStr
         }
     }
 
@@ -170,13 +234,7 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
         var size = if( TextUtils.isEmpty( buy_size.text )) 1 else buy_size.text.toString().toInt()
         size -=1
         buy_size.setText(size.toString())
-        if(type == 0) {
-            buy_summary_count.text = "总共计：" + size + "个"
-            buy_money.text = if ( goodsBean==null ) "0.00" else goodsBean!!.GoodsPrice.multiply( BigDecimal(size)).toString()
-        }else {
-            buy_summary_count.text = "总共计：" + size + "个/抵扣：0个"
-            buy_money.text = if(goodsBean ==null) "0.00" else goodsBean!!.GoodsPrice.multiply( BigDecimal(size)).toString()
-        }
+        calc(size )
     }
 
     override fun getPaymentItemsCallback(apiResult: ApiResult<ArrayList<PaymentItem>>) {
@@ -206,14 +264,21 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
         goodsBean = apiResult.data!!
         buy_logo.setImageURI(apiResult.data!!.GoodsImgURL)
         buy_goodsname.text = apiResult.data!!.GoodsName
-        buy_goodsprice.text = "单价"+ apiResult.data!!.GoodsPrice+"元/个"
+
+        var price = apiResult.data!!.GoodsPrice
+        var numberFormat=NumberFormat.getCurrencyInstance()
+        numberFormat.maximumFractionDigits=4
+        numberFormat.minimumFractionDigits=2
+        var priceString = numberFormat.format(price.toDouble())
+
+        buy_goodsprice.text = "单价"+ priceString +"元/个"
         buy_size.setText("1")
         if(type == 0) {
             buy_summary_count.text = "总共计：1个"
         }else {
             buy_summary_count.text = "总共计：1个/抵扣：0个"
         }
-        buy_money.text = goodsBean!!.GoodsPrice.toString()
+        buy_money.text = priceString //goodsBean!!.GoodsPrice.toString()
 
     }
 
@@ -233,11 +298,12 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
         }else if(apiResult.data!!.payType==1){
             aliPay(apiResult.data!!)
         }
-
     }
 
     private fun wechatPay(orderBean: InviteOrderBean){
-        var payModel = PayModel( orderBean.WxAppId , orderBean.WxAppMchId , "", orderBean.UnionOrderId , "" , 0 ,"","","","", orderBean.PrepayId)
+        var payModel = PayModel( orderBean.WxAppId , orderBean.WxAppMchId
+                , Constants.CUSTOMERID.toString() , orderBean.UnionOrderId
+                , "" , 0 ,"","","","", orderBean.PrepayId)
         PayUtils().wxPay(this , handler , payModel  )
     }
     private fun aliPay(orderBean: InviteOrderBean){

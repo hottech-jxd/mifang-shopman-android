@@ -64,7 +64,8 @@
         <activity android:name=".activity.BuyActivity" />
         <activity android:name=".activity.IncomeDetailActivity" />
         <activity android:name=".activity.WaitAccountsActivity" />
-        <activity android:name=".activity.PushHandlerActivity"
+        <activity
+            android:name=".activity.PushHandlerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.BindPhoneActivity" />
@@ -76,7 +77,8 @@
         <activity android:name=".activity.EditInfoActivity" />
         <activity android:name=".activity.AgentUpgradeActivity" />
         <activity android:name=".activity.FrozenFlowActivity" />
-        <activity android:name=".activity.ApplyAgentActivity"/>
+        <activity android:name=".activity.ApplyAgentActivity" />
+        <activity android:name=".activity.QrCodeActivity"/>
 
         <service android:name=".InitService" />
 
@@ -95,7 +97,7 @@
             android:value="huotu_mifang" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="" />
+            android:value="f5b92bb7a27a213107a1935f" />
         <!-- 友盟统计 -->
         <meta-data
             android:name="UMENG_APPKEY"

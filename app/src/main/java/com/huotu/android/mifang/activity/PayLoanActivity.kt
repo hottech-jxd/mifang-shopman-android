@@ -1,16 +1,36 @@
 package com.huotu.android.mifang.activity
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.adapter.MomeyAdapter
+import com.huotu.android.mifang.adapter.PaymentAdapter
 import com.huotu.android.mifang.base.BaseActivity
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.IPresenter
+import com.huotu.android.mifang.mvp.contract.PayLoanContract
+import com.huotu.android.mifang.mvp.presenter.PayLoanPresenter
 import com.huotu.android.mifang.newIntent
+import com.huotu.android.mifang.widget.RecyclerViewDivider4
+import com.huotu.android.mifang.widget.RecyclerViewDivider5
+import kotlinx.android.synthetic.main.activity_applyagent.*
 import kotlinx.android.synthetic.main.activity_payloan.*
 import kotlinx.android.synthetic.main.layout_header_2.*
 
+/**
+ * 货款充值
+ */
+class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
+        ,PayLoanContract.View
+        ,BaseQuickAdapter.OnItemClickListener
+        ,View.OnClickListener{
+    private var iPresenter=PayLoanPresenter(this)
+    private var momeyAdapter:MomeyAdapter?=null
+    private var paymentAdapter:PaymentAdapter ?=null
 
-class PayLoanActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +43,59 @@ class PayLoanActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
         header_right_text.setOnClickListener(this)
         header_left_image.setOnClickListener(this)
         payloan_pay.setOnClickListener(this)
+
+        momeyAdapter = MomeyAdapter(ArrayList())
+        momeyAdapter!!.onItemClickListener=this
+        payloan_recyclerview_money.layoutManager = GridLayoutManager(this ,3)
+        payloan_recyclerview_money.adapter = momeyAdapter
+        payloan_recyclerview_money.addItemDecoration(RecyclerViewDivider5(this, ContextCompat.getColor(this,R.color.white) , 5f ))
+
+        paymentAdapter = PaymentAdapter(ArrayList())
+        paymentAdapter!!.onItemClickListener=this
+        payloan_recyclerview_pay.layoutManager = GridLayoutManager(this ,3)
+        payloan_recyclerview_pay.adapter = paymentAdapter
+        payloan_recyclerview_pay.addItemDecoration(RecyclerViewDivider5(this, ContextCompat.getColor(this,R.color.white) , 5f ))
+
+
+        iPresenter.getDepositIndex()
+        iPresenter.getPaymentItems()
+    }
+
+    override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        if(adapter is MomeyAdapter) {
+
+            var current = (adapter!!.getItem(position) as DepositBean.DepositItem)
+            for (bean in adapter!!.data) {
+                var item = (bean as DepositBean.DepositItem)
+                if (item.GoodsId == current.GoodsId) {
+                    item.checked = !item.checked
+                } else {
+                    item.checked = false
+                }
+            }
+            adapter!!.notifyDataSetChanged()
+        }else {
+            var current = (adapter!!.getItem(position) as PaymentItem)
+            for (bean in adapter!!.data) {
+                var item = (bean as PaymentItem)
+                if (item.PaymentType == current.PaymentType) {
+                    item.checked = !item.checked
+                } else {
+                    item.checked = false
+                }
+            }
+            adapter!!.notifyDataSetChanged()
+        }
+    }
+
+    override fun showProgress(msg: String) {
+        super.showProgress(msg)
+        payloan_progress.visibility=View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        super.hideProgress()
+        payloan_progress.visibility=View.GONE
     }
 
     override fun onClick(v: View?) {
@@ -32,8 +105,91 @@ class PayLoanActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
                 newIntent<PayLoanFlowActivity>()
             }
             R.id.payloan_pay->{
-                //todo
+                pay()
             }
         }
+    }
+
+    private fun pay(){
+        if(paymentAdapter!!.data.isEmpty()){
+            toast("请选择支付方式")
+            return
+        }
+        if(momeyAdapter!!.data.isEmpty()){
+            toast("充值金额空")
+            return
+        }
+
+        var goodsId:Long=0
+        var productId:Long=0
+
+        for(bean in momeyAdapter!!.data){
+            if(bean.checked){
+                goodsId = bean.GoodsId
+                productId=bean.ProductId
+                break
+            }
+        }
+        if(goodsId==0L||productId==0L){
+            toast("请选择充值金额")
+            return
+        }
+
+        var paymentType = -1
+        for(bean in paymentAdapter!!.data){
+            if(bean.checked){
+                paymentType = bean.PaymentType
+                break
+            }
+        }
+        if(paymentType==-1){
+            toast("请选择支付方式")
+            return
+        }
+
+        iPresenter.submitGoodsDepositOrder(paymentType, goodsId, productId)
+
+    }
+
+    override fun getPaymentItemsCallback(apiResult: ApiResult<ArrayList<PaymentItem>>) {
+        if(processCommonErrorCode(apiResult)){return}
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null) {
+            toast("缺少支付方式")
+            return
+        }
+        paymentAdapter!!.setNewData(apiResult.data)
+    }
+
+    override fun getDepositIndexCallback(apiResult: ApiResult<DepositBean>) {
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if (apiResult.data == null) return
+
+        payloan_loan.text = apiResult.data!!.MyDeposit
+        payloan_loan2.text ="（欠款￥"+ apiResult.data!!.OweDeposit+"元）"
+
+        momeyAdapter!!.setNewData(apiResult.data!!.GoodsItems)
+
+    }
+
+    override fun submitGoodsDepositOrderCallback(apiResult: ApiResult<DepositOrderBean>) {
+
+    }
+
+    override fun getDepositListCallback(apiResult: ApiResult<ArrayList<PayLoanBean>>) {
+
+    }
+
+    override fun getFrozenFlowCallback(apiResult: ApiResult<ArrayList<FrozenFlow>>) {
+
     }
 }

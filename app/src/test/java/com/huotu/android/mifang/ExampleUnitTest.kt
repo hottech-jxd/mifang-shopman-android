@@ -1,5 +1,7 @@
 package com.huotu.android.mifang
 
+import com.google.gson.GsonBuilder
+import com.huotu.android.mifang.util.NullStringToEmptyAdapterFactory
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +14,26 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        //assertEquals(4, 2 + 2)
+
+        var json = "{\"a\":[\"ttt\"]}"
+
+
+        var gson = GsonBuilder().serializeNulls().create()
+
+        var s= gson.fromJson(json, ttt::class.java)
+
+        json = "{\"a\":null}"
+
+
+        var s2 = gson.fromJson(json, ttt::class.java)
+
+
+
     }
+    class ttt(var a:ArrayList<String>?)
+
+
+
+
 }

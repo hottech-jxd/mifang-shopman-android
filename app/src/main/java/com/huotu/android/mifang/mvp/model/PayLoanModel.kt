@@ -13,4 +13,12 @@ class PayLoanModel {
         val apiService = RetrofitManager.getApiService()
         return  apiService!!.getFrozenFlow( pageIndex , pageSize)
     }
+    fun getDepositIndex(): Observable<ApiResult<DepositBean>> {
+        val apiService = RetrofitManager.getApiService()
+        return  apiService!!.getDepositGoods()
+    }
+    fun submitGoodsDepositOrder(payType :Int , goodsId:Long , productId:Long): Observable<ApiResult<DepositOrderBean>> {
+        val apiService = RetrofitManager.getApiService()
+        return  apiService!!.submitGoodsDepositOrder(goodsId, productId, payType)
+    }
 }

@@ -61,3 +61,37 @@ class GsonUtils<T> {
     }
 
 }
+
+
+// class NullStringToEmptyAdapterFactory<T> : TypeAdapterFactory {
+//
+//
+//     override fun <T : Any?> create(gson: Gson?, type: TypeToken<T>?): TypeAdapter<T>? {
+//         var rawType =  type!!.getRawType() as Class<T>
+//         if (rawType != String::class.java) {
+//                     return null
+//                 }
+//             return StringNullAdapter() as (TypeAdapter<T>)
+//     }
+// }
+
+
+//class StringNullAdapter : TypeAdapter<String>() {
+//
+//    override fun write(out: JsonWriter?, value: String?) {
+//        if (value == null) {
+//            out!!.nullValue()
+//            return
+//        }
+//        out!!.value(value)
+//    }
+//
+//    override fun read( reader : JsonReader?): String {
+//        if ( reader!!.peek() == JsonToken.NULL) {
+//            reader.nextNull()
+//            return ""
+//        }
+//        return reader.nextString()
+//    }
+//
+//}

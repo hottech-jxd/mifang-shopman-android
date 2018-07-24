@@ -8,7 +8,7 @@ data class OrderBean(var OrderID:String,
                 var OrderShipStatus:String,
                 var OrderFinalAmount:String,
                 var OrderGoodsNum:String,
-                var CreatTime:String,
+                var CreatTime:Long,
                 var OrderItemInfo:ArrayList<OrderItemBean>
               ) {
 

@@ -4,10 +4,16 @@
     android:background="#F0EFF5"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/order_recyclerview"
+
+    <com.huotu.android.mifang.widget.SwiperRefreshView
+        android:id="@+id/order_refreshview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.huotu.android.mifang.widget.SwiperRefreshView>
 
     <com.huotu.android.mifang.widget.ProgressWidget
         android:id="@+id/order_loading"

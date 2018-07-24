@@ -4,6 +4,7 @@ import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.PayLoanContract
 import com.huotu.android.mifang.mvp.contract.QuanContract
 import com.huotu.android.mifang.mvp.contract.ScoreContract
+import com.huotu.android.mifang.mvp.model.CommonModel
 import com.huotu.android.mifang.mvp.model.PayLoanModel
 import com.huotu.android.mifang.mvp.model.QuanModel
 import com.huotu.android.mifang.mvp.model.ScoreModel
@@ -19,6 +20,7 @@ class PayLoanPresenter(view: PayLoanContract.View) : PayLoanContract.Presenter {
 
     var mView: PayLoanContract.View? = null
     val mModel: PayLoanModel by lazy { PayLoanModel() }
+    val mCommonModel:CommonModel by lazy{ CommonModel()}
 
     init {
         mView = view
@@ -73,6 +75,82 @@ class PayLoanPresenter(view: PayLoanContract.View) : PayLoanContract.Presenter {
                         mView!!.error(Constants.MESSAGE_ERROR)
                     }
                 })
+    }
+
+    override fun getDepositIndex() {
+        val observable: Observable<ApiResult<DepositBean>>? = mModel.getDepositIndex()
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Observer<ApiResult<DepositBean>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<DepositBean>) {
+                        mView!!.getDepositIndexCallback(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
+    override fun getPaymentItems() {
+
+        val observable : Observable<ApiResult<ArrayList<PaymentItem>>>? = mCommonModel.getPaymentItems()
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe( object : Observer<ApiResult<ArrayList<PaymentItem>>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<ArrayList<PaymentItem>>) {
+                        mView!!.getPaymentItemsCallback( t )
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                } )
+    }
+
+    override fun submitGoodsDepositOrder(payType: Int, goodsId: Long, productId: Long) {
+        val observable : Observable<ApiResult<DepositOrderBean>>? = mModel.submitGoodsDepositOrder(payType,goodsId,productId)
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe( object : Observer<ApiResult<DepositOrderBean>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<DepositOrderBean>) {
+                        mView!!.submitGoodsDepositOrderCallback( t )
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                } )
     }
 
     override fun onDestory() {

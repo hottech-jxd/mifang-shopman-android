@@ -16,15 +16,17 @@
         android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:src="@mipmap/ic_launcher"
             android:id="@+id/term_item_logo"
             app:roundBottomLeft="true"
             app:roundBottomRight="true"
             app:roundTopLeft="true"
             app:roundTopRight="true"
             app:roundedCornerRadius="5dp"
-            app:failureImage="@mipmap/ic_launcher"
-            app:placeholderImage="@mipmap/ic_launcher"
+            app:failureImage="@mipmap/avator"
+            app:placeholderImageScaleType="centerCrop"
+            app:placeholderImage="@mipmap/avator"
+            app:failureImageScaleType="centerCrop"
+            app:actualImageScaleType="centerCrop"
             android:layout_width="70dp"
             android:layout_height="70dp" />
 

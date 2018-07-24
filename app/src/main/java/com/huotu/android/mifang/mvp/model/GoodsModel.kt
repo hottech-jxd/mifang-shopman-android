@@ -9,7 +9,7 @@ class GoodsModel {
         val apiService = RetrofitManager.getApiService()
         return apiService!!.getGoodsInfo(goodsId )
     }
-    fun getStoreIndex( pageIndex:Int, pageSize:Int): Observable<ApiResult<ArrayList<GoodsInfoBean>>> {
+    fun getStoreIndex( pageIndex:Int, pageSize:Int): Observable<ApiResult<StoreIndex>> {
         val apiService = RetrofitManager.getApiService()
         return apiService!!.getStoreIndex(pageIndex, pageSize )
     }

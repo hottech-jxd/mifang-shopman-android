@@ -12,6 +12,8 @@ import com.huotu.android.mifang.mvp.presenter.WalletPresenter
 import com.huotu.android.mifang.newIntent
 import kotlinx.android.synthetic.main.activity_my_wallet.*
 import kotlinx.android.synthetic.main.layout_header.*
+import java.math.BigDecimal
+import java.text.NumberFormat
 
 class MyWalletActivity : BaseActivity<WalletContract.Presenter>()
         ,WalletContract.View
@@ -69,9 +71,26 @@ class MyWalletActivity : BaseActivity<WalletContract.Presenter>()
             return
         }
 
-        mywallet_midou.text = apiResult.data!!.UserMBean.toString()
-        mywallet_waitpay.text=apiResult.data!!.UserTempIntegral.toString()
-        mywallet_yue.text = apiResult.data!!.UserIntegral.toString()
+        var bean = apiResult.data!!
+
+        var mibean = bean.UserMBean
+        mibean.setScale(2, BigDecimal.ROUND_HALF_UP)
+        mibean = mibean.divide(BigDecimal(100))
+        var numberFormat = NumberFormat.getCurrencyInstance()
+        numberFormat.minimumFractionDigits =2//设置数的小数部分所允许的最小位数(如果不足后面补0)
+        numberFormat.maximumFractionDigits =4//设置数的小数部分所允许的最大位数(如果超过会四舍五入)
+        mywallet_midou.text = numberFormat.format( mibean.toDouble() )
+
+        var balance = bean.UserIntegral
+        balance.setScale(2, BigDecimal.ROUND_HALF_UP)
+        balance = balance.divide(BigDecimal(100))
+        mywallet_yue.text = numberFormat.format(balance.toDouble())
+
+        var tempIntegral = bean.UserTempIntegral
+        tempIntegral.setScale(2,BigDecimal.ROUND_HALF_UP)
+        tempIntegral = tempIntegral.divide(BigDecimal(100))
+        mywallet_waitpay.text= numberFormat.format(tempIntegral.toDouble())
+
         mywallet_yhq.text = apiResult.data!!.CouponNum.toString()+"张"
     }
 

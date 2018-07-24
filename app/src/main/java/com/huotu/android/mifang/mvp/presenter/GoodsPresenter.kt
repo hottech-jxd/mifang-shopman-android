@@ -29,7 +29,7 @@ class GoodsPresenter(view: GoodsContract.View):GoodsContract.Presenter {
         observable.subscribeOn(Schedulers.io())
                 .bindToLifecycle(mView as LifecycleProvider<*>)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<ApiResult<ArrayList<GoodsInfoBean>>>{
+                .subscribe(object : Observer<ApiResult<StoreIndex>>{
                     override fun onComplete() {
                         mView!!.hideProgress()
                     }
@@ -38,7 +38,7 @@ class GoodsPresenter(view: GoodsContract.View):GoodsContract.Presenter {
                         mView!!.showProgress(Constants.TIP_LOADING)
                     }
 
-                    override fun onNext(t: ApiResult<ArrayList<GoodsInfoBean>>) {
+                    override fun onNext(t: ApiResult<StoreIndex>) {
 
                         mView!!.getStoreIndexCallback(t )
 

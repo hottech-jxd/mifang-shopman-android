@@ -82,6 +82,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:text="充值金额"
+            android:paddingBottom="6dp"
             android:textSize="16sp"
             android:textColor="#4D4D4D"
             android:layout_width="wrap_content"
@@ -98,6 +99,7 @@
             android:background="#EDEDED"/>
         <TextView
             android:text="选择支付方式"
+            android:paddingBottom="6dp"
             android:textSize="16sp"
             android:textColor="#4D4D4D"
             android:layout_width="match_parent"
@@ -106,8 +108,6 @@
             android:id="@+id/payloan_recyclerview_pay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        
-
 
     </LinearLayout>
 

@@ -3,10 +3,9 @@ package com.huotu.android.mifang.bean
 import android.os.Environment
 
 object Constants {
-    val OS_TYPE:Int=2  //系统类型 miniprogram->0；ios->1；android->2；h5->3
-    val APP_SECRET:String="4165a8d240b29af3f41818d10599d0d1"
-    val CUSTOMERID:Long=1
-
+    val OS_TYPE:Int=3  //系统类型 unknown->0 , miniprogram->1；ios->2；android->3；h5->4
+    val APP_SECRET:String="3ab0d4e6a8bf9b5b1cb1d38d00bcf339"
+    val CUSTOMERID:Long=4886
 
     val READ_TIMEOUT :Long= 15
     val CONNECT_TIMEOUT :Long= 15
@@ -14,10 +13,11 @@ object Constants {
     val PAGE_SIZE=10
     //val BASE_URL:String ="http://192.168.1.210:8082/api/"
     //MOCK 地址
-    val BASE_URL="http://api.mingshz.com/mock/80/"
-    //val BASE_URL :String="http://youxin.51huotao.com/api/"
+    //val BASE_URL="http://api.mingshz.com/mock/80/"
+    //测试地址
+    val BASE_URL:String= "http://mfapi.mifangtest.com/"
     //val YOUXIN_BASE_URL :String="http://192.168.1.210:8082/api/"
-    val YOUXIN_BASE_URL:String="http://youxin.51huotao.com/api/"
+    //val YOUXIN_BASE_URL:String= "http://mfapi.mfmall.com"//"http://youxin.51huotao.com/api/"
 
     /**
      * app版本检测地址
@@ -52,6 +52,8 @@ object Constants {
     val INTENT_SETTING_CONTENT="setting_content"
     val INTENT_TITLE = "title"
     val INTENT_FIRST_OPEN_SHOPPER = "first_open_shopper"
+    val INTENT_URL1="url1"
+    val INTENT_URL2="url2"
 
     val PREF_FILENAME="pref_filename_phonerecycle"
     val PREF_WECHAT_USER="pref_wechat_user"
@@ -72,5 +74,6 @@ object Constants {
     val ImageDirPath= Environment.getExternalStorageDirectory().toString()+"/mifang/images/"
     val VideoDirPath = Environment.getExternalStorageDirectory().toString()+"/mifang/videos/"
     val CrashDirPath = Environment.getExternalStorageDirectory().toString()+"/mifang/crash/"
-
+    val SHARE_SHOP_CODE_PICUTE_NAME ="shareshopcode.png"//分享开店二维码图片名称
+    val SHARE_UPGRADE_AGENT_PICTURE_NAME="shareupgradeagent.png"//邀请好友升级成代理商
 }

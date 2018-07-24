@@ -31,15 +31,22 @@
             android:layout_height="1px"/>
     </LinearLayout>
 
-    <android.support.v4.widget.NestedScrollView
+
+    <com.huotu.android.mifang.widget.SwiperRefreshView
+        android:id="@+id/promotion_refreshview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_below="@id/promotion_header"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <LinearLayout
                 android:padding="15dp"
@@ -335,7 +342,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:visibility="visible"
+            android:visibility="gone"
                     android:id="@+id/promotion_operate_3"
                     android:layout_marginTop="5dp"
                     android:paddingTop="15dp"
@@ -401,13 +408,16 @@
 
         </LinearLayout>
 
+
+
     </android.support.v4.widget.NestedScrollView>
 
+    </com.huotu.android.mifang.widget.SwiperRefreshView>
 
     <com.huotu.android.mifang.widget.ProgressWidget
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/promotion_progress"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
 </RelativeLayout>

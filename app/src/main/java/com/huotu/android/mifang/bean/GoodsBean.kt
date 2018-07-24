@@ -2,6 +2,7 @@ package com.huotu.android.mifang.bean
 
 import java.math.BigDecimal
 
+data class StoreIndex(var PageCount :Int , var PageIndex:Int , var PageSize:Int , var Total:Long , var Rows :ArrayList<GoodsInfoBean>?)
 
 data class GoodsBean(var GoodsImgURL:String	,
                         var GoodsName:String	,
@@ -23,11 +24,20 @@ data class GoodsInfoBean(
     var Sales:String)
 
 
-data class GoodsDetailBean(var pictures:String/*商品图片 多个,分割*/
-                           , var title:String/**/
-                           , var price:String /*商品标题*/
-                           , var agentPrcie:String /*代理价（代理商）*/
-                           , var commission:String /*佣金(营养师)*/
-                           , var intro:ArrayList<String> /*详细介绍 图片列表*/
-                           , var memo:String//说明
-                           , var shareUrl:String    )
+data class GoodsDetailBean(var pictures:String?/*商品图片 多个,分割*/
+                           , var title:String?/**/
+                           , var price:String? /*商品标题*/
+                           , var agentPrcie:String? /*代理价（代理商）*/
+                           , var commission:String? /*佣金(营养师)*/
+                           , var intro:ArrayList<String?>? /*详细介绍 图片列表*/
+                           , var memo:String?//说明
+                           , var shareUrl:String?    )
+
+
+
+data class DepositBean(var MyDeposit	:String ,//	我的货款
+                        var OweDeposit	:String,//	已欠货款
+                       var GoodsItems:ArrayList<DepositItem>?){
+    data class DepositItem(var checked:Boolean=false , var GoodsId:Long , var ProductId:Long , var DepositPrice:String //货款商品价格
+     )
+}

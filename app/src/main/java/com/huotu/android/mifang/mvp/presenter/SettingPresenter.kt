@@ -55,7 +55,7 @@ class SettingPresenter(view: SettingContract.View): SettingContract.Presenter {
                 })
     }
 
-    override fun uploadLogo(type: Int, byteArray: ByteArray) {
+    override fun uploadLogo( byteArray: ByteArray) {
 
         val requestBodyMap = HashMap<String, RequestBody>()
         val maps = HashMap<String, String?>()
@@ -71,17 +71,17 @@ class SettingPresenter(view: SettingContract.View): SettingContract.Presenter {
 //                .addHeader("customerId", headerParameter.customerId.toString())
 
 
-        val userid = if (BaseApplication.instance!!.variable.userBean == null) "0" else BaseApplication.instance!!.variable.userBean!!.userId.toString()
+        //val userid = if (BaseApplication.instance!!.variable.userBean == null) "0" else BaseApplication.instance!!.variable.userBean!!.userId.toString()
         val userToken = if (BaseApplication.instance!!.variable.userBean == null) "" else BaseApplication.instance!!.variable.userBean!!.token
 
         maps.put("customerId", Constants.CUSTOMERID.toString())
-        maps.put("userId", userid)
+        //maps.put("userId", userid)
         maps.put("userToken", userToken)
         //maps.put("appVersion", BuildConfig.VERSION_CODE.toString())
         //maps.put("hwid",  Build.ID)
         //maps.put("osType", Constants.OS_TYPE.toString())
         //maps.put("osVersion", Build.VERSION.SDK_INT.toString())
-        maps.put("type", type.toString())
+        //maps.put("type", type.toString())
         val timestamp = System.currentTimeMillis()
         maps.put("timestamp", timestamp.toString())
 
@@ -101,7 +101,7 @@ class SettingPresenter(view: SettingContract.View): SettingContract.Presenter {
         observable.subscribeOn(Schedulers.io())
                 .bindToLifecycle(mView as LifecycleProvider<*>)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<ApiResult<Map<String, String>>> {
+                .subscribe(object : Observer<ApiResult<UploadImageBean>> {
                     override fun onComplete() {
                         mView!!.hideProgress()
                     }
@@ -110,7 +110,7 @@ class SettingPresenter(view: SettingContract.View): SettingContract.Presenter {
                         mView!!.showProgress(Constants.TIP_LOADING)
                     }
 
-                    override fun onNext(t: ApiResult<Map<String, String>>) {
+                    override fun onNext(t: ApiResult<UploadImageBean>) {
 
                         mView!!.uploadLogoCallback(t)
 

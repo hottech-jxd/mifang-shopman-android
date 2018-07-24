@@ -7,13 +7,13 @@ import com.huotu.android.mifang.mvp.IView
 interface SettingContract {
     interface Presenter: IPresenter {
         fun shopperSetting( type :Int , content:String)
-        fun uploadLogo(type:Int , byteArray: ByteArray)
+        fun uploadLogo(byteArray: ByteArray)
         fun getStoreInfo()
     }
 
     interface View: IView<Presenter> {
         fun shopperSettingCallback(apiResult: ApiResult<Any>)
-        fun uploadLogoCallback( apiResult: ApiResult<Map<String,String>>)
+        fun uploadLogoCallback( apiResult: ApiResult<UploadImageBean>)
         fun getStoreInfo(apiResult: ApiResult<ShopperInfo>)
     }
 }

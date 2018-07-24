@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
@@ -64,6 +65,7 @@ class ShopperClass1Fragment : BaseFragment<ShopperClassContract.Presenter>()
         isShowProgress=false
         shopperclass_refreshview.isRefreshing=false
         shopperclass_loading.visibility = View.GONE
+        shopperClassAdapter!!.isUseEmpty(true)
     }
 
     override fun initView() {
@@ -72,8 +74,12 @@ class ShopperClass1Fragment : BaseFragment<ShopperClassContract.Presenter>()
         if( shopperClassAdapter==null)
             shopperClassAdapter= ShopperClassAdapter(data)
 
+        var emptyView = LayoutInflater.from(context).inflate(R.layout.layout_empty, null)
         shopperClassAdapter!!.setOnLoadMoreListener(this, shopperclass_recyclerview)
         shopperClassAdapter!!.onItemClickListener=this
+        shopperClassAdapter!!.emptyView = emptyView
+        shopperClassAdapter!!.isUseEmpty(false)
+
         shopperclass_recyclerview.layoutManager=LinearLayoutManager(context)
         shopperclass_recyclerview.addItemDecoration(RecyclerViewDivider(context!!, ContextCompat.getColor(context!!, R.color.bg_line ) , 1f ))
         shopperclass_recyclerview.adapter=shopperClassAdapter
@@ -82,6 +88,7 @@ class ShopperClass1Fragment : BaseFragment<ShopperClassContract.Presenter>()
     override fun fetchData() {
         pageIndex = 0
         isShowProgress=true
+        shopperClassAdapter!!.isUseEmpty(false)
         iPresenter.getList(type , pageIndex +1)
     }
 

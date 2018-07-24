@@ -15,4 +15,8 @@ class QuanModel {
         val apiService = RetrofitManager.getApiService()
         return apiService!!.materialList(typeId , pageIndex )
     }
+    fun shareSuccess(dataId:Long):Observable<ApiResult<Any>>{
+        val apiService = RetrofitManager.getApiService()
+        return apiService!!.shareSuccess(dataId )
+    }
 }

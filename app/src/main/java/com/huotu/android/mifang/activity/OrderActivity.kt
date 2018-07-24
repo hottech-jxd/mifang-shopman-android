@@ -39,6 +39,7 @@ class OrderActivity : BaseActivity<IPresenter>()
     private var searchDay :Int=0
     private var listener = ArrayList<OrderFilterListener>()
     private var orderSourceType = -1 /*订单来源类型,默认-1，主要用于查看邀请的营养师订单，传入100 */
+    private var dateDialog:DateDialog?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +58,8 @@ class OrderActivity : BaseActivity<IPresenter>()
         }
 
         searchYear = Calendar.getInstance().get(Calendar.YEAR)
-        searchMonth = Calendar.getInstance().get(Calendar.MONTH)
-        searchDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        searchMonth = Calendar.getInstance().get(Calendar.MONTH)+1
+        searchDay = -1//Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
         fragments.add(OrderFragment.newInstance(OrderStatusEnum.All.id , searchYear, searchMonth , searchDay , orderSourceType) as BaseFragment<IPresenter>)
         fragments.add(OrderFragment.newInstance(OrderStatusEnum.Delivery.id, searchYear, searchMonth , searchDay , orderSourceType) as BaseFragment<IPresenter>)
@@ -123,19 +124,20 @@ class OrderActivity : BaseActivity<IPresenter>()
     }
 
     private fun selectTime(){
-        var dialog = DateDialog(this, this)
-        dialog.show( searchYear , searchMonth , searchDay , true, false )
-
+        if(dateDialog==null) {
+            dateDialog = DateDialog(this, this)
+        }
+        dateDialog!!.show( searchYear , searchMonth , searchDay , true, false )
     }
 
     override fun operate(year: Int, month: Int, day: Int) {
         searchYear = year
         searchMonth = month
-        searchDay = day
+        searchDay = -1 // day
         order_time.text =  year.toString() + "年" + month + "月"
 
         for( item in listener) {
-            item.filter(year , month, day )
+            item.filter(searchYear , searchMonth, searchDay )
         }
     }
 

@@ -1,14 +1,16 @@
 package com.huotu.android.mifang.bean
 
+import java.math.BigDecimal
+
 data class MyBean (
-        var UserMBean :Int,
+        var UserMBean :BigDecimal= BigDecimal.ZERO,
         var WxNickName:String,
         var WxHeadImg:String,
         var LevelName:String,
         var UserName:String,
-        var UserBalance:Double,/**用户可用余额*/
-        var UserIntegral:Int,
-        var UserTempIntegral:Int,
+        //var UserBalance:BigDecimal= BigDecimal.ZERO,/**用户可用余额*/
+        var UserIntegral:BigDecimal= BigDecimal.ZERO,
+        var UserTempIntegral:BigDecimal= BigDecimal.ZERO,
         var UserGold:Double,
         var UnpaidCount: Int,
         var AftermarketCount:Int,
@@ -19,7 +21,7 @@ data class MyBean (
         var TipStr:String, /*TipStr*/
         var IsAgent:Boolean,/*是否是代理商*/
         var BackGroundModel:BackGroundModelBean?,
-        var ADList:ArrayList<ADBean>?,
+        var ADLists:ArrayList<ADBean>?,
         var MiFangModelURL:String //觅方模式讲解地址 —新增
 ){
     data class BackGroundModelBean( var Id:Long,

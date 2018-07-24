@@ -8,10 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.ApiResultCodeEnum
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.ShopperInfo
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.SettingContract
 import com.huotu.android.mifang.mvp.presenter.SettingPresenter
@@ -54,7 +51,9 @@ class EditInfoActivity : BaseActivity<SettingContract.Presenter>()
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.header_left_image->{finish()}
+            R.id.header_left_image->{
+                KeybordUtils.closeKeyboard(this)
+                finish()}
             R.id.header_right_text->{
                 save()
             }
@@ -86,7 +85,7 @@ class EditInfoActivity : BaseActivity<SettingContract.Presenter>()
         finish()
     }
 
-    override fun uploadLogoCallback(apiResult: ApiResult<Map<String, String>>) {
+    override fun uploadLogoCallback(apiResult: ApiResult<UploadImageBean>) {
 
     }
 

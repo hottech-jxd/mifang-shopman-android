@@ -9,6 +9,7 @@ import android.view.View
 import com.huotu.android.mifang.util.StatusBarUtils
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.LoginRegisterActivity
+import com.huotu.android.mifang.activity.SplashActivity
 import com.huotu.android.mifang.bean.ApiResult
 import com.huotu.android.mifang.bean.ApiResultCodeEnum
 import com.huotu.android.mifang.bean.Constants
@@ -104,7 +105,7 @@ open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
 
             //EventBus.getDefault().post(LogoutEvent())
 
-            newIntent<LoginRegisterActivity>()
+            newIntent<SplashActivity>()
             return true
         }
         return false

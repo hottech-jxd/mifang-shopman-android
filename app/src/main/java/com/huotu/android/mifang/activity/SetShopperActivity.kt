@@ -8,10 +8,7 @@ import android.provider.SyncStateContract
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.bean.ApiResult
-import com.huotu.android.mifang.bean.ApiResultCodeEnum
-import com.huotu.android.mifang.bean.Constants
-import com.huotu.android.mifang.bean.ShopperInfo
+import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.SettingContract
 import com.huotu.android.mifang.mvp.presenter.SettingPresenter
 import com.huotu.android.mifang.newIntentForResult
@@ -30,7 +27,7 @@ class SetShopperActivity : BaseActivity<SettingContract.Presenter>()
 
     var REQUEST_CODE = 4001
     var iPresenter=SettingPresenter(this)
-
+    var uploadImageBean : UploadImageBean?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,24 +122,51 @@ class SetShopperActivity : BaseActivity<SettingContract.Presenter>()
             }
         }else if(requestCode== PictureConfig.CHOOSE_REQUEST && resultCode== Activity.RESULT_OK){
             var result = PictureSelector.obtainMultipleResult(data)
-            var imagePath = "file://"+ result[0].compressPath
+            var imagePath =  result[0].compressPath
+
             uploadLogo(imagePath)
         }
     }
 
-    fun uploadLogo( path :String){
+    private fun uploadLogo( path :String){
         var buffer = ImageUtils.fileToByte(path)
-        iPresenter.uploadLogo(0, buffer)
+        iPresenter.uploadLogo(buffer)
     }
 
     override fun shopperSettingCallback(apiResult: ApiResult<Any>) {
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(uploadImageBean==null){
+            toast("上传店铺头像失败，请重试")
+            return
+        }
+
+        var logoUrl = uploadImageBean!!.fullUrl
+        setshopper_logo.setImageURI(logoUrl)
+        toast("设置店铺头像成功")
     }
 
-    override fun uploadLogoCallback(apiResult: ApiResult<Map<String, String>>) {
-        toast("上传店铺logo成功")
-        //todo
-        var logoUrl =""
-        setshopper_logo.setImageURI(logoUrl)
+    override fun uploadLogoCallback(apiResult: ApiResult<UploadImageBean>) {
+
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code!= ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null){
+            toast("上传图片失败，请重试")
+            return
+        }
+
+        uploadImageBean = apiResult.data
+        iPresenter.shopperSetting(0 , uploadImageBean!!.url)
     }
 
     override fun getStoreInfo(apiResult: ApiResult<ShopperInfo>) {
@@ -156,8 +180,8 @@ class SetShopperActivity : BaseActivity<SettingContract.Presenter>()
         }
 
         setshopper_logo.setImageURI( apiResult.data!!.logo )
-        setshopper_name.text =apiResult.data!!.name
-        setshopper_share_title.text=apiResult.data!!.shareTitle
-        setshopper_share_content.text=apiResult.data!!.shareContent
+        setshopper_name.text =apiResult.data!!.Name
+        setshopper_share_title.text=apiResult.data!!.ShareTitle
+        setshopper_share_content.text=apiResult.data!!.ShareContent
     }
 }

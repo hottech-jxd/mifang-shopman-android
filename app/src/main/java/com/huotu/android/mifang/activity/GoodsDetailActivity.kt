@@ -1,11 +1,13 @@
 package com.huotu.android.mifang.activity
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.Html.FROM_HTML_MODE_LEGACY
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import com.huotu.android.mifang.R
@@ -30,7 +32,7 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
     var detailAdapter: GoodsDetailAdapter?=null
     var data:GoodsDetailBean?=null
     var images1 = ArrayList<String>()
-    var images2 = ArrayList<String>()
+    var images2 = ArrayList<String?>()
     var iPresenter = GoodsPresenter(this)
     var goodsId = 0L
 
@@ -48,6 +50,7 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
 
 
         header_left_image.setOnClickListener(this)
+        goodsdetail_share.setOnClickListener(this)
 
         goodsdetail_recyclerView.layoutManager=LinearLayoutManager(this)
         detailAdapter=GoodsDetailAdapter(images2)
@@ -80,11 +83,13 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
             return
         }
 
-        var data = apiResult.data
+        data = apiResult.data
 
         if( data ==null) return
 
-        images1 = data!!.pictures.split(",") as ArrayList<String>
+        if( !TextUtils.isEmpty( data!!.pictures)) {
+            images1 = data!!.pictures!!.split(",") as ArrayList<String>
+        }
 
         goodsdetail_images.setImageLoader(FrescoImageLoader( goodsdetail_images , DensityUtils.getScreenWidth(this)))
         goodsdetail_images.setImages(images1)
@@ -94,24 +99,44 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
 
         goodsdetail_item_title.text= data!!.title
         goodsdetail_item_price.text = "￥"+data!!.price
-        var cprice = "代理价: <font color='#E41637'>" + data!!.agentPrcie+"</font>元 佣金：<font color='#E41637'>"+data!!.commission+"</font>元"
+        var cprice = "代理价:<font color='#E41637'>" + data!!.agentPrcie+"</font>元 佣金:<font color='#E41637'>"+data!!.commission+"</font>元"
         goodsdetail_item_price2.text= Html.fromHtml(cprice )
 
-        images2 = data.intro
+        if(data!!.intro!=null) {
+            images2 = data!!.intro!!
+        }
 
         detailAdapter!!.setNewData(images2)
 
     }
 
     override fun onClick(v: View?) {
-        when(v!!.id){
-            R.id.header_left_image->{
+        when (v!!.id) {
+            R.id.header_left_image -> {
                 finish()
+            }
+            R.id.goodsdetail_share -> {
+                share()
             }
         }
     }
 
-    override fun getStoreIndexCallback(apiResult: ApiResult<ArrayList<GoodsInfoBean>>) {
+    private fun share(){
+        if(data==null)return
+
+        var intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plan"
+        //intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalImages( quan.dataId ))
+        intent.putExtra(Intent.EXTRA_SUBJECT, data!!.title )
+        intent.putExtra(Intent.EXTRA_TEXT, data!!.shareUrl )
+        intent.putExtra(Intent.EXTRA_TITLE, data!!.title)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+        startActivity(Intent.createChooser(intent, "分享") )
+
+    }
+
+    override fun getStoreIndexCallback(apiResult: ApiResult<StoreIndex>) {
 
     }
 

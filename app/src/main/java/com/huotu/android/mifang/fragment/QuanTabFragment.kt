@@ -1,6 +1,7 @@
 package com.huotu.android.mifang.fragment
 
 
+import android.app.Activity.RESULT_OK
 import android.content.*
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import android.provider.MediaStore.Images
 import android.os.Environment
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.QuanAdapter
@@ -49,6 +51,7 @@ private const val ARG_CATEGORY = "category"
  */
 class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         , QuanContract.View
+        , SwipeRefreshLayout.OnRefreshListener
         , BaseQuickAdapter.RequestLoadMoreListener
         , BaseQuickAdapter.OnItemChildClickListener {
 
@@ -58,6 +61,8 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
     private var iPresenter=QuanPresenter(this)
     private var pageIndex = 0
     private var isShowProgress=true
+    private var REQUEST_CODE_SHARE=3001
+    private var currentShareDataId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +73,8 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
     }
 
     override fun initView() {
+
+        quan_tab_refreshview.setOnRefreshListener(this)
 
         quanAdapter = QuanAdapter(data)
 
@@ -98,21 +105,27 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
     }
 
     private fun save( quan:Quan){
-        if(quan.Type == 1){
+        if(quan.Type==0){
+            val cm = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            // 将文本内容放到系统剪贴板里。
+            val clipData = ClipData.newPlainText( quan.ShareTitle , quan.ShareDescription )
+            cm.primaryClip = clipData
+            toast("复制成功~~")
+        }else if(quan.Type == 1){
             savaImage( quan )
         }else if(quan.Type==2){
-            saveVideo( quan.dataId , quan.VideoUrls)
+            saveVideo( quan  )
         }
     }
 
-    private fun saveVideo( dataId :Long , videos:ArrayList<String?>?){
+    private fun saveVideo(quan: Quan , needShare:Boolean=false){
 
-        if(videos==null || videos.size<1){
+        if(quan.VideoUrls ==null || quan.VideoUrls!!.size<1){
             toast("没有视频需要下载！")
             return
         }
 
-        var dir = Constants.VideoDirPath + dataId+"/"
+        var dir = Constants.VideoDirPath + quan.dataId+"/"
 
         isShowProgress=true
         var downLoadQueueSet = FileDownloadQueueSet(object : FileDownloadListener() {
@@ -125,6 +138,9 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
                 hideProgress()
                 if ((task!!.tag as IdId).id == (task!!.tag as IdId).total) {
                     toast("视频已经保存在"+ dir)
+                    if(needShare){
+                        share(quan)
+                    }
                 }
             }
 
@@ -148,21 +164,19 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         })
         var tasks = ArrayList<BaseDownloadTask>()
 
-         //Environment.getExternalStorageDirectory().toString() + "/coupons/images/"+dataId+"/"
         var f = File(dir)
         f.delete()
         if (!f.exists()) {
             f.parentFile.mkdir()
         }
 
-        for (i in 0 until videos.size) {
+        for (i in 0 until quan.VideoUrls!!.size) {
 
-
-            var name = AppUtil.getFileName( videos[i] ) //  (i + 1).toString() + ".jpg"
+            var name = AppUtil.getFileName( quan.VideoUrls!![i] )
             var path = dir + name
-            var idId = IdId(i, videos.size - 1)
+            var idId = IdId(i, quan.VideoUrls!!.size - 1)
 
-            tasks.add(FileDownloader.getImpl().create(videos[i]).setTag(i + 1).setPath(path).setTag(idId))
+            tasks.add(FileDownloader.getImpl().create(quan.VideoUrls!![i]).setTag(i + 1).setPath(path).setTag(idId))
         }
 
         downLoadQueueSet.disableCallbackProgressTimes()
@@ -170,7 +184,6 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         downLoadQueueSet.downloadSequentially(tasks)//串行下载
         downLoadQueueSet.start()
         showProgress("")
-
 
     }
 
@@ -255,11 +268,13 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         intent.putExtra(Intent.EXTRA_TITLE, quan.ShareTitle)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-        startActivity(Intent.createChooser(intent, "分享"))
+        currentShareDataId= quan.dataId
+        startActivityForResult(Intent.createChooser(intent, "分享") , REQUEST_CODE_SHARE)
     }
 
     private fun shareImages(quan: Quan) {
-        if(isDownPicture(quan)) savaImage(quan ,true)
+        var dirPath = Constants.ImageDirPath + quan.dataId+"/"
+        if(isDownPicture(dirPath)) savaImage(quan ,true)
 
         val cm = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         // 将文本内容放到系统剪贴板里。
@@ -269,15 +284,60 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
 
         var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
         intent.type = "image/*"
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalImages( quan.dataId ))
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalImages( Constants.ImageDirPath  + quan.dataId+"/"  ))
         intent.putExtra(Intent.EXTRA_SUBJECT, quan.ShareTitle )
         intent.putExtra(Intent.EXTRA_TEXT, quan.ShareDescription )
         intent.putExtra(Intent.EXTRA_TITLE, quan.ShareTitle)
         //intent.putExtra(Intent., quan.ShareTitle)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(Intent.createChooser(intent, "分享"))
+
+        var shareIntent = Intent.createChooser(intent, "分享")
+        //shareIntent.putExtra(Constants.INTENT_GOODSID , quan.dataId )
+        currentShareDataId=quan.dataId
+        startActivityForResult( shareIntent , REQUEST_CODE_SHARE )
     }
 
+    private fun shareVideo(quan: Quan){
+        var fileName = File( quan.VideoUrls!![0]).name
+        var filePath = Constants.VideoDirPath  + quan.dataId+"/"+fileName
+        var file = File(filePath)
+        if(!file.exists()) saveVideo( quan ,true)
+
+        val cm = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        // 将文本内容放到系统剪贴板里。
+        val clipData = ClipData.newPlainText( quan.ShareTitle , quan.ShareDescription )
+        cm.primaryClip = clipData
+
+
+        var intent = Intent(Intent.ACTION_SEND)
+        intent.type = "video/*"
+        //intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalvideo( quan.dataId ))
+        intent.putExtra(Intent.EXTRA_STREAM , Uri.fromFile(file))
+        intent.putExtra(Intent.EXTRA_SUBJECT, quan.ShareTitle )
+        intent.putExtra(Intent.EXTRA_TEXT, quan.ShareDescription )
+        intent.putExtra(Intent.EXTRA_TITLE, quan.ShareTitle)
+        //intent.putExtra(Intent., quan.ShareTitle)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+        var shareIntent = Intent.createChooser(intent, "分享")
+        //shareIntent.putExtra(Constants.INTENT_GOODSID , quan.dataId )
+        currentShareDataId=quan.dataId
+        startActivityForResult( shareIntent , REQUEST_CODE_SHARE )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if( requestCode==REQUEST_CODE_SHARE  ){
+            //因为无法判断是否分享成功了，所以就都认为成功
+            //toast("分享回调了.....")
+            //var dataId = data!!.getLongExtra(Constants.INTENT_GOODSID,0L)
+            if(currentShareDataId>0) {
+                iPresenter.shareSuccess(currentShareDataId)
+            }
+        }
+    }
 
     private fun share(quan: Quan) {
         if(quan.Type==0){
@@ -285,18 +345,17 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         }else if(quan.Type==1) {
             shareImages(quan)
         }else if(quan.Type==2){
-            //todo
-            shareText(quan)
+            shareVideo(quan)
         }
     }
 
-    private fun isDownPicture(quan: Quan):Boolean{
-        val imageDirectoryPath = Constants.ImageDirPath  + quan.dataId+"/" //Environment.getExternalStorageDirectory().toString() + "/mifang/images/"+ dataId
-        val dir = File(imageDirectoryPath)
+    private fun isDownPicture( dirPath : String ):Boolean{
+        //val imageDirectoryPath = Constants.ImageDirPath  + quan.dataId+"/"
+        val dir = File(dirPath)
         if (!dir.exists()) {
             dir.mkdirs()
         }
-        val imageDirectory = File(imageDirectoryPath)
+        val imageDirectory = File(dirPath)
 
         val fileList = imageDirectory.list()
         return fileList.isEmpty()
@@ -305,10 +364,10 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
     /**
      * 设置需要分享的照片放入Uri类型的集合里
      */
-    private fun getLocalImages( dataId :Long ): ArrayList<Uri> {
+    private fun getLocalImages( dirPath:String   ): ArrayList<Uri> {
         val myList = ArrayList<Uri>()
 
-        val imageDirectoryPath = Constants.ImageDirPath  + dataId+"/" //Environment.getExternalStorageDirectory().toString() + "/mifang/images/"+ dataId
+        val imageDirectoryPath = dirPath //Constants.ImageDirPath  + dataId+"/"
         val dir = File(imageDirectoryPath)
         if (!dir.exists()) {
             dir.mkdirs()
@@ -384,13 +443,20 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
             quan_tab_progress.visibility=View.GONE
         }
 
-
     }
 
     override fun hideProgress() {
         super.hideProgress()
-
         quan_tab_progress.visibility=View.GONE
+        isShowProgress=false
+        quan_tab_refreshview.isRefreshing= false
+        quanAdapter!!.isUseEmpty(true)
+    }
+
+    override fun onRefresh() {
+        pageIndex=0
+        isShowProgress=false
+        fetchData()
     }
 
     override fun onLoadMoreRequested() {
@@ -442,6 +508,10 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         }
     }
 
+
+    override fun shareSuccessCallback(apiResult: ApiResult<Any>) {
+
+    }
 
     companion object {
         /**

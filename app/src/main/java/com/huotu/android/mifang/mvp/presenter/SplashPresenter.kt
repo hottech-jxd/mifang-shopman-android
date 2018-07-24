@@ -1,9 +1,11 @@
 package com.huotu.android.mifang.mvp.presenter
 
 
+import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.SplashContract
 import com.huotu.android.mifang.mvp.model.SplashModel
+import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.trello.rxlifecycle2.LifecycleProvider
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import io.reactivex.Observable
@@ -11,6 +13,7 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.ArrayList
 
 
 class SplashPresenter(view: SplashContract.View) : SplashContract.Presenter {
@@ -43,6 +46,44 @@ class SplashPresenter(view: SplashContract.View) : SplashContract.Presenter {
                         mView!!.error(Constants.MESSAGE_ERROR)
                     }
                 } )
+    }
+
+    override fun sendWechatLogin() {
+
+        var observable = Observable.create<Any> { e ->
+            e.onNext(sendWechat())
+            e.onComplete()
+        }
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<Any> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: Any) {
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+
+    }
+
+
+    private fun sendWechat(){
+        var req = SendAuth.Req()
+        req.scope = "snsapi_userinfo"
+        req.state = "mifang"
+        AppInit.iwxApi!!.sendReq(req)
     }
 
     override fun getWechatAccessToken(appid: String, appSecret: String, code: String) {

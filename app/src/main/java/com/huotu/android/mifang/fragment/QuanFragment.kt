@@ -78,6 +78,10 @@ class QuanFragment : BaseFragment<QuanContract.Presenter>() , QuanContract.View 
 
     }
 
+    override fun shareSuccessCallback(apiResult: ApiResult<Any>) {
+
+    }
+
     override fun showProgress(msg: String) {
         super.showProgress(msg)
         quan_progress.visibility=View.VISIBLE
