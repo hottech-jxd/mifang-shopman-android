@@ -100,6 +100,31 @@ class BindPhonePresenter(view: BindPhoneContract.View) :BindPhoneContract.Presen
                 })
     }
 
+    override fun checkCode(phone: String, code: String) {
+        val observable: Observable<ApiResult<Any>>? = mModel.checkCode( phone ,code )
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Observer<ApiResult<Any>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<Any>) {
+                        mView!!.checkCodeCallback(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
     override fun onDestory() {
 
     }

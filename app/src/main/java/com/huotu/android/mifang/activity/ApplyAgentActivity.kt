@@ -64,6 +64,14 @@ class ApplyAgentActivity : BaseActivity<BuyContract.Presenter>()
         iPresenter.getAgentUpgradeGoods()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if( handler!=null){
+            handler.removeCallbacksAndMessages(null)
+        }
+    }
+
     override fun showProgress(msg: String) {
         super.showProgress(msg)
         applyagent_progress.visibility=View.VISIBLE
@@ -272,7 +280,8 @@ class ApplyAgentActivity : BaseActivity<BuyContract.Presenter>()
 
     private fun wechatPay(orderBean: InviteOrderBean){
         var payModel = PayModel( orderBean.WxAppId , orderBean.WxAppMchId
-                , Constants.CUSTOMERID.toString() , orderBean.UnionOrderId , "" , 0 ,"","","","", orderBean.PrepayId)
+                , Constants.CUSTOMERID.toString() , orderBean.UnionOrderId ,
+                "" , 0 ,"","","","", orderBean.PrepayId)
         PayUtils().wxPay(this , handler , payModel  )
     }
 
@@ -289,7 +298,7 @@ class ApplyAgentActivity : BaseActivity<BuyContract.Presenter>()
     override fun handleMessage(msg: Message?): Boolean {
         when( msg!!.what){
             PayUtils.SDK_Ali_PAY_V2_FLAG->{
-                var data = msg.obj as AliPayResultV2
+                //var data = msg.obj as AliPayResultV2
                 toast( "支付成功")
             }
         }

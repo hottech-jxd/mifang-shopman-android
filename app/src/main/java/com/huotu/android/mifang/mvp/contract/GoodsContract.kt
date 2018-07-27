@@ -10,6 +10,7 @@ interface GoodsContract {
         fun getStoreIndex(pageIndex:Int, pageSize:Int)
         fun getShopperAccountInfo()
         fun agentUpgrade(goodsId:Long)
+        fun getStoreInfo()
     }
 
     interface View: IView<Presenter> {
@@ -17,5 +18,6 @@ interface GoodsContract {
         fun getStoreIndexCallback(apiResult: ApiResult<StoreIndex>)
         fun getShopperAccountInfoCallback(apiResult: ApiResult<ShopperAccountInfo>)
         fun agentUpgradeCallback(apiResult: ApiResult<GoodsDetailBean>)
+        fun getStoreInfoCallback(apiResult: ApiResult<ShopperInfo>)
     }
 }

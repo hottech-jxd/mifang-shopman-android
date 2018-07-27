@@ -99,6 +99,31 @@ class MyPresenter(view: MyContract.View):MyContract.Presenter {
                 })
     }
 
+    override fun updatePayPasswordStatus(status: Int) {
+        val observable: Observable<ApiResult<Any>>? = mModel.updatePayPasswordStatus(status)
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Observer<ApiResult<Any>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<Any>) {
+                        mView!!.updatePayPasswordStatusCallback(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
     override fun onDestory() {
 
     }

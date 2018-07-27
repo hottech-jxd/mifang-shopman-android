@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.huotu.android.library.libpush.PushHelper
@@ -18,12 +19,10 @@ import com.huotu.android.mifang.base.BaseApplication
 import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.SplashContract
 import com.huotu.android.mifang.mvp.presenter.SplashPresenter
-import com.huotu.android.mifang.util.CookieUtils
 import com.huotu.android.mifang.util.GsonUtils
 import com.huotu.android.mifang.util.SPUtils
 import permissions.dispatcher.*
 import com.huotu.android.mifang.receiver.WechatLoginReceiver
-import com.tencent.mm.opensdk.modelmsg.SendAuth
 import kotlinx.android.synthetic.main.activity_splash.*
 import permissions.dispatcher.BuildConfig
 import com.huotu.android.mifang.bean.UserBean
@@ -32,13 +31,16 @@ import com.huotu.android.mifang.bean.UserBean
 @RuntimePermissions
 class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
         SplashContract.View , View.OnClickListener, WechatLoginReceiver.LoginListener{
-    var presenter : SplashPresenter?=null
-    var wechatLoginReceiver : WechatLoginReceiver?=null
-    val REQUEST_CODE=1001
+    private var presenter : SplashPresenter?=null
+    private var wechatLoginReceiver : WechatLoginReceiver?=null
+    private val REQUEST_CODE=1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+
+        //Log.d("splash------------>", "onCreateonCreateonCreateonCreateonCreate")
 
         register()
 
@@ -46,11 +48,20 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
 
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        //Log.d("splash------------>", "onNewIntentonNewIntentonNewIntentonNewIntent")
+    }
+
     override fun setStatusBar() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     fun init() {
+
+        splash_wechat_login.visibility=View.GONE
+
         layError.setOnClickListener(this)
         splash_wechat_login.setOnClickListener(this)
 
@@ -172,15 +183,17 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
     override fun showProgress( msg:String){
         layError.visibility =View.GONE
         splash_progress.visibility=View.VISIBLE
+        splash_wechat_login.visibility=View.INVISIBLE
     }
 
     override fun hideProgress(){
         splash_progress.visibility=View.GONE
+        splash_wechat_login.visibility=View.VISIBLE
     }
 
     override fun error(err:String){
-        //gotoHome()
         hideProgress()
+
         toast(err)
     }
 
@@ -227,7 +240,9 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
                 .writeString(Constants.PREF_USER, GsonUtils.gson!!.toJson(BaseApplication.instance!!.variable.userBean))
 
         //CookieUtils.setWebViewCookie()
-        gotoHome()
+        //gotoHome()
+
+        bindPhone()
     }
 
     override fun onDestroy() {

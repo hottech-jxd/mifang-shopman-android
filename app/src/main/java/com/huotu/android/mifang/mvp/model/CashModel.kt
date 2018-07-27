@@ -15,4 +15,14 @@ class CashModel {
         var apiService = RetrofitManager.getApiService()
         return apiService!!.applyIndex()
     }
+
+    fun submitApply(accountId:Long , applyMoney:Long ):Observable<ApiResult<Any>>{
+        var apiService = RetrofitManager.getApiService()
+        return apiService!!.submitApply(accountId , applyMoney )
+    }
+
+    fun judgePassword(password:String):Observable<ApiResult<Any>>{
+        var apiService = RetrofitManager.getApiService()
+        return apiService!!.judgePassword( password )
+    }
 }

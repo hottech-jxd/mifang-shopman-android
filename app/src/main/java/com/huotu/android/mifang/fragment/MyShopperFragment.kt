@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.BuildConfig
@@ -46,6 +47,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
     var isShowProgress = true
     var isFirstOpen=false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -76,6 +78,9 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
         myshopper_refreshview.setOnRefreshListener(this)
         myshopper_recyclerview.layoutManager = GridLayoutManager(context ,2)
         shopGoodsAdapter = ShopGoodsAdapter(data)
+        var emptyView = LayoutInflater.from(context).inflate(R.layout.layout_empty,null)
+        shopGoodsAdapter!!.isUseEmpty(false)
+        shopGoodsAdapter!!.emptyView=emptyView
         shopGoodsAdapter!!.onItemClickListener=this
         shopGoodsAdapter!!.setOnLoadMoreListener(this, myshopper_recyclerview)
         myshopper_recyclerview.adapter = shopGoodsAdapter
@@ -137,10 +142,13 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
     }
 
     override fun operate(keyValue: KeyValue) {
-        WechatShareUtil().shareMiniProgram( resources ,getString(R.string.app_name) ,"小程序描述",
-                "http://www.baidu.com",
-                BuildConfig.wechat_miniprogram_id ,
-                "pages/index/index" )
+
+        iPresenter.getStoreInfo()
+
+//        WechatShareUtil().shareMiniProgram( resources ,getString(R.string.app_name) ,"小程序描述",
+//                "http://www.baidu.com",
+//                BuildConfig.wechat_miniprogram_id ,
+//                "pages/index/index" )
     }
 
     override fun onRefresh() {
@@ -168,6 +176,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
         }else{
             myshopper_progress.visibility=View.GONE
         }
+        shopGoodsAdapter!!.isUseEmpty(false)
     }
 
     override fun hideProgress() {
@@ -175,6 +184,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
         myshopper_progress.visibility=View.GONE
         myshopper_refreshview.isRefreshing=false
         isShowProgress=false
+        shopGoodsAdapter!!.isUseEmpty(true)
     }
 
     override fun getLayoutResourceId(): Int {
@@ -233,6 +243,27 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
     }
 
     override fun agentUpgradeCallback(apiResult: ApiResult<GoodsDetailBean>) {
+
+    }
+
+    override fun getStoreInfoCallback(apiResult: ApiResult<ShopperInfo>) {
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null){
+            return
+        }
+
+        var title = apiResult.data!!.ShareTitle
+        var desc = apiResult.data!!.ShareContent
+        WechatShareUtil().shareMiniProgram( resources , title , desc ,
+                "",
+                BuildConfig.wechat_miniprogram_id ,
+                "pages/index/index" )
 
     }
 

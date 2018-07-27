@@ -262,4 +262,26 @@ class WebActivity : BaseActivity<IPresenter>() ,View.OnClickListener{
 
         return super.onKeyDown(keyCode, event)
     }
+
+    override fun onPause() {
+        super.onPause()
+        //暂停WebView在后台的所有活动
+        webView.onPause()
+        //暂停WebView在后台的JS活动
+        webView.pauseTimers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        webView.onResume()
+        webView.resumeTimers()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        webView.destroy()
+
+    }
 }

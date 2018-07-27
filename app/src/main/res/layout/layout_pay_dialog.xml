@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:paddingBottom="20dp"
+    android:layout_height="wrap_content">
+
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        layout="@layout/layout_header"
+        android:id="@+id/pay_dialog_header"/>
+
+    <com.huotu.android.mifang.widget.PayPsdInputView
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pay_dialog_header"
+        android:id="@+id/pay_dialog_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:inputType="number"
+        app:maxCount="6"
+        app:rectAngle="4dp"
+        app:borderColor="@color/light_gray"
+        app:psdType="weChat"
+        app:focusedColor="@color/transparent"
+        app:bottomLineColor="@color/white"
+        />
+
+    <com.huotu.android.mifang.widget.ProgressWidget
+        android:id="@+id/pay_dialog_progress"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</android.support.constraint.ConstraintLayout>

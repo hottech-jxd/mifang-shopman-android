@@ -44,7 +44,8 @@
             android:background="@drawable/shape_edittext_bg"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:inputType="text"
+            android:maxLength="6"
+            android:inputType="numberPassword"
             android:hint="设置支付密码"
             android:layout_height="wrap_content" />
 
@@ -72,10 +73,10 @@
             android:background="@drawable/shape_edittext_bg"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:inputType="text"
+            android:inputType="numberPassword"
+            android:maxLength="6"
             android:hint="设置支付确认"
             android:layout_height="wrap_content" />
-
 
     </LinearLayout>
 
@@ -96,6 +97,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:visibility="gone"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"

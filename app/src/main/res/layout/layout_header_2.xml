@@ -23,6 +23,7 @@
                 android:paddingLeft="0dp"
                 android:paddingRight="20dp"
                 android:src="@mipmap/back"
+                android:background="@drawable/style_row_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -32,6 +33,9 @@
                 android:textSize="18sp"
                 android:layout_centerVertical="true"
                 android:textColor="#323232"
+                android:singleLine="true"
+                android:maxLength="12"
+                android:layout_marginLeft="0dp"
                 android:id="@+id/header_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -44,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:background="@drawable/style_row_bg"
                     android:layout_marginRight="0dp"
                     android:text="本月"
                     android:paddingTop="8dp"

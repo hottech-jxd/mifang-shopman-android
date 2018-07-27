@@ -238,7 +238,7 @@ class QuanAdapter(data:ArrayList<Quan>)
 
         helper.setText(R.id.quan_item_one_save_text,"下载图片")
 
-        setNineImage( helper.getView(R.id.quan_item_one_images) , quan.SmallImageUrls )
+        setNineImage( helper.getView(R.id.quan_item_one_images) , quan.ImageUrls )
     }
 
     private fun setVideos( recyclerView: RecyclerView ,quan: Quan){

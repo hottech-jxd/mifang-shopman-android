@@ -19,4 +19,8 @@ class BindPhoneModel {
         val apiService = RetrofitManager.getApiService()
         return  apiService!!.updatePayPassword(payPassword)
     }
+    fun checkCode( phone:String , code:String):Observable<ApiResult<Any>>{
+        val apiService = RetrofitManager.getApiService()
+        return  apiService!!.checkSmsCode(phone,code)
+    }
 }

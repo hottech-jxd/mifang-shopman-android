@@ -6,19 +6,23 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.activity.WebActivity
 import com.huotu.android.mifang.adapter.MessageAdapter
 import com.huotu.android.mifang.base.BaseFragment
 import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.MessageContract
 import com.huotu.android.mifang.mvp.presenter.MessagePresenter
+import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.util.DensityUtils
+import com.huotu.android.mifang.util.GsonUtils
 import com.huotu.android.mifang.widget.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_cash_record_item.*
 import kotlinx.android.synthetic.main.fragment_message.*
@@ -78,112 +82,23 @@ class MessageFragment : BaseFragment<MessageContract.Presenter>()
             R.id.message_item_register_5_see->{
 
             }
+            R.id.message_item_layout_system_0->{
+                //系统消息-》详情页
+                openWeb( adapter!!.getItem(position) as MessageBean )
+            }
         }
+    }
+
+    private fun openWeb(messageBean: MessageBean){
+        if( TextUtils.isEmpty( messageBean.NotificationContent)) return
+        var bean = GsonUtils.gson!!.fromJson(messageBean.NotificationContent, SystemNoticeViewModel::class.java)
+        if(TextUtils.isEmpty( bean.JumpURL )) return
+        newIntent<WebActivity>(Constants.INTENT_URL , bean.JumpURL)
     }
 
     override fun fetchData() {
 
         iPresenter.getMessageList(type , pageIndex+1 , Constants.PAGE_SIZE )
-
-//         if(type==MessageTypeEnum.SystemMessage.id){
-//            data.add(MessageBean(1, type ,"sdfs",
-//                    "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                    "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//
-//             messageAdapter!!.notifyDataSetChanged()
-
-//         }else if(type ==MessageTypeEnum.PayMessage.id){
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(2, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(3, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(4, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//
-//             messageAdapter!!.notifyDataSetChanged()
-//         }else if(type == MessageTypeEnum.RegisterMessage.id){
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(2, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(3, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(4, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, type ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//
-//             messageAdapter!!.notifyDataSetChanged()
-//         }else if(type==MessageTypeEnum.All.id){
-//             data.add(MessageBean(1, 1 ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(2, 4 ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(3, 4 ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(4, 5 ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, 5 ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, 1 ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//             data.add(MessageBean(1, 4 ,"sdfs",
-//                     "adaas阿斯发是否打发第三方暗室逢灯阿斯顿阿是打发",
-//                     "http://app.infunpw.com/commons/images/cinema/cinema_films/3757.jpg","2018.05.12 10:12"))
-//
-//             messageAdapter!!.notifyDataSetChanged()
-//         }
-
 
     }
 

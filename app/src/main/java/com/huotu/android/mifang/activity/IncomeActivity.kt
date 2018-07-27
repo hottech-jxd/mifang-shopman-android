@@ -129,7 +129,7 @@ class IncomeActivity : BaseActivity<ProfitContract.Presenter>()
         var userProfitByLastMonth = data.UserProfitByLastMonth
         userProfitByLastMonth.setScale(2, BigDecimal.ROUND_HALF_UP)
         userProfitByLastMonth = userProfitByLastMonth.divide(BigDecimal(100))
-        
+
         income_yestoday_month_income.text = userProfitByLastMonth.toString()+"元"
         income_yestoday_month_count.text =  "预估"+data.UserOrderNumByLastMonth.toString()+"单"
 

@@ -23,4 +23,4 @@ data class DepositOrderBean(
          var PrepayId:String /*	预支付Id*/,
          var UnionOrderId:String /*	联合单号*/,
          var aliPayOrderString :String,	/*支付宝支付加密信息*/
-        var SurplusMoney:BigDecimal= BigDecimal.ZERO /*剩余需要付的金额，当等于0时，表示已经完全抵用*/ )
+        var SurplusAmount :BigDecimal= BigDecimal.ZERO /*剩余需要付的金额，当等于0时，表示已经完全抵用*/ )

@@ -164,4 +164,8 @@ class VideoAdapter( data :ArrayList<KVEntry> , var itemWidth :Int )
         simpleDraweeView!!.layoutParams.width=width
         simpleDraweeView!!.layoutParams.height=height
     }
+
+    override fun imageFailure(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
+
+    }
 }

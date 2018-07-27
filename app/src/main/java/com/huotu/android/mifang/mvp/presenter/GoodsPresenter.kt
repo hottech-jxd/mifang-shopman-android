@@ -18,6 +18,7 @@ class GoodsPresenter(view: GoodsContract.View):GoodsContract.Presenter {
 
     var mView: GoodsContract.View?=null
     private val mModel: GoodsModel by lazy { GoodsModel() }
+    private val mSetModel :SettingModel by lazy {SettingModel() }
 
     init {
         mView=view
@@ -126,6 +127,34 @@ class GoodsPresenter(view: GoodsContract.View):GoodsContract.Presenter {
                     override fun onNext(t: ApiResult<GoodsDetailBean>) {
 
                         mView!!.agentUpgradeCallback( t )
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
+    override fun getStoreInfo() {
+        val observable = mSetModel.getStoreInfo()
+
+        observable.subscribeOn(Schedulers.io())
+                .bindToLifecycle(mView as LifecycleProvider<*>)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<ApiResult<ShopperInfo>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<ShopperInfo>) {
+
+                        mView!!.getStoreInfoCallback(t)
 
                     }
 

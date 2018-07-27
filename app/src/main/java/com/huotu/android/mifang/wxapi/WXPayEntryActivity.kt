@@ -14,6 +14,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import kotlinx.android.synthetic.main.activity_wx_pay.*
+import kotlinx.android.synthetic.main.layout_header.*
 
 
 /**
@@ -34,6 +35,8 @@ class WXPayEntryActivity : Activity()
         setContentView ( R.layout.activity_wx_pay )
         wx_pay_lay.visibility=View.GONE
         wx_pay_back.setOnClickListener(this)
+        header_left_image.setOnClickListener(this)
+        header_title.text="微信支付"
 
 
         try {
@@ -48,6 +51,7 @@ class WXPayEntryActivity : Activity()
 
     override fun onClick(v: View?) {
         when(v!!.id){
+            R.id.header_left_image,
             R.id.wx_pay_back->{
                 finish()
             }
@@ -55,6 +59,7 @@ class WXPayEntryActivity : Activity()
     }
 
     private fun pay(resp: BaseResp) {
+
         when (resp.errCode) {
             BaseResp.ErrCode.ERR_OK -> {
                 var msg = "支付成功"
@@ -62,6 +67,7 @@ class WXPayEntryActivity : Activity()
                 //ToastUtils.single.showToast(msg)
                 wx_pay_text.text = msg
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.right)
+                drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 return
             }
@@ -70,6 +76,7 @@ class WXPayEntryActivity : Activity()
                 wx_pay_lay.visibility=View.VISIBLE
                 //ToastUtils.single.showToast(msg)
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
+                drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 wx_pay_text.text = msg
                 return
@@ -80,6 +87,7 @@ class WXPayEntryActivity : Activity()
                 //ToastUtils.single.showToast(msg)
                 wx_pay_text.text = msg
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
+                drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 return
             }
@@ -89,6 +97,7 @@ class WXPayEntryActivity : Activity()
                 wx_pay_lay.visibility=View.VISIBLE
                 wx_pay_text.text = msg
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
+                drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 return
             }
@@ -97,7 +106,7 @@ class WXPayEntryActivity : Activity()
 
     override fun onResp(resp: BaseResp) {
         Log.i("info", "onPayFinish, errCode = " + resp.errCode)
-
+        wx_pay_progress.visibility=View.GONE
         when(resp.type){
             ConstantsAPI.COMMAND_PAY_BY_WX->{
                 pay(resp)

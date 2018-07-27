@@ -18,4 +18,5 @@ class SettingModel {
         val apiService = RetrofitManager.getApiService()
         return apiService!!.getStoreInfo()
     }
+
 }

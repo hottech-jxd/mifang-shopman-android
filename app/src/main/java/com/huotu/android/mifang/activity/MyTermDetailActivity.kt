@@ -6,6 +6,7 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import com.aigestudio.wheelpicker.WheelPicker
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -42,7 +43,7 @@ class MyTermDetailActivity : BaseActivity<TermContract.Presenter>()
     var bindMobile = -1
     var activate = -1
     var activateHour = 24
-    var orderByType = 1
+    var orderByType = 0
     var pageIndex = 0
     var iPresenter=TermPresenter(this)
     var isShowProgress = true
@@ -116,6 +117,11 @@ class MyTermDetailActivity : BaseActivity<TermContract.Presenter>()
 
         var data = ArrayList<TermItemBean>()
         termAdapter = TermAdapter(data)
+
+        var emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty,null)
+        termAdapter!!.isUseEmpty(false)
+        termAdapter!!.emptyView=emptyView
+
         termAdapter!!.setOnLoadMoreListener(this, myterm_detail_recyclerview)
         myterm_detail_recyclerview.layoutManager = LinearLayoutManager(this)
         myterm_detail_recyclerview.adapter = termAdapter
@@ -153,7 +159,7 @@ class MyTermDetailActivity : BaseActivity<TermContract.Presenter>()
                 resetFilterStatus()
             }
             R.id.myterm_detail_lay_time->{
-                orderByType=1
+                orderByType=0
                 //orderByType = if( orderByType==1) 0 else if(orderByType ==0) 1 else 1
                 //var draw = if(orderByType==1) ContextCompat.getDrawable(this , R.mipmap.arrow_down) else ContextCompat.getDrawable(this , R.mipmap.arrow_up)
                 //draw!!.setBounds
@@ -257,6 +263,7 @@ class MyTermDetailActivity : BaseActivity<TermContract.Presenter>()
     }
 
     private fun getData(){
+        termAdapter!!.isUseEmpty(false)
         iPresenter.getTermMemberList(searchDayType , buyNum , levelId , relation , bindMobile , activate , activateHour , orderByType , pageIndex+1 , Constants.PAGE_SIZE)
 
     }
@@ -276,6 +283,7 @@ class MyTermDetailActivity : BaseActivity<TermContract.Presenter>()
         isShowProgress= false
         myterm_detail_progress.visibility = View.GONE
         myterm_detail_refreshview.isRefreshing=false
+        termAdapter!!.isUseEmpty(true)
     }
 
 

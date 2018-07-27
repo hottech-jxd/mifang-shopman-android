@@ -12,6 +12,10 @@ package com.huotu.android.mifang.bean
  *
  * Created by jinxiangdong on 2017/11/15.
  */
-data class KeyValue(var code: Int, var name: String?)
+data class KeyValue(var code: Int, var name: String?){
+    override fun toString(): String {
+        return if(name==null) "" else name!!
+    }
+}
 
 data class KVEntry(var code:String? ,var name :String?)

@@ -12,11 +12,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/payPassword_lay_three_2"
         app:layout_constraintTop_toBottomOf="@id/payPassword_lay_three_1"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -26,11 +26,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/payPassword_lay_three_back"
         app:layout_constraintTop_toBottomOf="@id/payPassword_lay_three_2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:padding="10dp"
+        android:background="@drawable/style_row_bg"
         android:text="返回设置界面"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

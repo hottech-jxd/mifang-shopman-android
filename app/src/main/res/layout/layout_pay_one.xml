@@ -119,14 +119,14 @@
         <ImageView
             android:background="@drawable/shape_bindphone_bg"
             android:id="@+id/payPassword_lay_one_getImageCode"
-            android:text=""
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
+            android:scaleType="centerCrop"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:layout_marginLeft="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_width="80dp"
-            android:layout_height="40dp" />
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_width="83dp"
+            android:layout_height="30dp" />
 
     </LinearLayout>
 
@@ -147,6 +147,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:visibility="invisible"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -154,7 +155,7 @@
         app:layout_constraintTop_toBottomOf="@id/payPassword_lay_one_next"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="提示: \r\n 支付密码用于账号余额、积分等支付验证。让您的资金账号更加安全。"
+        android:text="提示: \n支付密码用于账号余额、积分等支付验证。让您的资金账号更加安全。"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

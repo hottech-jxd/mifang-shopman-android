@@ -145,15 +145,20 @@
 
                 <TextView
                     android:id="@+id/my_setting"
+                    android:background="@drawable/style_row_bg"
                     android:text="设置"
                     android:textColor="#716F72"
-                    android:padding="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:gravity="top|center_horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
@@ -195,8 +200,8 @@
                     android:padding="5dp"
                     android:id="@+id/my_qrcode"
                     android:src="@mipmap/qrcode"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp" />
+                    android:layout_width="38dp"
+                    android:layout_height="38dp" />
 
             </LinearLayout>
 
@@ -370,6 +375,7 @@
             <com.youth.banner.Banner
                 android:layout_marginTop="5dp"
                 android:id="@+id/my_banner"
+                app:delay_time="3500"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -677,6 +683,7 @@
             app:actualImageScaleType="centerCrop"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:background="@color/white"
             android:id="@+id/my_qrcode_image"
@@ -695,7 +702,7 @@
             android:paddingBottom="6dp"
             android:background="@drawable/style_splash_login_bg"
             android:id="@+id/my_qrcode_share"
-            android:text="分享"
+            android:text="分享二维码"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"

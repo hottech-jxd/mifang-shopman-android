@@ -192,6 +192,8 @@ class MessageAdapter(data:List<MessageBean> )
                 helper!!.setText(R.id.message_item_system_0_time , bean.NoticeTime)
                 Glide.with(mContext).load(bean.NoticeImgURL).into( helper.getView(R.id.message_item_system_0_bg))
 
+                helper.addOnClickListener(R.id.message_item_layout_system_0)//点击系统消息，调转网页
+
             }
             NoticeSceneEnum.营养师到期通知.id->{
 

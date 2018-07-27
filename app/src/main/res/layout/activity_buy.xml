@@ -46,6 +46,9 @@
             android:id="@+id/buy_logo"
             app:roundAsCircle="true"
             app:placeholderImage="@mipmap/shop"
+            app:failureImageScaleType="centerCrop"
+            app:placeholderImageScaleType="centerCrop"
+            app:actualImageScaleType="centerCrop"
             app:failureImage="@mipmap/shop"
             android:layout_width="40dp"
             android:layout_height="40dp" />

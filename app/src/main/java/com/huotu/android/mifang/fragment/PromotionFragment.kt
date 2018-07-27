@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
+import android.support.v4.app.ShareCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -178,8 +179,9 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
     private fun share( bitmapPath:String  ){
 
         //WechatShareUtil().shareWechatOfOneImage(thumbBitmap, bitmap ,shareType )
-        var images = ArrayList<Uri>()
-        images.add(Uri.parse( bitmapPath ) )
+        //var images = ArrayList<Uri>()
+        //images.add(Uri.parse( bitmapPath ) )
+        //images.add(ImageUtils.getUriByFile(context, bitmapPath))
 
         //var image = Uri.parse( bitmapPath )
         var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
@@ -193,6 +195,15 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         var shareIntent = Intent.createChooser(intent, "分享")
         startActivity( shareIntent )
+
+
+
+
+//        var shareIntent=ShareCompat.IntentBuilder.from(activity)
+//                .setType("image/*")
+//                .set
+
+
     }
 
 
@@ -240,7 +251,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
 
                     //val contentResolver = context!!.contentResolver
 
-                    val uri = Uri.fromFile(file) //contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values)
+                    val uri = ImageUtils.getUriByFile(context , filePath) //Uri.fromFile(file) //contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values)
 
                     myList.add(uri)
 

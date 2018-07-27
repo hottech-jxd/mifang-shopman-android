@@ -1,10 +1,16 @@
 package com.huotu.android.mifang.activity
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.huotu.android.library.libpay.alipay.AliOrderInfo
+import com.huotu.android.library.libpay.alipayV2.AliPayResultV2
+import com.huotu.android.library.libpay.weixin.WeiXinPayResult
+import com.huotu.android.library.libpay.weixin.WeiXinPayUtil
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.MomeyAdapter
 import com.huotu.android.mifang.adapter.PaymentAdapter
@@ -14,6 +20,7 @@ import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.PayLoanContract
 import com.huotu.android.mifang.mvp.presenter.PayLoanPresenter
 import com.huotu.android.mifang.newIntent
+import com.huotu.android.mifang.util.PayUtils
 import com.huotu.android.mifang.widget.RecyclerViewDivider4
 import com.huotu.android.mifang.widget.RecyclerViewDivider5
 import kotlinx.android.synthetic.main.activity_applyagent.*
@@ -25,12 +32,13 @@ import kotlinx.android.synthetic.main.layout_header_2.*
  */
 class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
         ,PayLoanContract.View
+        , Handler.Callback
         ,BaseQuickAdapter.OnItemClickListener
         ,View.OnClickListener{
     private var iPresenter=PayLoanPresenter(this)
     private var momeyAdapter:MomeyAdapter?=null
     private var paymentAdapter:PaymentAdapter ?=null
-
+    private var handler=Handler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +67,14 @@ class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
 
         iPresenter.getDepositIndex()
         iPresenter.getPaymentItems()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if( handler!=null){
+            handler.removeCallbacksAndMessages(null)
+        }
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -183,6 +199,39 @@ class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
 
     override fun submitGoodsDepositOrderCallback(apiResult: ApiResult<DepositOrderBean>) {
 
+        if(processCommonErrorCode(apiResult)){return}
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+        if(apiResult.data==null) {
+            toast("缺少支付信息")
+            return
+        }
+
+        if(apiResult.data!!.payType == 0){
+            wechatPay(apiResult.data!!)
+        }else if(apiResult.data!!.payType==1){
+            aliPay(apiResult.data!!)
+        }
+
+    }
+
+    private fun wechatPay(orderBean: DepositOrderBean){
+        var payModel = PayModel( orderBean.WxAppId , orderBean.WxAppMchId
+                , Constants.CUSTOMERID.toString() , orderBean.UnionOrderId
+                , "" , orderBean.SurplusAmount.toInt() ,"","","","0" , orderBean.PrepayId)
+        PayUtils().wxPay(this , handler , payModel  )
+
+    }
+    private fun aliPay(orderBean: DepositOrderBean){
+        var aliOrderInfo = AliOrderInfo()
+        aliOrderInfo.body=""
+        aliOrderInfo.orderNo= orderBean.UnionOrderId
+        aliOrderInfo.subject=""
+        aliOrderInfo.totalfee=0
+
+        PayUtils().aliNativePay(aliOrderInfo ,this , orderBean.aliPayOrderString ,handler )
     }
 
     override fun getDepositListCallback(apiResult: ApiResult<ArrayList<PayLoanBean>>) {
@@ -191,5 +240,15 @@ class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
 
     override fun getFrozenFlowCallback(apiResult: ApiResult<ArrayList<FrozenFlow>>) {
 
+    }
+
+    override fun handleMessage(msg: Message?): Boolean {
+        when( msg!!.what){
+            PayUtils.SDK_Ali_PAY_V2_FLAG->{
+                var data = msg.obj as AliPayResultV2
+                toast( "支付成功")
+            }
+        }
+        return true
     }
 }

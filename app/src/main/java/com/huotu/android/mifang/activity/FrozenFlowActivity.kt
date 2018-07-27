@@ -34,6 +34,7 @@ class FrozenFlowActivity : BaseActivity<PayLoanContract.Presenter>()
         setContentView(R.layout.activity_frozen_flow)
 
         header_left_image.setOnClickListener(this)
+        header_title.text="冻结详情"
 
         frozen_flow_refreshview.setOnRefreshListener(this)
         frozenFlowAdapter = FrozenFlowAdapter(ArrayList())

@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.huotu.android.mifang.R
@@ -22,6 +23,7 @@ import java.util.*
 
 class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
         , ProfitContract.View
+        , SwipeRefreshLayout.OnRefreshListener
         , DateDialog.OnOperateListener
         ,View.OnClickListener{
     var incomeDetailAdapter :IncomeDetailAdapter?=null
@@ -30,6 +32,7 @@ class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
     var iPresenter=ProfitPresenter(this)
     var searchYear:Int=0
     var searchMonth= 0
+    var isShowProgress=true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,8 @@ class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
         header_left_image.setOnClickListener(this)
         header_right_text.setOnClickListener(this)
 
+        income_detail_refreshview.setOnRefreshListener(this)
+
         income_detail_recyclerview.layoutManager=LinearLayoutManager(this)
         incomeDetailAdapter = IncomeDetailAdapter(data)
 
@@ -53,7 +58,7 @@ class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
         income_detail_recyclerview.addItemDecoration( RecyclerViewDecoration(this , ContextCompat.getColor(this , R.color.line_color ) ,data) )
 
         searchYear = Calendar.getInstance().get(Calendar.YEAR)
-        searchMonth = Calendar.getInstance().get(Calendar.MONTH)
+        searchMonth = Calendar.getInstance().get(Calendar.MONTH)+1
 
         setYearMonth(searchYear , searchMonth   )
 
@@ -91,14 +96,25 @@ class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
         }
     }
 
+    override fun onRefresh() {
+        isShowProgress=false
+        iPresenter.getProfitItems(type , searchYear , searchMonth)
+    }
+
     override fun showProgress(msg: String) {
         super.showProgress(msg)
-        income_detail_progress.visibility = View.VISIBLE
+        if(isShowProgress) {
+            income_detail_progress.visibility = View.VISIBLE
+        }else{
+            income_detail_progress.visibility=View.GONE
+        }
     }
 
     override fun hideProgress() {
         super.hideProgress()
         income_detail_progress.visibility= View.GONE
+        income_detail_refreshview.isRefreshing=false
+        isShowProgress=false
     }
 
     private fun filter(){

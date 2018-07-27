@@ -1,7 +1,10 @@
 package com.huotu.android.mifang.util;
 
 import android.app.Application;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -23,7 +26,9 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -35,6 +40,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -45,6 +51,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * <pre>
@@ -1932,4 +1939,49 @@ public final class ImageUtils {
             return null;
         }
     }
+
+
+    public static Uri getUriByFile(Context context , String path){
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.M){
+            return Uri.fromFile( new File(path) );
+        }else{
+            //return FileProvider.getUriForFile(context , context.getPackageName() + ".provider" , new File(path));
+            return getImageContentUri(context , new File(path);
+        }
+    }
+
+
+    /**
+     * Gets the content:// URI from the given corresponding path to a file
+     *
+     * @param context context
+     * @param imageFile imageFile
+     * @return content Uri
+     */
+    public static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID }, MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+        Uri uri = null;
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+                Uri baseUri = Uri.parse("content://media/external/images/media");
+                uri = Uri.withAppendedPath(baseUri, "" + id);
+            }
+
+            cursor.close();
+        }
+
+        if (uri == null) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATA, filePath);
+            uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        }
+
+        return uri;
+    }
+
 }

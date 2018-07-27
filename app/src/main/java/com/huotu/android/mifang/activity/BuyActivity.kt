@@ -86,6 +86,14 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
         iPresenter.getBuyInfo()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if( handler!=null){
+            handler.removeCallbacksAndMessages(null)
+        }
+    }
+
     override fun afterTextChanged(s: Editable?) {
         try {
             var size = buy_size.text.toString()
@@ -122,7 +130,7 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
                 item.checked=false
             }
         }
-        adapter!!.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
     override fun onClick(v: View?) {

@@ -5,12 +5,16 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.media.DeniedByServerException
 import android.net.Uri
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.text.TextUtils
 import android.view.View
+import android.widget.RelativeLayout
+import com.facebook.drawee.view.SimpleDraweeView
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.*
 import com.huotu.android.mifang.base.BaseApplication
@@ -21,6 +25,8 @@ import com.huotu.android.mifang.mvp.presenter.MyPresenter
 import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.util.DensityUtils
 import com.huotu.android.mifang.util.FrescoDraweeController
+import com.huotu.android.mifang.util.FrescoDraweeListener
+import com.huotu.android.mifang.util.ImageUtils
 import com.huotu.android.mifang.widget.FrescoImageLoader
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
@@ -39,6 +45,7 @@ import java.math.BigDecimal
 class MyFragment : BaseFragment<MyContract.Presenter>()
         ,MyContract.View
         ,SwipeRefreshLayout.OnRefreshListener
+        ,FrescoDraweeListener.ImageCallback
         ,OnBannerListener
         ,View.OnClickListener {
 
@@ -177,7 +184,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
 
         var images = ArrayList<Uri>()
         //var file = File(qrCodePath)
-        images.add( Uri.fromFile(qrCodeFile) )
+        images.add( ImageUtils.getUriByFile(context , qrCodePath) )  // Uri.fromFile(qrCodeFile) )
         var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
         intent.type = "image/*"
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, images)
@@ -253,7 +260,7 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
     }
 
     override fun myIndexCallback(apiResult: ApiResult<MyBean>) {
-        my_progress.visibility=View.GONE
+        //my_progress.visibility=View.GONE
         if(processCommonErrorCode(apiResult)){
             return
         }
@@ -315,10 +322,14 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
             my_banner.visibility=View.VISIBLE
         }
 
-        my_banner.setDelayTime(3500)
-        my_banner.setImageLoader(FrescoImageLoader( my_banner , DensityUtils.getScreenWidth(context!!)))
+        //my_banner.setDelayTime(3500)
+        var sw = DensityUtils.getScreenWidth(context!!)
+        var sh = sw
+        my_banner.setImageLoader(FrescoImageLoader( my_banner , sw, sh ))
         my_banner.setImages(ads)
-        my_banner.start()
+        if(ads.size>1) {
+            my_banner.start()
+        }
     }
 
     override fun onDestroyView() {
@@ -339,7 +350,26 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
         my_qrcode_lay.visibility = View.VISIBLE //if (my_qrcode_lay.visibility==View.GONE) View.VISIBLE else View.GONE
         qrCodeUrl = apiResult.data
         var imageWith = DensityUtils.getScreenWidth(context!!) * 2 / 3
-        FrescoDraweeController.loadImage( my_qrcode_image , imageWith , imageWith , qrCodeUrl)
+        FrescoDraweeController.loadImage( my_qrcode_image , imageWith , imageWith , qrCodeUrl, this)
+    }
+
+    override fun imageCallback(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
+        if(simpleDraweeView==null) return
+
+        var layoutParams = simpleDraweeView.layoutParams
+        if( layoutParams==null) {
+            layoutParams = RelativeLayout.LayoutParams(width, height)
+        }
+        layoutParams.width = width
+        layoutParams.height = height
+    }
+
+    override fun imageFailure(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
+
+    }
+
+    override fun updatePayPasswordStatusCallback(apiResult: ApiResult<Any>) {
+
     }
 
     companion object {

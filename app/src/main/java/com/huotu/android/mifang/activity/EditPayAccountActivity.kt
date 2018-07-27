@@ -50,7 +50,7 @@ class EditPayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
         header_left_image.setOnClickListener(this)
         edit_pay_account_alipay.setOnClickListener(this)
         edit_pay_account_wepay.setOnClickListener(this)
-        edit_pay_account_default.setOnClickListener(this)
+        //edit_pay_account_default.setOnClickListener(this)
         edit_pay_account_operate.setOnClickListener(this)
 
         if(payAccount!=null){
@@ -95,14 +95,14 @@ class EditPayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
                 edit_pay_account_alipay.setBackgroundResource(R.drawable.shape_edit_pay_account_bg)
                 edit_pay_account_wepay.setBackgroundResource(R.drawable.shape_edit_pay_account_selected_bg)
             }
-            R.id.edit_pay_account_default->{
-                isDefault=!isDefault
-                var draw = ContextCompat.getDrawable(this , R.mipmap.check2)
-                draw!!.setBounds(0,0,48,48)
-                var draw2 = ContextCompat.getDrawable(this , R.mipmap.uncheck2)
-                draw2!!.setBounds(0,0,48,48)
-                edit_pay_account_default.setCompoundDrawables( if(isDefault) draw else draw2 , null,null,null )
-            }
+//            R.id.edit_pay_account_default->{
+//                isDefault=!isDefault
+//                var draw = ContextCompat.getDrawable(this , R.mipmap.check2)
+//                draw!!.setBounds(0,0,48,48)
+//                var draw2 = ContextCompat.getDrawable(this , R.mipmap.uncheck2)
+//                draw2!!.setBounds(0,0,48,48)
+//                edit_pay_account_default.setCompoundDrawables( if(isDefault) draw else draw2 , null,null,null )
+//            }
             R.id.edit_pay_account_operate->{
                 save()
             }
@@ -152,6 +152,7 @@ class EditPayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
             toast(apiResult.msg)
             return
         }
+        KeybordUtils.closeKeyboard(this)
         setResult(Activity.RESULT_OK)
         finish()
     }

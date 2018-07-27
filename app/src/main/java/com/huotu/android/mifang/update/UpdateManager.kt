@@ -92,11 +92,11 @@ class UpdateManager (var mContext:Context ): CommonContract.View ,DialogInterfac
 
     override fun toast(msg: String) {
         hideProgress()
-        ToastUtils.single.showLongToast( mContext!! , msg )
+        ToastUtils.single.showLongToast( mContext , msg )
     }
 
     override fun error(err: String) {
-        toast(err)
+        //toast(err)
     }
 
     override fun feedbackCallback(apiResult: ApiResult<Any>) {

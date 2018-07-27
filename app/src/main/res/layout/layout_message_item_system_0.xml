@@ -4,15 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
+    android:clickable="true"
+    android:id="@+id/message_item_system_0_container"
     android:background="@drawable/style_message_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
+        android:clickable="false"
         android:src="@mipmap/message3"
         android:id="@+id/message_item_system_0_logo"
         android:layout_width="42dp"
         android:layout_height="42dp"/>
+
     <TextView
+        android:clickable="false"
         android:layout_marginRight="8dp"
         android:id="@+id/message_item_system_0_title"
         app:layout_constraintTop_toTopOf="@id/message_item_system_0_logo"
@@ -24,6 +29,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:clickable="false"
         android:id="@+id/message_item_system_0_time"
         app:layout_constraintBottom_toBottomOf="@id/message_item_system_0_logo"
         app:layout_constraintLeft_toRightOf="@id/message_item_system_0_logo"
@@ -34,10 +40,11 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:clickable="false"
         android:id="@+id/message_item_system_0_bg"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_0_logo"
         android:layout_marginTop="8dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/avator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -45,7 +52,10 @@
         android:layout_marginTop="8dp"
         android:textSize="14sp"
         android:textColor="#838383"
-        android:text="xdsdfsdfasfasdfasfsafasfa"
+        android:text=""
+        android:maxLines="4"
+        android:ellipsize="end"
+        android:clickable="false"
         app:layout_constraintTop_toBottomOf="@id/message_item_system_0_bg"
         android:id="@+id/message_item_system_0_content"
         android:layout_width="match_parent"

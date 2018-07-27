@@ -74,6 +74,56 @@ class CashPresenter(view: CashContract.View) :CashContract.Presenter  {
                 })
     }
 
+    override fun submitApply(accountId : Long, applyMoney: Long) {
+        val observable: Observable<ApiResult<Any>>? = mModel.submitApply(accountId , applyMoney)
+        observable?.subscribeOn(Schedulers.io())
+                ?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Observer<ApiResult<Any>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<Any>) {
+                        mView!!.submitApplyCallback(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
+    override fun judgePassword(password: String) {
+        val observable: Observable<ApiResult<Any>>? = mModel.judgePassword( password )
+        observable?.subscribeOn(Schedulers.io())
+                //?.bindToLifecycle(mView as LifecycleProvider<*>)
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe(object : Observer<ApiResult<Any>> {
+                    override fun onComplete() {
+                        mView!!.hideProgress()
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        mView!!.showProgress(Constants.TIP_LOADING)
+                    }
+
+                    override fun onNext(t: ApiResult<Any>) {
+                        mView!!.judgePasswordCallback(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mView!!.hideProgress()
+                        mView!!.error(Constants.MESSAGE_ERROR)
+                    }
+                })
+    }
+
     override fun onDestory() {
 
     }

@@ -112,8 +112,8 @@ class PayUtils {
 
             WeiXinPayUtil(aty , mHandler , weiXinPayInfo ).sendPayReq(weiXinOrderInfo , payModel.wxPrePayId )
 
-            var weiXinPayUtil = WeiXinPayUtil(aty, mHandler, weiXinPayInfo)
-            weiXinPayUtil.pay(weiXinOrderInfo)
+            //var weiXinPayUtil = WeiXinPayUtil(aty, mHandler, weiXinPayInfo)
+            //weiXinPayUtil.pay(weiXinOrderInfo)
         }
     }
 

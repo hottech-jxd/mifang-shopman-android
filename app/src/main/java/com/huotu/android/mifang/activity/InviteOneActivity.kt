@@ -214,11 +214,11 @@ class InviteOneActivity : BaseActivity<IPresenter>()
         when(v!!.id){
             R.id.header_left_image->{finish()}
             R.id.invite_one_buy->{
-                //operate()
+                operate()
 
-                var bgUrl= intent.getStringExtra(Constants.INTENT_URL1)
-                var qrCodeUrl = intent.getStringExtra(Constants.INTENT_URL2)
-                downloadImages(bgUrl , qrCodeUrl, -1)
+//                var bgUrl= intent.getStringExtra(Constants.INTENT_URL1)
+//                var qrCodeUrl = intent.getStringExtra(Constants.INTENT_URL2)
+//                downloadImages(bgUrl , qrCodeUrl, -1)
             }
         }
     }
@@ -227,7 +227,6 @@ class InviteOneActivity : BaseActivity<IPresenter>()
         if(type==1){
             newIntent<BuyActivity>(Constants.INTENT_OPERATE_TYPE , 0)
         }else if(type==2){
-            //newIntent<AgentUpgradeActivity>(Constants.INTENT_GOODSID, -1)//todo
             newIntent<ApplyAgentActivity>()
         }else if(type==3){
             share()
@@ -236,12 +235,17 @@ class InviteOneActivity : BaseActivity<IPresenter>()
 
     fun share(){
 
-        var kv=ArrayList<KeyValue>()
-        kv.add(KeyValue(R.mipmap.ssdk_oks_classic_wechat,"微信好友"))
-        kv.add(KeyValue(R.mipmap.ssdk_oks_classic_wechatmoments,"微信朋友圈"))
-        kv.add(KeyValue(R.mipmap.ssdk_oks_classic_wechatfavorite,"微信收藏夹"))
-        var shareDialog=ShareDialog(this, this, kv )
-        shareDialog.show()
+//        var kv=ArrayList<KeyValue>()
+//        kv.add(KeyValue(R.mipmap.ssdk_oks_classic_wechat,"微信好友"))
+//        kv.add(KeyValue(R.mipmap.ssdk_oks_classic_wechatmoments,"微信朋友圈"))
+//        kv.add(KeyValue(R.mipmap.ssdk_oks_classic_wechatfavorite,"微信收藏夹"))
+//        var shareDialog=ShareDialog(this, this, kv )
+//        shareDialog.show()
+
+        var bgUrl= intent.getStringExtra(Constants.INTENT_URL1)
+        var qrCodeUrl = intent.getStringExtra(Constants.INTENT_URL2)
+        downloadImages(bgUrl , qrCodeUrl, -1)
+
     }
 
     override fun operate(keyValue: KeyValue) {
@@ -337,7 +341,7 @@ class InviteOneActivity : BaseActivity<IPresenter>()
         values.put(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, image.name)
 
         values.put("_data", bitmapPath)
-        val uri = Uri.fromFile(image)
+        val uri  = ImageUtils.getUriByFile(this, bitmapPath) //Uri.fromFile(image)
 
         images.add( uri )
 
@@ -358,7 +362,7 @@ class InviteOneActivity : BaseActivity<IPresenter>()
 
 
 
-    private fun downloadImages(urlbg:String , urlqrcode:String , shareType: Int ) {
+    private fun downloadImages(urlbg:String? , urlqrcode:String? , shareType: Int ) {
         val type = shareType
         if (TextUtils.isEmpty(urlbg) || TextUtils.isEmpty(urlqrcode)) {
             toast("图片地址空!")

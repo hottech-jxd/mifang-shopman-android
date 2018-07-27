@@ -151,6 +151,8 @@ class SettingPresenter(view: SettingContract.View): SettingContract.Presenter {
                 })
     }
 
+
+
     override fun onDestory() {
 
     }

@@ -3,6 +3,7 @@ package com.huotu.android.mifang.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ShareCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
@@ -19,6 +20,7 @@ import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.GoodsContract
 import com.huotu.android.mifang.mvp.presenter.GoodsPresenter
 import com.huotu.android.mifang.util.DensityUtils
+import com.huotu.android.mifang.util.ImageUtils
 import com.huotu.android.mifang.widget.FrescoImageLoader
 import com.huotu.android.mifang.widget.RecyclerViewDivider
 import com.huotu.android.mifang.widget.RecyclerViewDivider4
@@ -91,7 +93,8 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
             images1 = data!!.pictures!!.split(",") as ArrayList<String>
         }
 
-        goodsdetail_images.setImageLoader(FrescoImageLoader( goodsdetail_images , DensityUtils.getScreenWidth(this)))
+        var sw = DensityUtils.getScreenWidth(this)
+        goodsdetail_images.setImageLoader(FrescoImageLoader( goodsdetail_images , sw , sw ))
         goodsdetail_images.setImages(images1)
         if(images1.size>1) {
             goodsdetail_images.start()
@@ -124,15 +127,29 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
     private fun share(){
         if(data==null)return
 
-        var intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plan"
-        //intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalImages( quan.dataId ))
-        intent.putExtra(Intent.EXTRA_SUBJECT, data!!.title )
-        intent.putExtra(Intent.EXTRA_TEXT, data!!.shareUrl )
-        intent.putExtra(Intent.EXTRA_TITLE, data!!.title)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//        var intent = Intent(Intent.ACTION_SEND)
+//        intent.type = "text/html"
+//        //intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalImages( quan.dataId ))
+//        intent.putExtra(Intent.EXTRA_SUBJECT, data!!.title )
+//        //intent.putExtra(Intent.EXTRA_TEXT, data!!.title + data!!.shareUrl )
+//        intent.putExtra(Intent.EXTRA_TITLE, data!!.title)
+//        //intent.putExtra(Intent.EXTRA_STREAM , ImageUtils.getUriByFile(this, data!!.shareUrl ))
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//
+//        startActivity(Intent.createChooser(intent, "分享") )
 
-        startActivity(Intent.createChooser(intent, "分享") )
+
+
+        var shareIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("text/plain")
+                .setSubject(data!!.title)
+                //.setHtmlText( "<a href='${data!!.shareUrl}'>${data!!.title}</a>")
+                .setText( data!!.title + data!!.shareUrl )
+                .intent
+
+        if(shareIntent.resolveActivity(this.packageManager) !=null){
+            startActivity(shareIntent)
+        }
 
     }
 
@@ -145,6 +162,10 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
     }
 
     override fun agentUpgradeCallback(apiResult: ApiResult<GoodsDetailBean>) {
+
+    }
+
+    override fun getStoreInfoCallback(apiResult: ApiResult<ShopperInfo>) {
 
     }
 }

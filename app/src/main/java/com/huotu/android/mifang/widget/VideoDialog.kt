@@ -5,8 +5,6 @@ import android.content.DialogInterface
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.widget.video.SampleCoverVideo
 import com.shuyu.gsyvideoplayer.GSYVideoManager
@@ -15,22 +13,17 @@ import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder
 class VideoDialog(context:Context) : BaseDialog(context){
 
     private var gsyVideoOptionBuilder= GSYVideoOptionBuilder()
-    var gsyVideoPlayer:SampleCoverVideo?=null
+    private var gsyVideoPlayer:SampleCoverVideo?=null
 
     init {
-
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.layout_video_dialog, null)
-
+        gsyVideoPlayer = view.findViewById(R.id.video_dialog_video)
         this.addContentView(view)
-
-
     }
 
     fun show(videoUrl :String?){
         show()
-
-        gsyVideoPlayer = this.dialog!!.findViewById<SampleCoverVideo>(R.id.video_dialog_video)
 
 
         gsyVideoOptionBuilder
@@ -81,7 +74,8 @@ class VideoDialog(context:Context) : BaseDialog(context){
         gsyVideoPlayer!!.titleTextView.visibility= View.GONE
 //
 //        //设置返回键
-        gsyVideoPlayer!!.backButton.visibility =View.GONE
+        gsyVideoPlayer!!.backButton.visibility =View.VISIBLE
+        gsyVideoPlayer!!.backButton.setOnClickListener( View.OnClickListener {  this.dismiss()} )
 //        //设置全屏按键功能
 //        gsyVideoPlayer.fullscreenButton.setOnClickListener(View.OnClickListener { resolveFullBtn(gsyVideoPlayer) })
 
@@ -95,8 +89,8 @@ class VideoDialog(context:Context) : BaseDialog(context){
 
         val window = this.dialog!!.window
         if (window != null) {
-            window!!.setWindowAnimations(R.style.anim_dialog)
-            window!!.setGravity(Gravity.CENTER)
+            window.setWindowAnimations(R.style.anim_dialog)
+            window.setGravity(Gravity.CENTER)
         }
         super.show()
     }

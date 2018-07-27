@@ -1,122 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <View
+        android:id="@+id/bottom_line"
         android:background="#bababa"
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <android.support.v7.widget.LinearLayoutCompat
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/bottom_index"
-        android:padding="8dp"
-        android:background="@drawable/style_bottom_bg"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/bottom_index_image"
-            android:src="@mipmap/home_selected"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <TextView
+            app:layout_constraintTop_toBottomOf="@id/bottom_line"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/bottom_benefit_title"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:drawableTop="@mipmap/home_selected"
             android:layout_marginTop="1dp"
             android:id="@+id/bottom_index_title"
             android:text="素材库"
+            android:drawablePadding="1dp"
             android:layout_centerHorizontal="true"
             android:textSize="12sp"
             android:textColor="@color/textcolor2"
-            android:layout_below="@id/bottom_index_image"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:gravity="center"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/bottom_benefit"
-        android:background="@drawable/style_bottom_bg"
-        android:padding="8dp"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/zs"
-            android:id="@+id/bottom_benefit_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <TextView
+            app:layout_constraintTop_toBottomOf="@id/bottom_line"
+            app:layout_constraintLeft_toRightOf="@id/bottom_index_title"
+            app:layout_constraintRight_toLeftOf="@id/bottom_invite_title"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:drawableTop="@mipmap/zs"
+            android:drawablePadding="1dp"
             android:layout_marginTop="1dp"
             android:id="@+id/bottom_benefit_title"
             android:text="我的小店"
             android:layout_centerHorizontal="true"
             android:textSize="12sp"
             android:textColor="@color/textcolor"
-            android:layout_below="@id/bottom_benefit_image"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/bottom_invite"
-        android:background="@drawable/style_bottom_bg"
-        android:padding="8dp"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/invite"
-            android:id="@+id/bottom_invite_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <TextView
+            app:layout_constraintTop_toBottomOf="@id/bottom_line"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/bottom_benefit_title"
+            app:layout_constraintRight_toLeftOf="@id/bottom_my_title"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:drawableTop="@mipmap/invite"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="1dp"
+            android:drawablePadding="1dp"
             android:id="@+id/bottom_invite_title"
             android:text="邀请入驻"
             android:textSize="12sp"
             android:textColor="@color/textcolor"
-            android:layout_below="@id/bottom_invite_image"
-            android:layout_width="wrap_content"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:background="@drawable/style_bottom_bg"
-        android:id="@+id/bottom_my"
-        android:padding="8dp"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/my"
-            android:id="@+id/bottom_my_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <TextView
+            app:layout_constraintLeft_toRightOf="@id/bottom_invite_title"
+            app:layout_constraintTop_toBottomOf="@id/bottom_line"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:drawableTop="@mipmap/my"
+            android:drawablePadding="1dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="1dp"
             android:id="@+id/bottom_my_title"
             android:text="店主中心"
             android:textSize="12sp"
             android:textColor="@color/textcolor"
-            android:layout_below="@id/bottom_my_image"
-            android:layout_width="wrap_content"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
 
-
-    </android.support.v7.widget.LinearLayoutCompat>
-
-</android.support.v7.widget.LinearLayoutCompat>
+</android.support.constraint.ConstraintLayout>

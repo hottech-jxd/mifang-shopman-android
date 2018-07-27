@@ -9,11 +9,13 @@ interface MyContract {
         fun myIndex()
         fun mySetting()
         fun getQrcode()
+        fun updatePayPasswordStatus(status:Int)
     }
 
     interface View: IView<Presenter> {
         fun myIndexCallback(apiResult: ApiResult<MyBean>)
         fun mySettingCallback(apiResult: ApiResult<SettingBean>)
         fun getQrcodeCallback(apiResult: ApiResult<String>)
+        fun updatePayPasswordStatusCallback(apiResult: ApiResult<Any>)
     }
 }

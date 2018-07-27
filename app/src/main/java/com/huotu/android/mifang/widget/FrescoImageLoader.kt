@@ -16,7 +16,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.huotu.android.mifang.R
 
 
-class FrescoImageLoader(var banner : Banner, var width :Int ) :ImageLoader(), FrescoDraweeListener.ImageCallback{
+class FrescoImageLoader(var banner : Banner, var width :Int , var defaultHeight:Int) :ImageLoader(), FrescoDraweeListener.ImageCallback{
 
     override fun createImageView(context: Context?): ImageView {
         var simpleDraweeView = SimpleDraweeView(context)
@@ -30,26 +30,21 @@ class FrescoImageLoader(var banner : Banner, var width :Int ) :ImageLoader(), Fr
                 .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
                 .build()
         simpleDraweeView.hierarchy= hierarchy
-        //simpleDraweeView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
         return simpleDraweeView
-        //return super.createImageView(context)
     }
 
     override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-        //var uri = Uri.parse(path.toString())
-        //imageView!!.setImageURI(uri)
+
+//        var layoutPara = imageView!!.layoutParams
+//        if(layoutPara==null){
+//            layoutPara= ViewGroup.LayoutParams(width,width*2/3)
+//        }
+//        layoutPara.width = width
+//        layoutPara.height = width*2/3
+//        imageView!!.layoutParams=layoutPara
 
 
-        var layoutPara = imageView!!.layoutParams
-        if(layoutPara==null){
-            layoutPara= ViewGroup.LayoutParams(width,width*2/3)
-        }
-        layoutPara.width = width
-        layoutPara.height = width*2/3
-        imageView!!.layoutParams=layoutPara
-
-
-        FrescoDraweeController.loadImage(imageView as SimpleDraweeView , width , width*2/3 , path.toString() , this)
+        FrescoDraweeController.loadImage(imageView as SimpleDraweeView , width , defaultHeight , path.toString() , this)
     }
 
     override fun imageCallback(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
@@ -60,6 +55,13 @@ class FrescoImageLoader(var banner : Banner, var width :Int ) :ImageLoader(), Fr
         simpleDraweeView.layoutParams =layoutParams
 
         var layout2  = banner.layoutParams
+        layout2.height=height
+        banner.layoutParams=layout2
+    }
+
+    override fun imageFailure(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
+        var layout2  = banner.layoutParams
+
         layout2.height=height
         banner.layoutParams=layout2
     }

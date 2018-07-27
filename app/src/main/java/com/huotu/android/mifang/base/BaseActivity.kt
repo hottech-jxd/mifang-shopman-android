@@ -1,5 +1,6 @@
 package com.huotu.android.mifang.base
 
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
@@ -15,14 +16,18 @@ import com.huotu.android.mifang.bean.ApiResultCodeEnum
 import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.mvp.IView
 import com.huotu.android.mifang.newIntent
+import com.huotu.android.mifang.receiver.QuitReceiver
+import com.huotu.android.mifang.receiver.SmsReceiver
 import com.huotu.android.mifang.showToast
+import com.huotu.android.mifang.util.KeybordUtils
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.umeng.analytics.MobclickAgent
 
 
-open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
+open class BaseActivity<T> : RxAppCompatActivity() , IView<T> , QuitReceiver.QuitListener {
 
     var isWhite:Boolean=true
+    var quitReceiver:QuitReceiver?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +48,7 @@ open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            KeybordUtils.closeKeyboard(this)
             this.finish()
             return true
         }
@@ -90,6 +96,25 @@ open class BaseActivity<T> : RxAppCompatActivity() , IView<T> {
         toast(err)
     }
 
+
+    protected fun registerQuitReceiver() {
+        quitReceiver = QuitReceiver()
+        quitReceiver!!.setQuitListener(this)
+        val intentFilter = IntentFilter(QuitReceiver.ACTION_QUIT)
+        this.registerReceiver(quitReceiver, intentFilter)
+    }
+
+    protected fun unRegisterQuitReceiver(){
+        if(quitReceiver!=null){
+            quitReceiver!!.setQuitListener(null)
+            this.unregisterReceiver(quitReceiver)
+            quitReceiver=null
+        }
+    }
+
+    override fun quitUI() {
+        this.finish()
+    }
 
     /**
      * 处理服务端返回的公共错误代码

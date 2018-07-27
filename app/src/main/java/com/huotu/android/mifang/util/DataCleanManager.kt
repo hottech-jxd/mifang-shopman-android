@@ -2,6 +2,7 @@ package com.huotu.android.mifang.util
 
 import android.content.Context
 import android.os.Environment
+import com.huotu.android.mifang.bean.Constants
 
 import java.io.File
 import java.math.BigDecimal
@@ -21,7 +22,15 @@ object DataCleanManager {
     fun getTotalCacheSize(context: Context): String {
         var cacheSize = getFolderSize(context.cacheDir)
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+
             cacheSize += getFolderSize(context.externalCacheDir)
+
+            cacheSize += getFolderSize( File( Constants.ImageDirPath))
+
+            cacheSize += getFolderSize(File(Constants.VideoDirPath))
+
+            cacheSize += getFolderSize(File(Constants.CrashDirPath))
+
         }
         return getFormatSize(cacheSize.toDouble())
     }
@@ -34,6 +43,12 @@ object DataCleanManager {
         deleteDir(context.cacheDir)
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             deleteDir(context.externalCacheDir)
+
+            deleteDir( File(Constants.ImageDirPath) )
+
+            deleteDir(File(Constants.VideoDirPath))
+
+            deleteDir(File(Constants.CrashDirPath))
         }
     }
 

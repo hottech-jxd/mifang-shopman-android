@@ -19,11 +19,15 @@ class GoodsDetailAdapter(data :ArrayList<String?>)
 
        var view = helper!!.getView<SimpleDraweeView>(R.id.goodsdetail_item_pic)
        var  sw = DensityUtils.getScreenWidth(mContext)
-        FrescoDraweeController.loadImage( view , sw , 0, item!! , this)
+        FrescoDraweeController.loadImage( view , sw , sw, item!! , this)
     }
 
     override fun imageCallback(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
         if(simpleDraweeView==null) return
         simpleDraweeView.layoutParams = ConstraintLayout.LayoutParams(width , height)
+    }
+
+    override fun imageFailure(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
+
     }
 }

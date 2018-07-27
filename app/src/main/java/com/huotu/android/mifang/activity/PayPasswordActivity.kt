@@ -1,7 +1,6 @@
 package com.huotu.android.mifang.activity
 
-import android.media.Image
-import android.support.v7.app.AppCompatActivity
+import android.app.Activity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -13,15 +12,15 @@ import com.huotu.android.mifang.bean.ApiResultCodeEnum
 import com.huotu.android.mifang.bean.Constants
 import com.huotu.android.mifang.mvp.contract.BindPhoneContract
 import com.huotu.android.mifang.mvp.presenter.BindPhonePresenter
+import com.huotu.android.mifang.util.DigestUtils
 import com.huotu.android.mifang.util.ImageCodeUtils
 import com.huotu.android.mifang.util.KeybordUtils
-import kotlinx.android.synthetic.main.activity_bind_phone.*
+import com.huotu.android.mifang.util.MobileUtils
 import kotlinx.android.synthetic.main.activity_pay_password.*
 import kotlinx.android.synthetic.main.layout_header.*
 import kotlinx.android.synthetic.main.layout_pay_one.*
 import kotlinx.android.synthetic.main.layout_pay_three.*
 import kotlinx.android.synthetic.main.layout_pay_two.*
-import kotlinx.android.synthetic.main.layout_quan_item_one.*
 
 class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
         ,CountdownView.OnCountdownEndListener
@@ -31,6 +30,7 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
     var iPresenter=BindPhonePresenter(this)
     var countdown=60*1000L
     var imageCode = ""
+    var isSetPassword = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
         payPassword_3.visibility = View.GONE
 
 
-        payPassword_lay_one_phone.text = phone
+        payPassword_lay_one_phone.text = MobileUtils.dealPhone( phone)
         payPassword_lay_one_sendCode.setOnClickListener(this)
         payPassword_lay_one_getImageCode.setOnClickListener(this)
         payPassword_lay_one_next.setOnClickListener(this)
@@ -61,11 +61,17 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
         paypassword_lay_two_next.setOnClickListener(this)
 
         payPassword_lay_three_back.setOnClickListener(this)
+
+        KeybordUtils.openKeybord(this, payPassword_lay_one_code)
     }
 
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.header_left_image->{
+                KeybordUtils.closeKeyboard(this)
+                if(isSetPassword){
+                    setResult(Activity.RESULT_OK)
+                }
                 finish()
             }
             R.id.payPassword_lay_one_sendCode->{
@@ -81,15 +87,15 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
                 next2()
             }
             R.id.payPassword_lay_three_back->{
+                KeybordUtils.closeKeyboard(this)
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         }
     }
 
     private fun sendCode(){
-
         iPresenter.sendCode( phone)
-
     }
 
     private fun next2(){
@@ -112,10 +118,16 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
             toast("两次输入密码不一致，请重新输入")
             return
         }
+        if(pwd1.length!=6){
+            toast("密码长度必须是6位，请重新输入")
+            payPassword_pwd1.requestFocus()
+            KeybordUtils.openKeybord(this,payPassword_pwd1)
+            return
+        }
 
-        iPresenter.updatePayPassword(pwd1)
-
-
+        KeybordUtils.closeKeyboard(this)
+        var md5 = DigestUtils.getInstance().md5(pwd1)!!.toLowerCase()
+        iPresenter.updatePayPassword(md5)
     }
 
     private fun getImageCode(){
@@ -125,12 +137,31 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
     }
 
     private fun next1(){
+        var code = payPassword_lay_one_code.text.trim().toString()
+        var imageCode = payPassword_lay_one_imgcode.text.trim().toString()
+        if(TextUtils.isEmpty(code)){
+            toast("请输入短信验证码")
+            payPassword_lay_one_code.requestFocus()
+            KeybordUtils.openKeybord(this, payPassword_lay_one_code)
+            return
+        }
+        if(TextUtils.isEmpty(imageCode)){
+            toast("请输入图形码")
+            payPassword_lay_one_imgcode.requestFocus()
+            KeybordUtils.openKeybord(this, payPassword_lay_one_imgcode)
+            return
+        }
 
-        //todo
+        if(!imageCode.equals( imageCode )){
+            toast("图形码不正确,请重新输入")
+            payPassword_lay_one_imgcode.requestFocus()
+            KeybordUtils.openKeybord(this,payPassword_lay_one_imgcode)
+            return
+        }
 
-        payPassword_1.visibility=View.GONE
-        payPassword_2.visibility=View.VISIBLE
-        payPassword_3.visibility = View.GONE
+        KeybordUtils.closeKeyboard(this)
+        iPresenter.checkCode( phone , code)
+
     }
 
     override fun showProgress(msg: String) {
@@ -168,6 +199,24 @@ class PayPasswordActivity : BaseActivity<BindPhoneContract.Presenter>()
         payPassword_1.visibility=View.GONE
         payPassword_2.visibility=View.GONE
         payPassword_3.visibility = View.VISIBLE
+        isSetPassword= true
+    }
+
+    override fun checkCodeCallback(apiResult: ApiResult<Any>) {
+        if(processCommonErrorCode(apiResult)){
+            return
+        }
+        if(apiResult.code != ApiResultCodeEnum.SUCCESS.code){
+            toast(apiResult.msg)
+            return
+        }
+
+        payPassword_1.visibility=View.GONE
+        payPassword_2.visibility=View.VISIBLE
+        payPassword_3.visibility = View.GONE
+
+        payPassword_pwd1.requestFocus()
+        KeybordUtils.openKeybord(this, payPassword_pwd1)
     }
 
     override fun onEnd(cv: CountdownView?) {

@@ -24,6 +24,7 @@ public class FrescoDraweeListener extends BaseControllerListener<ImageInfo> {
     ImageCallback imageCallback;
     public interface ImageCallback{
         void imageCallback(int  width, int height , SimpleDraweeView simpleDraweeView );
+        void imageFailure(int width, int height , SimpleDraweeView simpleDraweeView);
     }
     public void setImageCallback(ImageCallback imageCallback){
         this.imageCallback = imageCallback;
@@ -71,6 +72,11 @@ public class FrescoDraweeListener extends BaseControllerListener<ImageInfo> {
         ref.get().setLayoutParams(layoutParams);
         //float ratio = 1.0f;
         //ref.get().setAspectRatio(ratio);
+
+        if(imageCallback!=null){
+            imageCallback.imageFailure( width , height , ref.get() );
+        }
+
     }
 
 }

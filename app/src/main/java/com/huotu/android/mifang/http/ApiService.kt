@@ -117,6 +117,15 @@ interface ApiService {
     @POST("user/ApplyIndex")
     fun applyIndex(): Observable<ApiResult<CashIndex>>
 
+
+    /**
+     * 提现申请
+     * ApplyMoney:提现金额，转成积分
+     */
+    @POST("user/SubmitApply")
+    @FormUrlEncoded
+    fun submitApply(@Field("AccountId") AccountId:Long , @Field("ApplyMoney") ApplyMoney:Long ):Observable<ApiResult<Any>>
+
     /**
      * 设置默认提现账户
      */
@@ -416,5 +425,29 @@ interface ApiService {
      */
     @POST("other/pop")
     fun popAd():Observable<ApiResult<AdBean>>
+
+
+    /**
+     *判断支付密码是否正确
+     * password:支付密码,MD5 32位加密
+     */
+    @FormUrlEncoded
+    @POST("user/JudgePayWord")
+    fun judgePassword(@Field("PassWord") PassWord:String):Observable<ApiResult<Any>>
+
+    /**
+     * 验证码检测
+     */
+    @POST("user/checkCode")
+    @FormUrlEncoded
+    fun checkSmsCode(@Field("mobile") mobile:String, @Field("code") code:String):Observable<ApiResult<Any>>
+
+    /**
+     * 是否开启支付保护
+     * status : 状态 0关闭1开启
+     */
+    @POST("user/updatePayPasswordStatus")
+    @FormUrlEncoded
+    fun updatePayPasswordStatus(@Field("status") status:Int):Observable<ApiResult<Any>>
 
 }

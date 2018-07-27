@@ -84,19 +84,20 @@ class AgentUpgradeActivity : BaseActivity<GoodsContract.Presenter>()
 
         if( data ==null) return
 
-        if( !TextUtils.isEmpty( data!!.pictures)) {
+        if( !TextUtils.isEmpty( data.pictures)) {
             images1 = data!!.pictures!!.split(",") as ArrayList<String>
         }
 
-        agentupgrade_images.setImageLoader(FrescoImageLoader( agentupgrade_images , DensityUtils.getScreenWidth(this)))
+        var sw = DensityUtils.getScreenWidth(this)
+        agentupgrade_images.setImageLoader(FrescoImageLoader( agentupgrade_images , sw , sw ))
         agentupgrade_images.setImages(images1)
         if(images1.size>1) {
             agentupgrade_images.start()
         }
 
-        agentupgrade_item_title.text= data!!.title
-        agentupgrade_item_price.text ="￥"+ data!!.price
-        agentupgrade_item_memo.text= data!!.memo
+        agentupgrade_item_title.text= data.title
+        agentupgrade_item_price.text ="￥"+ data.price
+        agentupgrade_item_memo.text= data.memo
 
         if(data.intro!=null) {
             images2 = data.intro!!
@@ -123,6 +124,10 @@ class AgentUpgradeActivity : BaseActivity<GoodsContract.Presenter>()
     }
 
     override fun getGoodsInfoCallback(apiResult: ApiResult<GoodsDetailBean>) {
+
+    }
+
+    override fun getStoreInfoCallback(apiResult: ApiResult<ShopperInfo>) {
 
     }
 }

@@ -1,6 +1,8 @@
 package com.huotu.android.mifang.activity
 
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.huotu.android.mifang.R
@@ -10,6 +12,7 @@ import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.WalletContract
 import com.huotu.android.mifang.mvp.presenter.WalletPresenter
 import com.huotu.android.mifang.newIntent
+import com.huotu.android.mifang.newIntentForResult
 import kotlinx.android.synthetic.main.activity_my_wallet.*
 import kotlinx.android.synthetic.main.layout_header.*
 import java.math.BigDecimal
@@ -18,6 +21,7 @@ import java.text.NumberFormat
 class MyWalletActivity : BaseActivity<WalletContract.Presenter>()
         ,WalletContract.View
         , View.OnClickListener{
+    private var REQUEST_CODE=3003
     var iPresenter = WalletPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +46,7 @@ class MyWalletActivity : BaseActivity<WalletContract.Presenter>()
                 finish()
             }
             R.id.mywallet_cash->{
-                newIntent<CashActivity>()
+                newIntentForResult<CashActivity>(REQUEST_CODE)
             }
             R.id.mywallet_lay_1->{
                 newIntent<WaitAccountsActivity>(Constants.INTENT_OPERATE_TYPE, ScoreTypeEnum.MiBean.id)
@@ -102,5 +106,12 @@ class MyWalletActivity : BaseActivity<WalletContract.Presenter>()
     override fun hideProgress() {
         super.hideProgress()
         mywallet_progress.visibility=View.GONE
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==REQUEST_CODE && Activity.RESULT_OK== resultCode){
+            iPresenter.myWallet()
+        }
     }
 }

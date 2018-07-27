@@ -112,4 +112,12 @@ class CashRecordActivity : BaseActivity<CashContract.Presenter>()
     override fun cashIndexCallback(apiResult: ApiResult<CashIndex>) {
 
     }
+
+    override fun submitApplyCallback(apiResult: ApiResult<Any>) {
+
+    }
+
+    override fun judgePasswordCallback(apiResult: ApiResult<Any>) {
+
+    }
 }

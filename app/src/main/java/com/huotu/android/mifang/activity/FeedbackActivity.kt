@@ -93,14 +93,18 @@ class FeedbackActivity : BaseActivity<CommonContract.Presenter>()
             R.id.feedback_feedback->{
                 submitType = 0
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.check2)
+                drawable!!.setBounds(0,0,drawable.intrinsicWidth,drawable.intrinsicHeight)
                 var drawable2 = ContextCompat.getDrawable(this,R.mipmap.uncheck2)
+                drawable2!!.setBounds(0,0,drawable2.intrinsicWidth,drawable2.intrinsicHeight)
                 feedback_feedback.setCompoundDrawables(drawable,null,null,null)
                 feedback_suggest.setCompoundDrawables(drawable2,null,null,null)
             }
             R.id.feedback_suggest->{
                 submitType = 1
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.check2)
+                drawable!!.setBounds(0,0,drawable.intrinsicWidth,drawable.intrinsicHeight)
                 var drawable2 = ContextCompat.getDrawable(this,R.mipmap.uncheck2)
+                drawable2!!.setBounds(0,0,drawable2.intrinsicWidth,drawable2.intrinsicHeight)
                 feedback_feedback.setCompoundDrawables(drawable2,null,null,null)
                 feedback_suggest.setCompoundDrawables(drawable,null,null,null)
             }

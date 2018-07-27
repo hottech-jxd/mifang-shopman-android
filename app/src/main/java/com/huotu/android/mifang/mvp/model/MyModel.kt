@@ -19,4 +19,8 @@ class MyModel {
         val apiService=RetrofitManager.getApiService()
         return apiService!!.getQrcode()
     }
+    fun updatePayPasswordStatus(status:Int): Observable<ApiResult<Any>> {
+        val apiService = RetrofitManager.getApiService()
+        return apiService!!.updatePayPasswordStatus(status)
+    }
 }

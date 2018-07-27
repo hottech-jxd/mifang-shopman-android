@@ -29,7 +29,9 @@ class ImageCodeUtils {
         //生成的验证码
         //val code = createCode()
 
-        canvas.drawColor(Color.rgb(DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR))
+        //canvas.drawColor(Color.rgb(DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR))
+        canvas.drawColor( Color.parseColor("#04BE01") )
+
         val paint = Paint()
         paint.textSize = DEFAULT_FONT_SIZE.toFloat()
 
@@ -118,9 +120,9 @@ class ImageCodeUtils {
         private val DEFAULT_LINE_NUMBER = 3//多少条干扰线
         private val BASE_PADDING_LEFT = 20 //左边距
         private val RANGE_PADDING_LEFT = 35//左边距范围值
-        private val BASE_PADDING_TOP = 42//上边距
+        private val BASE_PADDING_TOP = 50//上边距
         private val RANGE_PADDING_TOP = 15//上边距范围值
-        private val DEFAULT_WIDTH = 200//默认宽度.图片的总宽
+        private val DEFAULT_WIDTH = 250//默认宽度.图片的总宽
         private val DEFAULT_HEIGHT = 100//默认高度.图片的总高
         var DEFAULT_COLOR = 0x00ffffff//默认背景颜色值
 

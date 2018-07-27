@@ -26,7 +26,7 @@ class ImageAdaper(data :ArrayList<String> , var scaleType :Int = 1 /*1：代表�
             iv.aspectRatio = 1f
             iv.setImageURI(item)
         }else {
-            FrescoDraweeController.loadImage(iv, itemWidth, 0, item, this)
+            FrescoDraweeController.loadImage(iv, itemWidth, itemWidth , item, this)
         }
     }
 
@@ -34,5 +34,9 @@ class ImageAdaper(data :ArrayList<String> , var scaleType :Int = 1 /*1：代表�
 
         simpleDraweeView!!.layoutParams.width=width
         simpleDraweeView!!.layoutParams.height=height
+    }
+
+    override fun imageFailure(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {
+
     }
 }

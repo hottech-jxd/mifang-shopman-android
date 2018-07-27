@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
@@ -52,6 +53,8 @@ class PayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
 
 
         payAccountAdapter= PayAccountAdapter(data)
+        var emptyView = LayoutInflater.from(this).inflate(R.layout.layout_empty,null)
+        payAccountAdapter!!.emptyView=emptyView
         pay_account_recyclerview.layoutManager=LinearLayoutManager(this)
         pay_account_recyclerview.adapter = payAccountAdapter
         pay_account_recyclerview.addItemDecoration(RecyclerViewDivider(this, ContextCompat.getColor(this, R.color.bg_line), 1f))
@@ -81,9 +84,11 @@ class PayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
 
     override fun onClick(v: View?) {
         when(v!!.id){
-            R.id.header_left_image->{finish()}
+            R.id.header_left_image->{
+                finish()
+            }
             R.id.header_right_image->{
-                newIntent<EditPayAccountActivity>(Constants.INTENT_OPERATE_TYPE, 0)
+                newIntentForResult<EditPayAccountActivity>( REQUEST_CODE , Constants.INTENT_OPERATE_TYPE, 0)
             }
         }
     }
@@ -100,24 +105,6 @@ class PayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
             R.id.pay_account_operate->{
                 openDialog(position)
             }
-            R.id.header_right_image->{
-                newIntentForResult<EditPayAccountActivity>( REQUEST_CODE , Constants.INTENT_OPERATE_TYPE , 0 )
-            }
-//            R.id.pay_account_check,
-//            R.id.pay_account_lay_account->{
-//                for(i in 0 until data.size ) {
-//                    if(i == position) {
-//
-//                        data[position].checked = !data[position].checked
-//                    }else{
-//                        data[i].checked=false
-//                    }
-//
-//                }
-//                payAccountAdapter!!.notifyDataSetChanged()
-
-
-//            }
         }
     }
 
@@ -173,7 +160,6 @@ class PayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
             toast("数据不对")
             return
         }
-
 
         data= apiResult.data!!
 

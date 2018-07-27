@@ -43,14 +43,16 @@ class BindPhoneActivity : BaseActivity<BindPhoneContract.Presenter>()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bind_phone)
 
+        header_title.text="绑定手机号码"
         if(intent.hasExtra(Constants.INTENT_PHONE)){
             bindPhone_phone.text = intent.getStringExtra(Constants.INTENT_PHONE)
             if( TextUtils.isEmpty( bindPhone_phone.text)){
                 bindPhone_phone.text="未绑定手机"
+                header_title.text="绑定手机号码"
+            }else{
+                header_title.text="更换手机号码"
             }
         }
-
-        header_title.text="更换手机号码"
 
         KeybordUtils.openKeybord(this , bindPhone_newPhone )
 
@@ -215,6 +217,10 @@ class BindPhoneActivity : BaseActivity<BindPhoneContract.Presenter>()
     }
 
     override fun updatePayPasswordCallback(apiResult: ApiResult<Any>) {
+
+    }
+
+    override fun checkCodeCallback(apiResult: ApiResult<Any>) {
 
     }
 }

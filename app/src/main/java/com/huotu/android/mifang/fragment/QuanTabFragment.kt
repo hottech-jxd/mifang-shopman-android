@@ -25,6 +25,7 @@ import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.QuanContract
 import com.huotu.android.mifang.mvp.presenter.QuanPresenter
+import com.huotu.android.mifang.util.ImageUtils
 import com.huotu.android.mifang.utils.AppUtil
 import com.huotu.android.mifang.widget.RecyclerViewDivider
 import com.liulishuo.filedownloader.BaseDownloadTask
@@ -280,7 +281,7 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         // 将文本内容放到系统剪贴板里。
         val clipData = ClipData.newPlainText( quan.ShareTitle , quan.ShareDescription )
         cm.primaryClip = clipData
-
+        toast("文本已复制~~")
 
         var intent = Intent(Intent.ACTION_SEND_MULTIPLE)
         intent.type = "image/*"
@@ -303,16 +304,16 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         var file = File(filePath)
         if(!file.exists()) saveVideo( quan ,true)
 
-        val cm = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        //val cm = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         // 将文本内容放到系统剪贴板里。
-        val clipData = ClipData.newPlainText( quan.ShareTitle , quan.ShareDescription )
-        cm.primaryClip = clipData
+        //val clipData = ClipData.newPlainText( quan.ShareTitle , quan.ShareDescription )
+        //cm.primaryClip = clipData
 
 
         var intent = Intent(Intent.ACTION_SEND)
         intent.type = "video/*"
         //intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalvideo( quan.dataId ))
-        intent.putExtra(Intent.EXTRA_STREAM , Uri.fromFile(file))
+        intent.putExtra(Intent.EXTRA_STREAM , ImageUtils.getUriByFile( context , filePath) ) // Uri.fromFile(file))
         intent.putExtra(Intent.EXTRA_SUBJECT, quan.ShareTitle )
         intent.putExtra(Intent.EXTRA_TEXT, quan.ShareDescription )
         intent.putExtra(Intent.EXTRA_TITLE, quan.ShareTitle)
@@ -403,7 +404,7 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
 
                     //val contentResolver = context!!.contentResolver
 
-                    val uri = Uri.fromFile(File(imageDirectoryPath + fileList[i])) //contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values)
+                    val uri = ImageUtils.getUriByFile(context, imageDirectoryPath+ fileList[i]) // Uri.fromFile( File(imageDirectoryPath + fileList[i])) //contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values)
 
                     myList.add(uri)
 
