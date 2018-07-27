@@ -1946,7 +1946,7 @@ public final class ImageUtils {
             return Uri.fromFile( new File(path) );
         }else{
             //return FileProvider.getUriForFile(context , context.getPackageName() + ".provider" , new File(path));
-            return getImageContentUri(context , new File(path);
+            return getImageContentUri(context , new File(path));
         }
     }
 
