@@ -26,30 +26,36 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
         android:text="中午 13:99"
+        android:textColor="#c3c3c3"
         android:textSize="12sp"
         android:layout_height="wrap_content" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/message_item_pay_8_avator"
-        app:failureImage="@mipmap/ic_launcher"
-        app:placeholderImage="@mipmap/ic_launcher"
+        app:failureImage="@mipmap/avator"
+        app:actualImageScaleType="centerCrop"
+        app:failureImageScaleType="centerCrop"
+        app:placeholderImageScaleType="centerCrop"
+        app:placeholderImage="@mipmap/avator"
         app:layout_constraintTop_toBottomOf="@id/message_item_pay_8_time"
         android:layout_width="50dp"
         android:layout_height="50dp" />
 
     <TextView
+        android:layout_marginLeft="8dp"
+        android:textColor="#838383"
         android:layout_marginTop="4dp"
         android:textSize="14sp"
         android:text="您的好友购买了商品，您又有新的收益了！"
-        android:textColor="@android:color/black"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/message_item_pay_8_avator"
         app:layout_constraintTop_toTopOf="@id/message_item_pay_8_avator"
         android:id="@+id/message_item_pay_8_sub_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#838383"
         android:id="@+id/message_item_pay_8_OrderName"
         android:text="订单商品:XXXXXX"
         app:layout_constraintTop_toBottomOf="@id/message_item_pay_8_sub_title"
@@ -58,6 +64,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#838383"
         android:text="订单编号:6465464654564"
         android:id="@+id/message_item_pay_8_OrderId"
         app:layout_constraintTop_toBottomOf="@id/message_item_pay_8_OrderName"
@@ -66,6 +73,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#838383"
         android:text="支付金额：0"
         android:id="@+id/message_item_pay_8_OrderAmount"
         app:layout_constraintTop_toBottomOf="@id/message_item_pay_8_OrderId"
@@ -74,6 +82,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#838383"
         android:text="支付时间：2018-07-07 12:11:00"
         android:id="@+id/message_item_pay_8_paytime"
         app:layout_constraintTop_toBottomOf="@id/message_item_pay_8_OrderAmount"
@@ -82,6 +91,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#838383"
         android:text="购买人昵称：XXX"
         android:id="@+id/message_item_pay_8_UserWxNickName"
         app:layout_constraintTop_toBottomOf="@id/message_item_pay_8_paytime"
@@ -90,6 +100,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#838383"
         android:text="获取返利：0"
         android:id="@+id/message_item_pay_8_ProfitAmount"
         app:layout_constraintTop_toBottomOf="@id/message_item_pay_8_UserWxNickName"

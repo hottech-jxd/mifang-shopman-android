@@ -27,21 +27,26 @@
         android:layout_width="match_parent"
         android:text="中午 13:99"
         android:textSize="12sp"
+        android:textColor="#c3c3c3"
         android:layout_height="wrap_content" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/message_item_register_7_avator"
-        app:failureImage="@mipmap/ic_launcher"
-        app:placeholderImage="@mipmap/ic_launcher"
+        app:failureImage="@mipmap/avator"
+        app:actualImageScaleType="centerCrop"
+        app:failureImageScaleType="centerCrop"
+        app:placeholderImageScaleType="centerCrop"
+        app:placeholderImage="@mipmap/avator"
         app:layout_constraintTop_toBottomOf="@id/message_item_register_7_time"
         android:layout_width="50dp"
         android:layout_height="50dp" />
 
     <TextView
-        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
         android:textSize="14sp"
+        android:textColor="#838383"
         android:text="您好,恭喜您成功邀请了好友升级成为代理商"
-        android:textColor="@android:color/black"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/message_item_register_7_avator"
         app:layout_constraintTop_toTopOf="@id/message_item_register_7_avator"
@@ -51,6 +56,7 @@
 
     <TextView
         android:text="好友昵称:XXX"
+        android:textColor="#838383"
         android:id="@+id/message_item_register_7_nickname"
         app:layout_constraintTop_toBottomOf="@id/message_item_register_7_sub_title"
         app:layout_constraintLeft_toLeftOf="@id/message_item_register_7_sub_title"
@@ -58,6 +64,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textColor="#838383"
         android:text="升级时间：2018-07-07 11:00:00"
         android:id="@+id/message_item_register_7_UpgradeTime"
         app:layout_constraintTop_toBottomOf="@id/message_item_register_7_nickname"
@@ -66,9 +73,9 @@
         android:layout_height="wrap_content" />
 
 
-
     <TextView
         android:text="获取货款：0"
+        android:textColor="#838383"
         android:id="@+id/message_item_register_7_ProfitAmount"
         app:layout_constraintTop_toBottomOf="@id/message_item_register_7_UpgradeTime"
         app:layout_constraintLeft_toLeftOf="@id/message_item_register_7_UpgradeTime"

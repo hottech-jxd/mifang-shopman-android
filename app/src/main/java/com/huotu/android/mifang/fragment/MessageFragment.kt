@@ -13,6 +13,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.activity.BuyActivity
+import com.huotu.android.mifang.activity.PayLoanActivity
 import com.huotu.android.mifang.activity.WebActivity
 import com.huotu.android.mifang.adapter.MessageAdapter
 import com.huotu.android.mifang.base.BaseFragment
@@ -23,6 +25,7 @@ import com.huotu.android.mifang.mvp.presenter.MessagePresenter
 import com.huotu.android.mifang.newIntent
 import com.huotu.android.mifang.util.DensityUtils
 import com.huotu.android.mifang.util.GsonUtils
+import com.huotu.android.mifang.util.WechatShareUtil
 import com.huotu.android.mifang.widget.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_cash_record_item.*
 import kotlinx.android.synthetic.main.fragment_message.*
@@ -74,13 +77,13 @@ class MessageFragment : BaseFragment<MessageContract.Presenter>()
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when(view!!.id){
             R.id.message_item_system_1_cash->{
-
+                newIntent<BuyActivity>(Constants.INTENT_OPERATE_TYPE,1)
             }
-            R.id.message_item_system_3_cash->{
-
+            R.id.message_item_system_3_cash->{//货款充值
+                newIntent<PayLoanActivity>()
             }
             R.id.message_item_register_5_see->{
-
+                WechatShareUtil().runMinProgram("pages/index/index")
             }
             R.id.message_item_layout_system_0->{
                 //系统消息-》详情页

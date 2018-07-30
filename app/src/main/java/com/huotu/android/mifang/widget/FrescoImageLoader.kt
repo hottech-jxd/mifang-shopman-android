@@ -2,6 +2,8 @@ package com.huotu.android.mifang.widget
 
 import android.content.Context
 import android.net.Uri
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CollapsingToolbarLayout
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -16,16 +18,25 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.huotu.android.mifang.R
 
 
-class FrescoImageLoader(var banner : Banner, var width :Int , var defaultHeight:Int) :ImageLoader(), FrescoDraweeListener.ImageCallback{
+class FrescoImageLoader(var banner : Banner, var width :Int , var defaultHeight:Int)
+    :ImageLoader(), FrescoDraweeListener.ImageCallback{
+
+    constructor(collapsingToolbarLayout : CollapsingToolbarLayout? , banner :Banner, width:Int, defaultHeight: Int, defaultPicture:Int):this(banner , width, defaultHeight){
+        this.defaultPicture = defaultPicture
+        this.collapsingToolbarLayout=collapsingToolbarLayout
+    }
+
+    private var collapsingToolbarLayout:CollapsingToolbarLayout?=null
+    private var defaultPicture:Int=R.mipmap.avator
 
     override fun createImageView(context: Context?): ImageView {
         var simpleDraweeView = SimpleDraweeView(context)
 
         val builder = GenericDraweeHierarchyBuilder(context!!.resources)
         val hierarchy = builder
-                .setPlaceholderImage(R.mipmap.avator)
+                .setPlaceholderImage(defaultPicture)
                 .setPlaceholderImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
-                .setFailureImage(R.mipmap.avator)
+                .setFailureImage(defaultPicture)
                 .setFailureImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
                 .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP)
                 .build()
@@ -34,15 +45,6 @@ class FrescoImageLoader(var banner : Banner, var width :Int , var defaultHeight:
     }
 
     override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-
-//        var layoutPara = imageView!!.layoutParams
-//        if(layoutPara==null){
-//            layoutPara= ViewGroup.LayoutParams(width,width*2/3)
-//        }
-//        layoutPara.width = width
-//        layoutPara.height = width*2/3
-//        imageView!!.layoutParams=layoutPara
-
 
         FrescoDraweeController.loadImage(imageView as SimpleDraweeView , width , defaultHeight , path.toString() , this)
     }
@@ -57,6 +59,12 @@ class FrescoImageLoader(var banner : Banner, var width :Int , var defaultHeight:
         var layout2  = banner.layoutParams
         layout2.height=height
         banner.layoutParams=layout2
+
+        if(collapsingToolbarLayout!=null){
+            var layout3  = collapsingToolbarLayout!!.layoutParams
+            layout3.height=height
+            collapsingToolbarLayout!!.layoutParams=layout3
+        }
     }
 
     override fun imageFailure(width: Int, height: Int, simpleDraweeView: SimpleDraweeView?) {

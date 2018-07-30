@@ -123,6 +123,7 @@ class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
     }
 
     override fun operate(year: Int, month: Int , day:Int) {
+        isShowProgress=true
         setYearMonth(year ,month )
     }
 

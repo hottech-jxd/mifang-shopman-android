@@ -324,8 +324,8 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
 
         //my_banner.setDelayTime(3500)
         var sw = DensityUtils.getScreenWidth(context!!)
-        var sh = sw
-        my_banner.setImageLoader(FrescoImageLoader( my_banner , sw, sh ))
+        var sh = sw/5
+        my_banner.setImageLoader(FrescoImageLoader(null, my_banner , sw, sh , R.mipmap.defaultpic ))
         my_banner.setImages(ads)
         if(ads.size>1) {
             my_banner.start()

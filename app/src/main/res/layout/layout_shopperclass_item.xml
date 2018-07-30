@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:padding="8dp"
     android:background="@drawable/style_row_bg"
-    android:gravity="center_vertical"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -25,15 +24,17 @@
         android:layout_height="wrap_content">
     <TextView
         android:textSize="14sp"
-        android:singleLine="true"
+        android:singleLine="false"
         android:textColor="@android:color/black"
         android:id="@+id/shopperclass_item_title"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
         <TextView
             android:layout_marginTop="2dp"
             android:textSize="12sp"
-            android:maxLines="2"
+            android:maxLines="3"
             android:ellipsize="end"
             android:textColor="#999999"
             android:id="@+id/shopperclass_item_desc"

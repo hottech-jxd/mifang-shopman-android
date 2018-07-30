@@ -17,6 +17,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:id="@+id/goodsdetail_applayout"
             app:title=""
             app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -73,6 +74,8 @@
 
 
     <android.support.v7.widget.RecyclerView
+        android:background="#F0EFF5"
+        android:paddingTop="0dp"
         android:layout_marginBottom="50dp"
         android:id="@+id/goodsdetail_recyclerView"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -86,7 +89,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp">
 
         <TextView
             android:id="@+id/goodsdetail_share"
@@ -97,7 +100,7 @@
             android:textColor="@color/white"
             android:background="@drawable/style_goodsdetail_share_bg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <!--<LinearLayout-->
             <!--android:gravity="center_vertical"-->

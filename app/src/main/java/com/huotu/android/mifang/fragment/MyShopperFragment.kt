@@ -104,7 +104,7 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
                 if(isFirstOpen) {
                     isFirstOpen=false
                     header_right_circle.visibility=View.GONE
-                    SPUtils.getInstance(context!!, Constants.INTENT_FIRST_OPEN_SHOPPER).writeBoolean(Constants.INTENT_FIRST_OPEN_SHOPPER, isFirstOpen)
+                    SPUtils.getInstance(context!!, Constants.PREF_FILENAME).writeBoolean(Constants.INTENT_FIRST_OPEN_SHOPPER, isFirstOpen)
                 }
 
                 myshopper_menu_lay.visibility = if( myshopper_menu_lay.visibility==View.GONE) View.VISIBLE else View.GONE

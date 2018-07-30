@@ -313,7 +313,7 @@ class QuanTabFragment : BaseFragment<QuanContract.Presenter>()
         var intent = Intent(Intent.ACTION_SEND)
         intent.type = "video/*"
         //intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getLocalvideo( quan.dataId ))
-        intent.putExtra(Intent.EXTRA_STREAM , ImageUtils.getUriByFile( context , filePath) ) // Uri.fromFile(file))
+        intent.putExtra(Intent.EXTRA_STREAM , ImageUtils.getUriByVideoFile( context , filePath) )
         intent.putExtra(Intent.EXTRA_SUBJECT, quan.ShareTitle )
         intent.putExtra(Intent.EXTRA_TEXT, quan.ShareDescription )
         intent.putExtra(Intent.EXTRA_TITLE, quan.ShareTitle)

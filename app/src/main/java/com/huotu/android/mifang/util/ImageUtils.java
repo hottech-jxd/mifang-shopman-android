@@ -1950,6 +1950,15 @@ public final class ImageUtils {
         }
     }
 
+    public static Uri getUriByVideoFile(Context context , String path){
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.M){
+            return Uri.fromFile( new File(path) );
+        }else{
+            //return FileProvider.getUriForFile(context , context.getPackageName() + ".provider" , new File(path));
+            return getVideoContentUri(context , new File(path));
+        }
+    }
+
 
     /**
      * Gets the content:// URI from the given corresponding path to a file
@@ -1979,6 +1988,72 @@ public final class ImageUtils {
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.DATA, filePath);
             uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        }
+
+        return uri;
+    }
+
+    /**
+     * Gets the content:// URI from the given corresponding path to a file
+     *
+     * @param context context
+     * @param videoFile videoFile
+     * @return content Uri
+     */
+    private static Uri getVideoContentUri(Context context, File videoFile) {
+        Uri uri = null;
+        String filePath = videoFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Video.Media._ID }, MediaStore.Video.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+                Uri baseUri = Uri.parse("content://media/external/video/media");
+                uri = Uri.withAppendedPath(baseUri, "" + id);
+            }
+
+            cursor.close();
+        }
+
+        if (uri == null) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Video.Media.DATA, filePath);
+            uri = context.getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
+        }
+
+        return uri;
+    }
+
+
+    /**
+     * Gets the content:// URI from the given corresponding path to a file
+     *
+     * @param context context
+     * @param audioFile audioFile
+     * @return content Uri
+     */
+    private static Uri getAudioContentUri(Context context, File audioFile) {
+        Uri uri = null;
+        String filePath = audioFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Audio.Media._ID }, MediaStore.Audio.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+                Uri baseUri = Uri.parse("content://media/external/audio/media");
+                uri = Uri.withAppendedPath(baseUri, "" + id);
+            }
+
+            cursor.close();
+        }
+        if (uri == null) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Audio.Media.DATA, filePath);
+            uri = context.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
         }
 
         return uri;

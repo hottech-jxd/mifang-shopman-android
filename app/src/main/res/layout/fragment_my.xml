@@ -247,13 +247,13 @@
             </LinearLayout>
 
             <View
-                android:background="#DADADC"
+                android:background="#F0EFF5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
             <View
                 android:layout_marginTop="8dp"
-                android:background="#DADADC"
+                android:background="#F0EFF5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
 
@@ -298,6 +298,8 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:id="@+id/my_lay_waitaccounts"
                     android:background="@drawable/style_row_bg"
                     android:layout_gravity="center_vertical"
@@ -313,6 +315,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
+                        android:layout_marginTop="4dp"
                         android:textSize="12sp"
                         android:text="待结算"
                         android:layout_width="wrap_content"
@@ -321,8 +324,10 @@
                 <View
                     android:layout_width="1dp"
                     android:background="#F0EFF5"
-                    android:layout_height="55dp" />
+                    android:layout_height="65dp" />
                 <LinearLayout
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:background="@drawable/style_row_bg"
                     android:id="@+id/my_lay_balance"
                     android:layout_gravity="center_vertical"
@@ -338,6 +343,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
+                        android:layout_marginTop="4dp"
                         android:textSize="12sp"
                         android:text="余额"
                         android:layout_width="wrap_content"
@@ -346,8 +352,10 @@
                 <View
                     android:layout_width="1dp"
                     android:background="#F0EFF5"
-                    android:layout_height="55dp" />
+                    android:layout_height="65dp" />
                 <LinearLayout
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:id="@+id/my_lay_mibean"
                     android:background="@drawable/style_row_bg"
                     android:layout_gravity="center_vertical"
@@ -363,6 +371,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
+                        android:layout_marginTop="4dp"
                         android:text="觅豆"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -380,8 +389,8 @@
                 android:layout_height="wrap_content"/>
 
             <View
-                android:layout_marginTop="8dp"
-                android:background="#DADADC"
+                android:layout_marginTop="5dp"
+                android:background="#F0EFF5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp" />
 
@@ -530,6 +539,7 @@
 
 
             <LinearLayout
+                android:layout_marginBottom="10dp"
                 android:padding="0dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"

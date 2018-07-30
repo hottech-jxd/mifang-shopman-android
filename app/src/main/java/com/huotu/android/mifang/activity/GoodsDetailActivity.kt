@@ -94,7 +94,7 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
         }
 
         var sw = DensityUtils.getScreenWidth(this)
-        goodsdetail_images.setImageLoader(FrescoImageLoader( goodsdetail_images , sw , sw ))
+        goodsdetail_images.setImageLoader(FrescoImageLoader( goodsdetail_applayout , goodsdetail_images , sw , sw , R.mipmap.avator ))
         goodsdetail_images.setImages(images1)
         if(images1.size>1) {
             goodsdetail_images.start()

@@ -15,8 +15,11 @@
             android:id="@+id/quan_item_one_logo"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            app:failureImage="@mipmap/ic_launcher"
-            app:placeholderImage="@mipmap/ic_launcher"
+            app:failureImage="@mipmap/avator"
+            app:placeholderImageScaleType="centerCrop"
+            app:failureImageScaleType="centerCrop"
+            app:placeholderImage="@mipmap/avator"
+            app:actualImageScaleType="centerCrop"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
@@ -28,6 +31,7 @@
         <TextView
             android:id="@+id/quan_item_one_title"
             android:text="觅方"
+            android:textSize="16sp"
             android:textColor="#6e7ea4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -46,6 +50,7 @@
             app:contentTextSize="14"/>
 
         <LinearLayout
+            android:layout_marginTop="4dp"
             android:layout_below="@id/quan_item_one_content"
             android:id="@+id/quan_item_one_images_video"
             android:orientation="vertical"

@@ -61,9 +61,11 @@
             android:layout_height="wrap_content">
             <com.facebook.drawee.view.SimpleDraweeView
                 app:roundAsCircle="true"
-                app:failureImage="@mipmap/ic_launcher"
-                app:placeholderImage="@mipmap/ic_launcher"
-                android:src="@mipmap/ic_launcher"
+                app:failureImage="@mipmap/avator"
+                app:actualImageScaleType="centerCrop"
+                app:failureImageScaleType="centerCrop"
+                app:placeholderImageScaleType="centerCrop"
+                app:placeholderImage="@mipmap/avator"
                 android:id="@+id/promotion_avator"
                 android:layout_width="60dp"
                 android:layout_height="60dp" />

@@ -66,7 +66,8 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
 
         var emptyView = LayoutInflater.from(context).inflate(R.layout.layout_empty, null)
         orderAdapter!!.emptyView= emptyView
-        orderAdapter!!.isUseEmpty(false)
+        //orderAdapter!!.isUseEmpty(false)
+        orderAdapter!!.setHeaderAndEmpty(true)
 
         order_refreshview.setOnRefreshListener(this)
         order_recyclerview.layoutManager=LinearLayoutManager(context)
@@ -77,19 +78,19 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
     override fun onRefresh() {
         pageIndex=0
         isShowProgress=false
-        orderAdapter!!.isUseEmpty(false)
+        //orderAdapter!!.isUseEmpty(false)
         iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum ,  orderSourceType ,pageIndex+1 )
     }
 
     override fun onLoadMoreRequested() {
-        orderAdapter!!.isUseEmpty(false)
+        //orderAdapter!!.isUseEmpty(false)
         iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum ,  orderSourceType ,pageIndex+1 )
     }
 
     override fun fetchData() {
         pageIndex = 0
         isShowProgress=true
-        orderAdapter!!.isUseEmpty(false)
+        //orderAdapter!!.isUseEmpty(false)
         iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , orderSourceType, pageIndex+1 )
     }
 
@@ -100,6 +101,7 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
 
     override fun showProgress(msg: String) {
         super.showProgress(msg)
+        if(order_loading==null) return
         if(isShowProgress) {
             order_loading.visibility = View.VISIBLE
         }else{
@@ -113,7 +115,7 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
         order_loading.visibility=View.GONE
         isShowProgress=false
         order_refreshview.isRefreshing=false
-        orderAdapter!!.isUseEmpty(true)
+        //orderAdapter!!.isUseEmpty(true)
     }
 
     override fun filter(year: Int, month: Int, day: Int) {
@@ -130,6 +132,7 @@ class OrderFragment : BaseFragment<OrderContract.Presenter>()
 
         if(isViewPrepared && isVisibleToUser) {
             //iPresenter.getProfitOrderList()
+            isShowProgress=true
             iPresenter.getProfitOrderList( searchTimeType , type , year , month , day , weekNum , orderSourceType, pageIndex+1 )
         }
     }
