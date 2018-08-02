@@ -296,8 +296,8 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
             var sh = bgBitmap.height
             var w = qrCodeBitmap.width
             var h = qrCodeBitmap.height
-            var x = 0
-            var y = 0
+            var x:Int
+            var y :Int
             var qrw = sw/3
             var qrh = sh/3
             if( qrw >= w ){

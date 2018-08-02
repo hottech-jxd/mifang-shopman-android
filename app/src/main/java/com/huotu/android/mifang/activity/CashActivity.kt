@@ -212,6 +212,8 @@ class CashActivity : BaseActivity<CashContract.Presenter>()
         cash_can_get_money.text = moneyString
         cash_money.setText( apiResult.data!!.BaseMoney.toString())
 
+        var descript= "1.起提金额为"+apiResult.data!!.BaseMoney + "元；2.每月提现次数为"+ apiResult.data!!.MonthCount +"次"
+        cash_description.text = descript
     }
 
     override fun cashListCallback(apiResult: ApiResult<ArrayList<CashRecord>>) {

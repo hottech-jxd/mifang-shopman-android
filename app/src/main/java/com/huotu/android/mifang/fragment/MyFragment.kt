@@ -295,8 +295,8 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
         my_balance.text = balance.toString()
 
         var mibean = myBean!!.UserMBean
-        mibean.setScale(2,BigDecimal.ROUND_HALF_UP)
-        mibean = mibean.divide(BigDecimal(100))
+        //mibean.setScale(2,BigDecimal.ROUND_HALF_UP)
+        //mibean = mibean.divide(BigDecimal(100))
         my_mibean.text = mibean.toString()
 
         if( !TextUtils.isEmpty( myBean!!.TipStr)){
@@ -371,6 +371,8 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
     override fun updatePayPasswordStatusCallback(apiResult: ApiResult<Any>) {
 
     }
+
+
 
     companion object {
         /**

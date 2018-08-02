@@ -7,6 +7,7 @@ data class PayModel (
     var customId: String? = null,
     var tradeNo: String? = null,
     var paymentType: String? = null,
+
     /***
      * 微信支付金额
      */
@@ -18,5 +19,11 @@ data class PayModel (
      * 支付宝支付金额
      */
     var aliAmount: String? = null,
-        var wxPrePayId :String?=null
+        var wxPrePayId :String?=null,
+
+        var `package`:String?,
+        var nonceStr:String?,
+        var timeStamp:String?,
+        var sign:String?,
+        var extData:String?
 )

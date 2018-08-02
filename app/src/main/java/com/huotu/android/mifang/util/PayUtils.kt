@@ -1,6 +1,7 @@
 package com.huotu.android.mifang.util
 
 import android.app.Activity
+import android.content.Context
 import android.os.Handler
 import android.os.Message
 import android.text.TextUtils
@@ -95,7 +96,7 @@ class PayUtils {
      * @param mHandler
      * @param payModel
      */
-     fun wxPay(aty :Activity, mHandler : Handler, payModel:PayModel ) {
+     fun wxPay(context : Context , mHandler : Handler, payModel:PayModel ) {
 
 
         if (TextUtils.isEmpty(payModel.wxAppId) || TextUtils.isEmpty(payModel.wxAppMchId)) {//缺少支付信息
@@ -110,7 +111,9 @@ class PayUtils {
             weiXinOrderInfo.total_fee = payModel.amount
             var weiXinPayInfo = WeiXinPayInfo(payModel.wxAppId , payModel.wxAppMchId, "" , payModel.notifyurl )
 
-            WeiXinPayUtil(aty , mHandler , weiXinPayInfo ).sendPayReq(weiXinOrderInfo , payModel.wxPrePayId )
+            WeiXinPayUtil( context , mHandler , weiXinPayInfo )
+                    .sendPayReq( payModel.wxPrePayId
+            ,payModel.`package` , payModel.nonceStr, payModel.timeStamp,payModel.sign,payModel.extData)
 
             //var weiXinPayUtil = WeiXinPayUtil(aty, mHandler, weiXinPayInfo)
             //weiXinPayUtil.pay(weiXinOrderInfo)

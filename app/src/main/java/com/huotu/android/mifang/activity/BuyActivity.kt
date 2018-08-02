@@ -97,6 +97,10 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
     override fun afterTextChanged(s: Editable?) {
         try {
             var size = buy_size.text.toString()
+            if(size.toInt()<1) {
+                size="1"
+                buy_size.setText("1")
+            }
             calc(size.toInt())
         }catch (ex:Exception){
             ex.printStackTrace()
@@ -188,6 +192,7 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
 
         var size = if( TextUtils.isEmpty( buy_size.text )) 1 else buy_size.text.toString().toInt()
         size +=1
+        if(size>9999) size=9999
         buy_size.setText(size.toString())
         calc(size )
 //        buy_size.setText(size.toString())
@@ -241,6 +246,7 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
     private fun minus(){
         var size = if( TextUtils.isEmpty( buy_size.text )) 1 else buy_size.text.toString().toInt()
         size -=1
+        if(size<1) size=1
         buy_size.setText(size.toString())
         calc(size )
     }
@@ -309,10 +315,13 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
     }
 
     private fun wechatPay(orderBean: InviteOrderBean){
-        var payModel = PayModel( orderBean.WxAppId , orderBean.WxAppMchId
+        var extData= "{orderNo:" + orderBean.UnionOrderId + "}"
+        var payModel = PayModel( orderBean.appId , orderBean.partnerid
                 , Constants.CUSTOMERID.toString() , orderBean.UnionOrderId
-                , "" , 0 ,"","","","", orderBean.PrepayId)
-        PayUtils().wxPay(this , handler , payModel  )
+                , "" , 0 ,"","","","",
+                orderBean.prepayId , orderBean.`package`, orderBean.nonceStr ,
+                orderBean.timeStamp , orderBean.sign , extData)
+        PayUtils().wxPay(this.applicationContext , handler , payModel  )
     }
     private fun aliPay(orderBean: InviteOrderBean){
         var aliOrderInfo = AliOrderInfo()

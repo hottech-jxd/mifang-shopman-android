@@ -279,10 +279,12 @@ class ApplyAgentActivity : BaseActivity<BuyContract.Presenter>()
     }
 
     private fun wechatPay(orderBean: InviteOrderBean){
-        var payModel = PayModel( orderBean.WxAppId , orderBean.WxAppMchId
+        var extData = "{orderNo:" + orderBean.UnionOrderId + "}"
+        var payModel = PayModel( orderBean.appId , orderBean.partnerid
                 , Constants.CUSTOMERID.toString() , orderBean.UnionOrderId ,
-                "" , 0 ,"","","","", orderBean.PrepayId)
-        PayUtils().wxPay(this , handler , payModel  )
+                "" , 0 ,"","","","",
+                orderBean.prepayId , orderBean.`package`, orderBean.nonceStr, orderBean.timeStamp, orderBean.sign, extData)
+        PayUtils().wxPay(this.applicationContext , handler , payModel  )
     }
 
     private fun aliPay(orderBean: InviteOrderBean){

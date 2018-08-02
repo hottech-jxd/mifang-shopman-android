@@ -19,6 +19,7 @@ import com.huotu.android.mifang.widget.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_wait_accounts.*
 import kotlinx.android.synthetic.main.fragment_quan_tab.*
 import kotlinx.android.synthetic.main.layout_header.*
+import java.math.BigDecimal
 
 /**
  * 待结算积分 , 余额，
@@ -220,8 +221,14 @@ class WaitAccountsActivity : BaseActivity<ScoreContract.Presenter>()
     }
 
     private fun setUiData_waitScore(apiResult: ApiResult<ScoreBean>){
-        wait_accounts_income.text = apiResult.data!!.SumImportIntegral.toString()
-        wait_accounts_outcome.text = apiResult.data!!.SumExportIntegral.toString()
+        var sumImportIntegral= apiResult.data!!.SumImportIntegral
+        var sumExportIntegral = apiResult.data!!.SumExportIntegral
+        var sum1 = BigDecimal(sumImportIntegral).setScale(2,BigDecimal.ROUND_HALF_UP).div(BigDecimal(100))
+
+        var sum2 = BigDecimal(sumExportIntegral).setScale(2,BigDecimal.ROUND_HALF_UP).div(BigDecimal(100))
+
+        wait_accounts_income.text = sum1.stripTrailingZeros().toPlainString()
+        wait_accounts_outcome.text = sum2.stripTrailingZeros().toPlainString()
 
         if(apiResult!!.data!!.Items==null) return
 

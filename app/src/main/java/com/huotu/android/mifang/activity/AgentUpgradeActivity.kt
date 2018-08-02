@@ -85,7 +85,7 @@ class AgentUpgradeActivity : BaseActivity<GoodsContract.Presenter>()
         if( data ==null) return
 
         if( !TextUtils.isEmpty( data.pictures)) {
-            images1 = data!!.pictures!!.split(",") as ArrayList<String>
+            images1 = ArrayList( data!!.pictures!!.split(",") )
         }
 
         var sw = DensityUtils.getScreenWidth(this)

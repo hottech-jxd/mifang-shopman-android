@@ -1,32 +1,23 @@
 package com.huotu.android.mifang.activity
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ShareCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.GoodsDetailAdapter
 import com.huotu.android.mifang.base.BaseActivity
-import com.huotu.android.mifang.base.BaseApplication
 import com.huotu.android.mifang.bean.*
-import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.GoodsContract
 import com.huotu.android.mifang.mvp.presenter.GoodsPresenter
 import com.huotu.android.mifang.util.DensityUtils
-import com.huotu.android.mifang.util.ImageUtils
 import com.huotu.android.mifang.widget.FrescoImageLoader
-import com.huotu.android.mifang.widget.RecyclerViewDivider
-import com.huotu.android.mifang.widget.RecyclerViewDivider4
 import kotlinx.android.synthetic.main.activity_goodsdetail.*
 import kotlinx.android.synthetic.main.layout_goodsdetail_top.*
-import kotlinx.android.synthetic.main.video_layout_cover.*
 
 class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
         ,GoodsContract.View
@@ -90,15 +81,18 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
         if( data ==null) return
 
         if( !TextUtils.isEmpty( data!!.pictures)) {
-            images1 = data!!.pictures!!.split(",") as ArrayList<String>
+            images1 = ArrayList(  data!!.pictures!!.split(",") )
         }
 
         var sw = DensityUtils.getScreenWidth(this)
         goodsdetail_images.setImageLoader(FrescoImageLoader( goodsdetail_applayout , goodsdetail_images , sw , sw , R.mipmap.avator ))
         goodsdetail_images.setImages(images1)
         if(images1.size>1) {
-            goodsdetail_images.start()
+            goodsdetail_images.isAutoPlay(false)
+        }else{
+            goodsdetail_images.isAutoPlay(true)
         }
+        goodsdetail_images.start()
 
         goodsdetail_item_title.text= data!!.title
         goodsdetail_item_price.text = "￥"+data!!.price

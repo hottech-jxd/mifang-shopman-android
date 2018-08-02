@@ -42,6 +42,9 @@
             android:id="@+id/applyagent_logo"
             app:roundAsCircle="true"
             app:placeholderImage="@mipmap/shop"
+            app:actualImageScaleType="centerCrop"
+            app:failureImageScaleType="centerCrop"
+            app:placeholderImageScaleType="centerCrop"
             app:failureImage="@mipmap/shop"
             android:layout_width="40dp"
             android:layout_height="40dp" />
@@ -139,6 +142,7 @@
             android:paddingBottom="10dp"
             android:layout_width="0dp"
             android:textSize="14sp"
+            android:textColor="@color/black"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
@@ -210,13 +214,13 @@
                 android:text=""
                 android:textSize="14sp"
                 android:hint="收件人手机号码"
+                android:inputType="phone"
                 android:singleLine="true"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@android:color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
 
 
             </LinearLayout>

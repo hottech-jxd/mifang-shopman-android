@@ -55,15 +55,15 @@
 
             </LinearLayout>
 
-            <View
-                android:background="#d1d1d1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            <!--<View-->
+                <!--android:background="#d1d1d1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp" />-->
 
             <LinearLayout
                 android:background="@drawable/style_row_bg"
                 android:id="@+id/setting_lay_three"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="1dp"
                 android:padding="15dp"
                 app:layout_constraintTop_toBottomOf="@id/setting_lay_one"
                 android:orientation="horizontal"
@@ -88,15 +88,15 @@
 
             </LinearLayout>
 
-            <View
-                android:background="#d1d1d1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            <!--<View-->
+                <!--android:background="#d1d1d1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp" />-->
 
             <LinearLayout
                 android:background="@android:color/white"
                 android:id="@+id/setting_lay_version"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="1dp"
                 android:padding="15dp"
                 app:layout_constraintTop_toBottomOf="@id/setting_lay_one"
                 android:orientation="horizontal"
@@ -128,15 +128,15 @@
                 android:layout_height="wrap_content" />
 
 
-            <View
-                android:background="#d1d1d1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            <!--<View-->
+                <!--android:background="#d1d1d1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp" />-->
 
             <LinearLayout
                 android:background="@drawable/style_row_bg"
                 android:id="@+id/setting_lay_paypassword"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="1dp"
                 android:padding="15dp"
                 app:layout_constraintTop_toBottomOf="@id/setting_lay_one"
                 android:orientation="horizontal"
@@ -161,15 +161,15 @@
 
             </LinearLayout>
 
-            <View
-                android:background="#d1d1d1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            <!--<View-->
+                <!--android:background="#d1d1d1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp" />-->
 
             <LinearLayout
                 android:background="@drawable/style_row_bg"
                 android:id="@+id/setting_lay_openPayPassword"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="1dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"

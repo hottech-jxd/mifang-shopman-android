@@ -82,6 +82,7 @@ class EditInfoActivity : BaseActivity<SettingContract.Presenter>()
         data.putExtra(Constants.INTENT_SETTING_TYPE , type)
         data.putExtra(Constants.INTENT_SETTING_CONTENT , edit_info_content.text.trim().toString())
         setResult(Activity.RESULT_OK, data )
+        KeybordUtils.closeKeyboard(this)
         finish()
     }
 

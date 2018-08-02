@@ -25,7 +25,7 @@ class EditPayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
         ,View.OnClickListener{
     var type :Int = 0
     var payAccount : PayAccount?=null
-    var isDefault= false
+    //var isDefault= false
     var accountType = 0 /*提现账户类型，1支付宝 2 银行卡 4 微信零钱 5 结算通 6 API打款*/
     var iPresenter=PayAccountPresenter(this)
 
@@ -60,7 +60,7 @@ class EditPayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
                 edit_pay_account_alipay.setBackgroundResource(R.drawable.shape_edit_pay_account_selected_bg)
                 edit_pay_account_wepay.setBackgroundResource(R.drawable.shape_edit_pay_account_bg)
                 edit_pay_account_lay_account.visibility=View.VISIBLE
-                edit_pay_account_account.setText(payAccount!!.AccountInfo)
+                edit_pay_account_account.setText(payAccount!!.Account)
             }else if(accountType==4) {
                 edit_pay_account_alipay.setBackgroundResource(R.drawable.shape_edit_pay_account_bg)
                 edit_pay_account_wepay.setBackgroundResource(R.drawable.shape_edit_pay_account_selected_bg)
@@ -124,10 +124,10 @@ class EditPayAccountActivity : BaseActivity<PayAccountContract.Presenter>()
         }
 
         if(payAccount==null){
-            payAccount=PayAccount( 0L, realname , if(isDefault) 1 else 0 , account ,accountType , account ,false )
+            payAccount=PayAccount( 0L, realname , 1 , account ,accountType , account ,false )
         }else{
-            payAccount!!.AccountInfo = account
-            payAccount!!.IsDefault = if( isDefault) 1 else 0
+            //payAccount!!.AccountInfo = account
+            //payAccount!!.IsDefault = if( isDefault) 1 else 0
             payAccount!!.RealName=realname
             payAccount!!.AccountType = accountType
             payAccount!!.Account = account

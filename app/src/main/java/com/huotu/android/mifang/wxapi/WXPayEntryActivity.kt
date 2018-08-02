@@ -8,11 +8,14 @@ import android.util.Log
 import android.view.View
 import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.R
+import com.huotu.android.mifang.bean.Constants
+import com.huotu.android.mifang.receiver.PayReceiver
 import com.huotu.android.mifang.util.ToastUtils
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.constants.ConstantsAPI
+import com.tencent.mm.opensdk.modelmsg.SendAuth
 import kotlinx.android.synthetic.main.activity_wx_pay.*
 import kotlinx.android.synthetic.main.layout_header.*
 
@@ -58,6 +61,14 @@ class WXPayEntryActivity : Activity()
         }
     }
 
+
+    private fun sendBroadCast(status:Boolean){
+        var intent = Intent()
+        intent.action = PayReceiver.ACTION_PAY
+        intent.putExtra(Constants.INTENT_STATUS , status )
+        sendBroadcast(intent)
+    }
+
     private fun pay(resp: BaseResp) {
 
         when (resp.errCode) {
@@ -69,6 +80,7 @@ class WXPayEntryActivity : Activity()
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.right)
                 drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
+                sendBroadCast(true)
                 return
             }
             BaseResp.ErrCode.ERR_COMM -> {
@@ -79,6 +91,7 @@ class WXPayEntryActivity : Activity()
                 drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
                 wx_pay_text.text = msg
+                sendBroadCast(false)
                 return
             }
             BaseResp.ErrCode.ERR_USER_CANCEL -> {
@@ -89,6 +102,7 @@ class WXPayEntryActivity : Activity()
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
                 drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
+                sendBroadCast(false)
                 return
             }
             else -> {
@@ -99,6 +113,7 @@ class WXPayEntryActivity : Activity()
                 var drawable = ContextCompat.getDrawable(this, R.mipmap.warm)
                 drawable!!.setBounds(0,0,drawable!!.intrinsicWidth,drawable.intrinsicHeight)
                 wx_pay_text.setCompoundDrawables(null,drawable,null,null)
+                sendBroadCast(false)
                 return
             }
         }

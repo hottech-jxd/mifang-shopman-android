@@ -21,7 +21,8 @@
             android:id="@+id/cash_record_status"
             android:layout_below="@id/cash_record_money"
             android:textColor="#808080"
-            android:text="已发放"
+            android:text=""
+            android:maxWidth="200dp"
             android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -36,6 +37,7 @@
             android:id="@+id/cash_record_name"
             android:textColor="@android:color/black"
             android:text=""
+            android:singleLine="true"
             android:layout_alignParentRight="true"
             android:textSize="18sp"
             android:layout_width="wrap_content"
@@ -46,6 +48,7 @@
             android:layout_alignParentRight="true"
             android:textColor="#808080"
             android:text="支付宝(137****3476)"
+            android:singleLine="true"
             android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -54,6 +57,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/cash_record_pay_name"
             android:text="申请日期:2015年1月2日"
+            android:singleLine="true"
             android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

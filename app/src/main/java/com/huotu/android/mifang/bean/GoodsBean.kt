@@ -38,6 +38,6 @@ data class GoodsDetailBean(var pictures:String?/*商品图片 多个,分割*/
 data class DepositBean(var MyDeposit	:String ,//	我的货款
                         var OweDeposit	:String,//	已欠货款
                        var GoodsItems:ArrayList<DepositItem>?){
-    data class DepositItem(var checked:Boolean=false , var GoodsId:Long , var ProductId:Long , var DepositPrice:String //货款商品价格
+    data class DepositItem(var checked:Boolean=false , var GoodsId:Long , var ProductId:Long , var DepositPrice:BigDecimal= BigDecimal.ZERO //货款商品价格
      )
 }

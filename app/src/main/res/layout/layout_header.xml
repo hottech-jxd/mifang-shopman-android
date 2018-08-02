@@ -61,6 +61,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#d1d1d1"/>
+        android:background="#F0EFF5"/>
 
 </android.support.constraint.ConstraintLayout>

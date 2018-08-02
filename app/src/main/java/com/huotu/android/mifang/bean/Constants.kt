@@ -15,9 +15,9 @@ object Constants {
     //MOCK 地址
     //val BASE_URL="http://api.mingshz.com/mock/80/"
     //测试地址
-    val BASE_URL:String= "http://mfapi.mifangtest.com/"
-    //val YOUXIN_BASE_URL :String="http://192.168.1.210:8082/api/"
-    //val YOUXIN_BASE_URL:String= "http://mfapi.mfmall.com"//"http://youxin.51huotao.com/api/"
+    //val BASE_URL:String= "http://mfapi.mifangtest.com/"
+    //正式地址
+    val BASE_URL :String="https://mfapi.mifang8.com/"
 
     /**
      * app版本检测地址
@@ -54,6 +54,7 @@ object Constants {
     val INTENT_FIRST_OPEN_SHOPPER = "first_open_shopper"
     val INTENT_URL1="url1"
     val INTENT_URL2="url2"
+    val INTENT_STATUS="status"
 
     val PREF_FILENAME="pref_filename_phonerecycle"
     val PREF_WECHAT_USER="pref_wechat_user"

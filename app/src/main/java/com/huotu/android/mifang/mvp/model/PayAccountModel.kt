@@ -15,7 +15,7 @@ class PayAccountModel {
     }
     fun editPayAccount(payAccount: PayAccount):Observable<ApiResult<Any>>{
         val apiService = RetrofitManager.getApiService()
-        return apiService!!.editAccount(payAccount.RealName , payAccount.AccountInfo , payAccount.AccountType , if( payAccount.IsDefault==1) payAccount.AccountId else 0)
+        return apiService!!.editAccount(payAccount.RealName , payAccount.Account , payAccount.AccountType ,  payAccount.AccountId )
     }
     fun deleteAccount(accountId:Long):Observable<ApiResult<Any>>{
         val apiService=RetrofitManager.getApiService()

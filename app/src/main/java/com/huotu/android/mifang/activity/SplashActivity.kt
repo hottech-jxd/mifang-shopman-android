@@ -151,11 +151,11 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
                 var unionid=wechatUser!!.unionid
 
                 if(com.huotu.android.mifang.BuildConfig.DEBUG) {//ttttesetstts
-                    unionid="ovFVjw7BF5u9VQBDdecRRdqKEGHA"
+                    //unionid="ovFVjw7BF5u9VQBDdecRRdqKEGHA"
                 }
 
 
-                presenter!!.loginByUnionId( wechatUser!!.openid , unionid , wechatUser.nickname, wechatUser.headimgurl )
+                presenter!!.loginByUnionId( wechatUser.openid , unionid , wechatUser.nickname, wechatUser.headimgurl )
             }else {
 //                var req = SendAuth.Req()
 //                req.scope = "snsapi_userinfo"

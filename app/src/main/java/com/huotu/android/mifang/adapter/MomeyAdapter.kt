@@ -10,7 +10,7 @@ class MomeyAdapter(data : ArrayList<DepositBean.DepositItem>): BaseQuickAdapter<
 
     override fun convert(helper: BaseViewHolder?, item: DepositBean.DepositItem?) {
 
-        helper!!.setText(R.id.momey_item_name, item!!.DepositPrice )
+        helper!!.setText(R.id.momey_item_name, item!!.DepositPrice.stripTrailingZeros().toPlainString() )
 
         helper!!.setBackgroundRes(R.id.momey_item_name, if (item!!.checked) R.drawable.shape_edit_pay_account_selected_bg else R.drawable.shape_edit_pay_account_bg)
     }

@@ -121,7 +121,7 @@ dependencies {
     /*滚动选择控件*/
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     /*微信，支付宝支付帮助库*/
-    implementation 'com.huotu.android.library:libPay:1.0.6-SNAPSHOT'
+    implementation 'com.huotu.android.library:libPay:1.0.5'
     /*加载进度条组件库*/
     implementation project(':libloadingballs')
     /*极关推送库*/

@@ -1,5 +1,6 @@
 package com.huotu.android.mifang.activity
 
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -20,6 +21,8 @@ import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.PayLoanContract
 import com.huotu.android.mifang.mvp.presenter.PayLoanPresenter
 import com.huotu.android.mifang.newIntent
+import com.huotu.android.mifang.receiver.PayReceiver
+import com.huotu.android.mifang.receiver.QuitReceiver
 import com.huotu.android.mifang.util.PayUtils
 import com.huotu.android.mifang.widget.RecyclerViewDivider4
 import com.huotu.android.mifang.widget.RecyclerViewDivider5
@@ -33,12 +36,14 @@ import kotlinx.android.synthetic.main.layout_header_2.*
 class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
         ,PayLoanContract.View
         , Handler.Callback
+        , PayReceiver.PayListener
         ,BaseQuickAdapter.OnItemClickListener
         ,View.OnClickListener{
     private var iPresenter=PayLoanPresenter(this)
     private var momeyAdapter:MomeyAdapter?=null
     private var paymentAdapter:PaymentAdapter ?=null
     private var handler=Handler(this)
+    private var payReceiver:PayReceiver?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +56,8 @@ class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
         header_right_text.setOnClickListener(this)
         header_left_image.setOnClickListener(this)
         payloan_pay.setOnClickListener(this)
+
+        registerPayReceiver()
 
         momeyAdapter = MomeyAdapter(ArrayList())
         momeyAdapter!!.onItemClickListener=this
@@ -75,6 +82,7 @@ class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
         if( handler!=null){
             handler.removeCallbacksAndMessages(null)
         }
+        unRegisterPayReceiver()
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -218,9 +226,13 @@ class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
     }
 
     private fun wechatPay(orderBean: DepositOrderBean){
-        var payModel = PayModel( orderBean.WxAppId , orderBean.WxAppMchId
+        var extData= "{orderNo:" + orderBean.UnionOrderId + "}"
+        var payModel = PayModel( orderBean.appId , orderBean.partnerid
                 , Constants.CUSTOMERID.toString() , orderBean.UnionOrderId
-                , "" , orderBean.SurplusAmount.toInt() ,"","","","0" , orderBean.PrepayId)
+                , "" , 0 ,"","","","0" ,
+                orderBean.prepayId , orderBean.`package`, orderBean.nonceStr ,
+                orderBean.timeStamp , orderBean.sign , extData)
+
         PayUtils().wxPay(this , handler , payModel  )
 
     }
@@ -250,5 +262,27 @@ class PayLoanActivity : BaseActivity<PayLoanContract.Presenter>()
             }
         }
         return true
+    }
+
+
+    private fun registerPayReceiver() {
+        payReceiver = PayReceiver()
+        payReceiver!!.setPayListener(this)
+        val intentFilter = IntentFilter(PayReceiver.ACTION_PAY)
+        this.registerReceiver(payReceiver, intentFilter)
+    }
+
+    private fun unRegisterPayReceiver(){
+        if(payReceiver!=null){
+            payReceiver!!.setPayListener(null)
+            this.unregisterReceiver(payReceiver)
+            payReceiver=null
+        }
+    }
+
+    override fun payCallback(success: Boolean) {
+        if(success){
+            iPresenter.getDepositIndex()
+        }
     }
 }

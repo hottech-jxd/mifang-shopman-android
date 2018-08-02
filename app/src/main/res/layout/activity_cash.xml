@@ -201,6 +201,7 @@
 
             <TextView
                 android:text="提现说明："
+                android:visibility="visible"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:background="@android:color/white"
@@ -213,6 +214,7 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="15dp"
                 android:text=""
+                android:id="@+id/cash_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

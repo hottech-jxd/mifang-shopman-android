@@ -166,6 +166,7 @@
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/my_avator"
                         app:roundedCornerRadius="8dp"
+                        app:roundAsCircle="true"
                         app:failureImage="@mipmap/avator"
                         app:placeholderImage="@mipmap/avator"
                         app:actualImageScaleType="centerCrop"
@@ -373,6 +374,7 @@
                     <TextView
                         android:layout_marginTop="4dp"
                         android:text="觅豆"
+                        android:textSize="12sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

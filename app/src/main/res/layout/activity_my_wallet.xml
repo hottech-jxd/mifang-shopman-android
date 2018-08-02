@@ -78,7 +78,7 @@
             android:id="@+id/mywallet_yue"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="100"
+            android:text="0"
             android:textColor="#E44B20"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
@@ -116,7 +116,7 @@
             android:id="@+id/mywallet_waitpay"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="100"
+            android:text="0"
             android:textColor="#E44B20"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
