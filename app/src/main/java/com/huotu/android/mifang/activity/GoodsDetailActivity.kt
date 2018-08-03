@@ -18,6 +18,7 @@ import com.huotu.android.mifang.util.DensityUtils
 import com.huotu.android.mifang.widget.FrescoImageLoader
 import kotlinx.android.synthetic.main.activity_goodsdetail.*
 import kotlinx.android.synthetic.main.layout_goodsdetail_top.*
+import java.math.BigDecimal
 
 class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
         ,GoodsContract.View
@@ -95,8 +96,12 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
         goodsdetail_images.start()
 
         goodsdetail_item_title.text= data!!.title
-        goodsdetail_item_price.text = "￥"+data!!.price
-        var cprice = "代理价:<font color='#E41637'>" + data!!.agentPrcie+"</font>元 佣金:<font color='#E41637'>"+data!!.commission+"</font>元"
+        goodsdetail_item_price.text = "￥"+data!!.price!!.stripTrailingZeros().toPlainString()
+        var commission = data!!.commission
+        commission!!.setScale(2,BigDecimal.ROUND_HALF_UP)
+        commission = commission.divide(BigDecimal(100))
+
+        var cprice = "代理价:<font color='#E41637'>" + data!!.agentPrcie!!.stripTrailingZeros().toPlainString() +"</font>元 佣金:<font color='#E41637'>"+commission.stripTrailingZeros().toPlainString()+"</font>元"
         goodsdetail_item_price2.text= Html.fromHtml(cprice )
 
         if(data!!.intro!=null) {

@@ -17,26 +17,6 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MyFragment">
 
-
-<!--<android.support.design.widget.CoordinatorLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="#F0EFF5"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--tools:context=".fragment.MyFragment">-->
-
-
-
-    <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/white"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
-
     <LinearLayout
         android:id="@+id/my_lay_header"
         android:orientation="vertical"
@@ -58,10 +38,10 @@
                 android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <View
-                android:background="#F0EFF5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            <!--<View-->
+                <!--android:background="#F0EFF5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp" />-->
         </LinearLayout>
 
 
@@ -103,25 +83,10 @@
     </LinearLayout>
 
 
-        <!--<android.support.design.widget.CollapsingToolbarLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:fitsSystemWindows="true"-->
-            <!--app:statusBarScrim="@color/white"-->
-            <!--app:title="店主中心"-->
-            <!--app:titleEnabled="false"-->
-            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
-            <!---->
-        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
-
-
-    <!--</android.support.design.widget.AppBarLayout>-->
-
-
     <android.support.v4.widget.NestedScrollView
         android:layout_below="@id/my_lay_header"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="1dp"
         android:id="@+id/my_scrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -206,12 +171,13 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#F0EFF5" />
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:background="#F0EFF5" />-->
 
             <LinearLayout
+                android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="15dp"
@@ -247,18 +213,19 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <View
-                android:background="#F0EFF5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+            <!--<View-->
+                <!--android:background="#F0EFF5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"/>-->
 
-            <View
-                android:layout_marginTop="8dp"
-                android:background="#F0EFF5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            <!--<View-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:background="#F0EFF5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp" />-->
 
             <LinearLayout
+                android:layout_marginTop="8dp"
                 android:id="@+id/my_lay_wallet"
                 android:background="@drawable/style_row_bg"
                 android:paddingLeft="15dp"
@@ -287,12 +254,13 @@
                     android:layout_height="16dp" />
             </LinearLayout>
 
-            <View
-                android:background="#F0EFF5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+            <!--<View-->
+                <!--android:background="#F0EFF5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"/>-->
 
             <LinearLayout
+                android:layout_marginTop="1dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -390,14 +358,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <View
-                android:layout_marginTop="5dp"
-                android:background="#F0EFF5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
+            <!--<View-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:background="#F0EFF5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp" />-->
 
             <LinearLayout
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:paddingBottom="10dp"
@@ -418,13 +386,14 @@
 
             </LinearLayout>
 
-            <View
-                android:background="#F0EFF5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+            <!--<View-->
+                <!--android:background="#F0EFF5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"/>-->
 
 
             <LinearLayout
+                android:layout_marginTop="1dp"
                 android:padding="0dp"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
@@ -534,13 +503,14 @@
 
             </LinearLayout>
 
-            <View
-                android:background="#F0EFF5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+            <!--<View-->
+                <!--android:background="#F0EFF5"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"/>-->
 
 
             <LinearLayout
+                android:layout_marginTop="1dp"
                 android:layout_marginBottom="10dp"
                 android:padding="0dp"
                 android:background="@android:color/white"
@@ -655,11 +625,6 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-
-
-
-<!--</android.support.design.widget.CoordinatorLayout>-->
 
 
     <RelativeLayout

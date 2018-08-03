@@ -7,6 +7,7 @@ import com.huotu.android.library.libpush.PushHelper
 import com.huotu.android.mifang.util.AppBlockCanaryContext
 import com.huotu.android.mifang.util.CrashHandler
 import com.liulishuo.filedownloader.FileDownloader
+import com.liulishuo.filedownloader.util.FileDownloadLog
 import com.squareup.leakcanary.LeakCanary
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
@@ -44,6 +45,7 @@ object AppInit {
         PushHelper.init(context, BuildConfig.DEBUG, "")
 
         //初始化下载组件库
+        FileDownloadLog.NEED_LOG = BuildConfig.DEBUG
         FileDownloader.setupOnApplicationOnCreate(context)
 
         //注册微信授权登录

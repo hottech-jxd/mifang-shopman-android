@@ -1,5 +1,9 @@
 <resources>
 
+    <style name="AppLauncher">
+        <item name="android:windowBackground">@mipmap/splash</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->

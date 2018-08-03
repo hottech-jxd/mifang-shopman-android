@@ -15,20 +15,20 @@ data class GoodsInfoBean(
         var CatId: Long,
      var PicUrl:String,
     var Store: Int,
-    var Price:String,
+    var Price:BigDecimal,
     var MktPrice:String,
     var UserPrice:String,
-    var EarnIntegral:String,
-   var EarnMiBean:String,
+    var EarnIntegral:Int,//可赚积分
+   var EarnMiBean:Int,//可赚觅豆
     var IsFav:Int,
     var Sales:String)
 
 
 data class GoodsDetailBean(var pictures:String?/*商品图片 多个,分割*/
                            , var title:String?/**/
-                           , var price:String? /*商品标题*/
-                           , var agentPrcie:String? /*代理价（代理商）*/
-                           , var commission:String? /*佣金(营养师)*/
+                           , var price:BigDecimal? /*商品标题*/
+                           , var agentPrcie:BigDecimal? /*代理价（代理商）*/
+                           , var commission:BigDecimal? /*佣金(营养师)*/
                            , var intro:ArrayList<String?>? /*详细介绍 图片列表*/
                            , var memo:String?//说明
                            , var shareUrl:String?    )

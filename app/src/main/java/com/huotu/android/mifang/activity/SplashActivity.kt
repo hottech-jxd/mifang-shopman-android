@@ -36,6 +36,9 @@ class SplashActivity : BaseActivity<SplashContract.Presenter>() ,
     private val REQUEST_CODE=1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        setTheme(R.style.SplashTheme)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 

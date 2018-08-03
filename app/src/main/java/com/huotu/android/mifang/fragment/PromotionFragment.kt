@@ -327,7 +327,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
         }
     }
 
-    private fun downloadImages(urlbg:String , urlqrcode:String , shareType: Int ) {
+    private fun downloadImages(urlbg:String? , urlqrcode:String? , shareType: Int ) {
 
         val type = shareType
 
@@ -345,11 +345,6 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
             mergePicture(filePathBg, filePathQrcode , type )
             return
         }
-
-
-
-
-
 
         var dir = Constants.ImageDirPath
         var f = File(dir)
@@ -379,7 +374,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
 
             override fun error(task: BaseDownloadTask?, e: Throwable?) {
                 hideProgress()
-                toast("error")
+                toast("图片下载失败")
                 e!!.printStackTrace()
             }
 
@@ -397,15 +392,15 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
 
         if(!fileBg.exists() && fileQrcode.exists()){
             var idId = IdId(1, 1)
-            tasks.add(FileDownloader.getImpl().create(urlbg).setTag(1).setPath(filePathBg).setTag(idId))
+            tasks.add(FileDownloader.getImpl().create(urlbg).setPath(filePathBg).setTag(idId))
         }else if( fileBg.exists() && !fileQrcode.exists()){
             var idId = IdId(1, 1)
-            tasks.add(FileDownloader.getImpl().create(urlqrcode).setTag(1).setPath(filePathQrcode).setTag(idId))
+            tasks.add(FileDownloader.getImpl().create(urlqrcode).setPath(filePathQrcode).setTag(idId))
         }else if( !fileBg.exists() && !fileQrcode.exists()){
             var idId = IdId(1, 2)
-            tasks.add(FileDownloader.getImpl().create(urlbg).setTag(1).setPath(filePathBg).setTag(idId))
+            tasks.add(FileDownloader.getImpl().create(urlbg).setPath(filePathBg).setTag(idId))
             idId = IdId(2, 2)
-            tasks.add(FileDownloader.getImpl().create(urlqrcode).setTag(2).setPath(filePathQrcode).setTag(idId))
+            tasks.add(FileDownloader.getImpl().create(urlqrcode).setPath(filePathQrcode).setTag(idId))
         }
 
         downLoadQueueSet.disableCallbackProgressTimes()

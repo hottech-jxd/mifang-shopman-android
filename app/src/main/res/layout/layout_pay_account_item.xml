@@ -15,12 +15,14 @@
         android:layout_width="24dp"
         android:layout_height="24dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/pay_account_lay_account"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
+        android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/pay_account_name"
@@ -37,15 +39,10 @@
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_gravity="center_vertical"
-        android:gravity="right"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
-        <TextView
+
+    <TextView
             android:background="@drawable/shape_pay_acount_operate_bg"
             android:id="@+id/pay_account_operate"
             android:textColor="#B62924"
@@ -59,6 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+
 
 </LinearLayout>

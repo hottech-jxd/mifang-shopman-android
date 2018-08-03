@@ -17,14 +17,16 @@ class BaseApplication : MultiDexApplication() {
 
         //AppInit.init(this)
 
-        //把初始化工作放到单独的一个线程中处理。
-        InitService.start(this)
+
 
     }
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+
+        //把初始化工作放到单独的一个线程中处理。
+        InitService.start(this)
     }
 
     companion object {

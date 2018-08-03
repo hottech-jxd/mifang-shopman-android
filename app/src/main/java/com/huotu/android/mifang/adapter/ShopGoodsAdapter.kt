@@ -6,6 +6,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.base.BaseApplication
 import com.huotu.android.mifang.bean.GoodsInfoBean
+import java.math.BigDecimal
 
 class ShopGoodsAdapter(data:ArrayList<GoodsInfoBean>)
     :BaseQuickAdapter<GoodsInfoBean,BaseViewHolder>( R.layout.layout_shop_goods_item , data) {
@@ -13,8 +14,14 @@ class ShopGoodsAdapter(data:ArrayList<GoodsInfoBean>)
     override fun convert(helper: BaseViewHolder?, item: GoodsInfoBean?) {
         helper!!.getView<SimpleDraweeView>(R.id.good_item_1_logo).setImageURI( item!!.PicUrl )
         helper!!.setText(R.id.good_item_1_title, item!!.Name)
-        helper!!.setText(R.id.good_item_1_price, "￥"+item!!.Price)
-        helper!!.setText(R.id.good_item_1_final_price, "￥"+item!!.UserPrice)
+        helper!!.setText(R.id.good_item_1_price, "￥"+item!!.Price.stripTrailingZeros().toPlainString())
+
+        var score = BigDecimal( item!!.EarnIntegral)
+        score.setScale(2,BigDecimal.ROUND_HALF_UP)
+        score = score.divide(BigDecimal(100))
+        var scoreString = score.stripTrailingZeros().toPlainString()
+
+        helper!!.setText(R.id.good_item_1_final_price, "￥${scoreString}" )
 
         var label= if( BaseApplication.instance!!.variable.userBean==null || BaseApplication.instance!!.variable.userBean!!.userRoleType == 101) "佣金" else "代理价"
         helper!!.setText(R.id.good_item_1_final_label, label)
