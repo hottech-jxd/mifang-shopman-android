@@ -10,10 +10,6 @@
     <item name="expandable_text" type="id" />
     <item name="expand_collapse" type="id" />
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <integer-array name="colors">
         <item>@color/ball1</item>
         <item>@color/ball2</item>

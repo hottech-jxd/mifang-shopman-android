@@ -235,10 +235,11 @@ class ApplyAgentActivity : BaseActivity<BuyContract.Presenter>()
 
         goodsBean = apiResult.data
         applyagent_goodsname.text =goodsBean!!.GoodsName
-        applyagent_price.text =goodsBean!!.GoodsPrice+"元"
+        var price = goodsBean!!.GoodsPrice.stripTrailingZeros().toPlainString()
+        applyagent_price.text = price +"元"
         applyagent_logo.setImageURI( goodsBean!!.GoodsImgURL )
         applyagent_lay_address.visibility = if(goodsBean!!.NeedAddr==0) View.GONE else View.VISIBLE
-        applyagent_money.text= goodsBean!!.GoodsPrice
+        applyagent_money.text= price
     }
 
     override fun getPaymentItemsCallback(apiResult: ApiResult<ArrayList<PaymentItem>>) {
@@ -300,8 +301,16 @@ class ApplyAgentActivity : BaseActivity<BuyContract.Presenter>()
     override fun handleMessage(msg: Message?): Boolean {
         when( msg!!.what){
             PayUtils.SDK_Ali_PAY_V2_FLAG->{
-                //var data = msg.obj as AliPayResultV2
-                toast( "支付成功")
+                var data = msg.obj as AliPayResultV2
+                when (data.resultStatus){
+                    "9000"->{toast("支付成功")}
+                    "8000"->{toast("正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态")}
+                    "4000"->{toast("订单支付失败")}
+                    "6001"->{toast("用户中途取消")}
+                    "6002"->{toast("网络连接出错")}
+                    "6004"->{toast("支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态")}
+                    else->{toast("其它支付错误")}
+                }
             }
         }
         return true

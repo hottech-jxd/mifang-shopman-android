@@ -1,15 +1,9 @@
 package com.huotu.android.mifang.util
 
 
-import android.content.UriMatcher
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
-import android.net.Uri
-import android.provider.SyncStateContract
-import android.text.style.URLSpan
-import com.facebook.common.util.UriUtil
 import com.huotu.android.mifang.AppInit
 import com.huotu.android.mifang.BuildConfig
 import com.huotu.android.mifang.R
@@ -21,7 +15,6 @@ import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.*
-import java.io.File
 
 class WechatShareUtil : FileDownloadListener() {
 
@@ -33,7 +26,12 @@ class WechatShareUtil : FileDownloadListener() {
                          , miniProgramPath:String ){
         var wxMiniProgramObject = WXMiniProgramObject()
         wxMiniProgramObject.webpageUrl = webUrl
-        wxMiniProgramObject.miniprogramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE
+
+        if(BuildConfig.DEBUG) {
+            wxMiniProgramObject.miniprogramType = WXMiniProgramObject.MINIPROGRAM_TYPE_PREVIEW
+        }else {
+            wxMiniProgramObject.miniprogramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE
+        }
         wxMiniProgramObject.userName = miniProgramUserName
         wxMiniProgramObject.path = miniProgramPath
         var wxMediaMessage = WXMediaMessage(wxMiniProgramObject)
@@ -55,7 +53,11 @@ class WechatShareUtil : FileDownloadListener() {
         var req = WXLaunchMiniProgram.Req()
         req.userName = BuildConfig.wechat_miniprogram_id
         req.path= path
-        req.miniprogramType= WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+        if(BuildConfig.DEBUG){
+            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
+        }else {
+            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
+        }
         AppInit.iwxApi!!.sendReq(req)
     }
 

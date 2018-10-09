@@ -18,7 +18,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "mips"
+            abiFilters "armeabi", "armeabi-v7a", "mips", "x86"
         }
         resConfigs "zh"
     }
@@ -64,7 +64,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:multidex:1.0.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -102,9 +102,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     /*rxjava*/
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.17'
     /*权限申请库*/
     implementation('com.github.hotchemi:permissionsdispatcher:3.2.0') {
         exclude module: "support-v13"
@@ -121,18 +122,20 @@ dependencies {
     /*滚动选择控件*/
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     /*微信，支付宝支付帮助库*/
-    implementation 'com.huotu.android.library:libPay:1.0.5'
+    //implementation 'com.huotu.android.library:libPay:1.0.5'
+    implementation ("name":"libpay-1.0.5","ext":"aar")
     /*加载进度条组件库*/
     implementation project(':libloadingballs')
     /*极关推送库*/
-    implementation 'com.huotu.android.library:libPush:1.3.0'
+    //implementation 'com.huotu.android.library:libPush:1.3.0'
+    implementation ("name":"libpush-1.3.0","ext":"aar")
     /*图片放大缩小预览库*/
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
     /*图片加载库*/
     implementation 'com.facebook.fresco:fresco:1.9.0'
     /*友盟统计依赖库*/
-    implementation 'com.umeng.sdk:common:1.5.0'
-    implementation 'com.umeng.sdk:analytics:7.5.0'
+    implementation 'com.umeng.sdk:common:1.5.3'
+    implementation 'com.umeng.sdk:analytics:7.5.3'
 
     /*监控内存泄露库*/
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'

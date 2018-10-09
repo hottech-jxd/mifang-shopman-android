@@ -41,6 +41,7 @@ import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloadQueueSet
 import com.liulishuo.filedownloader.FileDownloader
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import kotlinx.android.synthetic.main.fragment_message.*
 import kotlinx.android.synthetic.main.fragment_promotion.*
 import java.io.File
 import java.util.*
@@ -425,6 +426,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
 
     override fun showProgress(msg: String) {
         super.showProgress(msg)
+        if( promotion_progress ==null ) return
         if(isShowProgress) {
             promotion_progress.visibility = View.VISIBLE
         }else{
@@ -434,6 +436,7 @@ class PromotionFragment : BaseFragment<InviteContract.Presenter>()
 
     override fun hideProgress() {
         super.hideProgress()
+        if( promotion_progress ==null ) return
         promotion_progress.visibility=View.GONE
         promotion_refreshview.isRefreshing=false
         isShowProgress=false

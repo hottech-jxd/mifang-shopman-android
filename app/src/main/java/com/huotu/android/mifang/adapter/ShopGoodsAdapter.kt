@@ -16,12 +16,19 @@ class ShopGoodsAdapter(data:ArrayList<GoodsInfoBean>)
         helper!!.setText(R.id.good_item_1_title, item!!.Name)
         helper!!.setText(R.id.good_item_1_price, "￥"+item!!.Price.stripTrailingZeros().toPlainString())
 
-        var score = BigDecimal( item!!.EarnIntegral)
-        score.setScale(2,BigDecimal.ROUND_HALF_UP)
-        score = score.divide(BigDecimal(100))
-        var scoreString = score.stripTrailingZeros().toPlainString()
+        var scoreString :String?
+
+        if(BaseApplication.instance!!.variable.userBean==null || BaseApplication.instance!!.variable.userBean!!.userRoleType == 101){
+            var score = BigDecimal( item!!.EarnIntegral)
+            score.setScale(2,BigDecimal.ROUND_HALF_UP)
+            score = score.divide(BigDecimal(100))
+            scoreString = score.stripTrailingZeros().toPlainString()
+        }else{
+            scoreString = item!!.Price.multiply( item!!.MfAgent_Discount ).divide(BigDecimal(10)).stripTrailingZeros().toPlainString()
+        }
 
         helper!!.setText(R.id.good_item_1_final_price, "￥${scoreString}" )
+
 
         var label= if( BaseApplication.instance!!.variable.userBean==null || BaseApplication.instance!!.variable.userBean!!.userRoleType == 101) "佣金" else "代理价"
         helper!!.setText(R.id.good_item_1_final_label, label)

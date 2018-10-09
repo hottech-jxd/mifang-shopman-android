@@ -107,11 +107,13 @@ class MessageFragment : BaseFragment<MessageContract.Presenter>()
 
     override fun showProgress(msg: String) {
         super.showProgress(msg)
+        if( message_progress==null ) return
         message_progress.visibility = if(isShowProgress) View.VISIBLE else View.GONE
     }
 
     override fun hideProgress() {
         super.hideProgress()
+        if( message_progress==null ) return
         message_progress.visibility=View.GONE
         messageAdapter!!.isUseEmpty(true)
         message_refreshview.isRefreshing=false

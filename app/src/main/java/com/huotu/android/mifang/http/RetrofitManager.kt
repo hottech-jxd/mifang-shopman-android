@@ -2,8 +2,10 @@ package com.huotu.android.mifang.http
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.huotu.android.mifang.BuildConfig
 import com.huotu.android.mifang.bean.Constants
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,21 +22,34 @@ object RetrofitManager {
     private var wechatRetrofit:Retrofit?=null
     private var wechatService:WechatService?=null
 
-    private fun provideHeaderIntercepter(): HeaderIntercepter? {
+    private fun provideHeaderIntercepter(): HeaderIntercepter {
         if(headerIntercepter==null) headerIntercepter = HeaderIntercepter()
-        return headerIntercepter
+        return headerIntercepter!!
     }
 
-    private fun provideOkHttpClient( headerIntercepter: HeaderIntercepter?):OkHttpClient?{
+    private fun provideOkHttpClient( headerIntercepter: HeaderIntercepter):OkHttpClient?{
 
-        if(okHttpClient==null) okHttpClient = OkHttpClient.Builder()
+        if(okHttpClient==null){
+            var builder =OkHttpClient.Builder()
                 .readTimeout(Constants.READ_TIMEOUT , TimeUnit.SECONDS)
                 .connectTimeout(Constants.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(Constants.WRITE_TIMEOUT , TimeUnit.SECONDS)
                 .addInterceptor(headerIntercepter)
-                .build()
+
+            if(BuildConfig.DEBUG){
+                builder.addInterceptor(provideHttpLogIntercepter())
+            }
+
+            okHttpClient =builder.build()
+        }
 
         return okHttpClient
+    }
+
+    private fun provideHttpLogIntercepter():HttpLoggingInterceptor{
+        var httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return httpLoggingInterceptor
     }
 
     private fun provideGson(): Gson? {

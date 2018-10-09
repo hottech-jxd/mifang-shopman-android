@@ -12,6 +12,7 @@ import com.huotu.android.mifang.BuildConfig
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.activity.*
 import com.huotu.android.mifang.adapter.ShopGoodsAdapter
+import com.huotu.android.mifang.base.BaseApplication
 import com.huotu.android.mifang.base.BaseFragment
 import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.GoodsContract
@@ -74,6 +75,15 @@ class MyShopperFragment : (BaseFragment<GoodsContract.Presenter>)()
         myshopper_preview.setOnClickListener(this)
         myshopper_freeze.setOnClickListener(this)
 
+        if(BaseApplication.instance !=null && BaseApplication.instance!!.variable.userBean!=null && BaseApplication.instance!!.variable.userBean!!.userRoleType==102){
+            myshopper_lay_1.visibility=View.VISIBLE
+            header_left_image.visibility=View.VISIBLE
+            header_right_lay.visibility=View.VISIBLE
+        }else{
+            myshopper_lay_1.visibility=View.GONE
+            header_left_image.visibility=View.GONE
+            header_right_lay.visibility = View.GONE
+        }
 
         myshopper_refreshview.setOnRefreshListener(this)
         myshopper_recyclerview.layoutManager = GridLayoutManager(context ,2)

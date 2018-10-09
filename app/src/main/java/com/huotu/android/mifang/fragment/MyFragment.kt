@@ -121,7 +121,9 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
                 newIntent<ShopperClassActivity>()
             }
             R.id.my_lay_aboutme->{
-                var aboutUs = if(BaseApplication.instance!!.variable.initDataBean==null) "" else BaseApplication.instance!!.variable.initDataBean!!.aboutUs
+                //var aboutUs = if(BaseApplication.instance!!.variable.initDataBean==null) "" else BaseApplication.instance!!.variable.initDataBean!!.aboutUs
+                if(myBean==null)return
+                var aboutUs = myBean!!.AboutURL
                 newIntent<WebActivity>( Constants.INTENT_URL , aboutUs )
             }
             R.id.my_lay_wallet->{
@@ -300,13 +302,13 @@ class MyFragment : BaseFragment<MyContract.Presenter>()
         my_mibean.text = mibean.toString()
 
         if( !TextUtils.isEmpty( myBean!!.TipStr)){
-            my_lay_message.visibility=View.VISIBLE
+            my_lay_tip.visibility=View.VISIBLE
             my_message_tip.text = myBean!!.TipStr
             my_message_deal.visibility = if( myBean!!.IsAgent ) View.VISIBLE else View.GONE
         }else{
             my_message_tip.text=""
             my_message_deal.visibility=View.GONE
-            my_lay_message.visibility =View.GONE
+            my_lay_tip.visibility =View.GONE
         }
 
         setAdBanner(myBean!!.ADLists)

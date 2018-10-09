@@ -21,7 +21,8 @@ data class GoodsInfoBean(
     var EarnIntegral:Int,//可赚积分
    var EarnMiBean:Int,//可赚觅豆
     var IsFav:Int,
-    var Sales:String)
+    var Sales:String,
+        var MfAgent_Discount:BigDecimal /*觅方代理价折扣*/)
 
 
 data class GoodsDetailBean(var pictures:String?/*商品图片 多个,分割*/

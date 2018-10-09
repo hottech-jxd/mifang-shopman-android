@@ -348,8 +348,17 @@ class BuyActivity : BaseActivity<BuyContract.Presenter>()
     override fun handleMessage(msg: Message?): Boolean {
         when( msg!!.what){
             PayUtils.SDK_Ali_PAY_V2_FLAG->{
+
                 var data = msg.obj as AliPayResultV2
-                toast( "支付成功")
+                when (data.resultStatus){
+                    "9000"->{toast("支付成功")}
+                    "8000"->{toast("正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态")}
+                    "4000"->{toast("订单支付失败")}
+                    "6001"->{toast("用户中途取消")}
+                    "6002"->{toast("网络连接出错")}
+                    "6004"->{toast("支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态")}
+                    else->{toast("其它支付错误")}
+                }
             }
         }
         return true

@@ -17,6 +17,7 @@
         android:id="@+id/myshopper_header"/>
 
     <LinearLayout
+        android:visibility="visible"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/myshopper_header"
         app:layout_constraintRight_toRightOf="parent"

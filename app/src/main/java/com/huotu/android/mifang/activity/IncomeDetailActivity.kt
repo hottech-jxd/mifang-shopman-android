@@ -19,6 +19,7 @@ import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration
 import kotlinx.android.synthetic.main.activity_income_detail.*
 import kotlinx.android.synthetic.main.layout_header_2.*
+import java.math.BigDecimal
 import java.util.*
 
 class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
@@ -145,7 +146,10 @@ class IncomeDetailActivity : BaseActivity<ProfitContract.Presenter>()
         for( bean in apiResult.data!!) {
             var item = ProfitItemEntity(bean.ProfitTime, "订单数", "收益" , 1 )
             data.add(item)
-            item = ProfitItemEntity("获取返利", bean.OrderNum.toString(), bean.ProfitIntegral.toString() , 2 )
+
+            var profit =  bean.ProfitIntegral.setScale(2,BigDecimal.ROUND_HALF_UP).divide(BigDecimal(100))
+
+            item = ProfitItemEntity("获取返利", bean.OrderNum.toString(), profit.stripTrailingZeros().toPlainString() , 2 )
             data.add(item)
         }
         incomeDetailAdapter!!.setNewData(data)

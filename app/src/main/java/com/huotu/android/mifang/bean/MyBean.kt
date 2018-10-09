@@ -22,10 +22,11 @@ data class MyBean (
         var IsAgent:Boolean,/*是否是代理商*/
         var BackGroundModel:BackGroundModelBean?,
         var ADLists:ArrayList<ADBean>?,
-        var MiFangModelURL:String //觅方模式讲解地址 —新增
+        var MiFangModelURL:String, //觅方模式讲解地址 —新增
+        var AboutURL:String
 ){
     data class BackGroundModelBean( var Id:Long,
-                var CustomerId:Long,
+            var CustomerId:Long,
             var TagColor:String,
             var TagFontColor:String,
             var FontColor:String,

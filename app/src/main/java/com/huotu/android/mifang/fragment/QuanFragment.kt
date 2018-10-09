@@ -14,6 +14,7 @@ import com.huotu.android.mifang.bean.Quan
 import com.huotu.android.mifang.mvp.IPresenter
 import com.huotu.android.mifang.mvp.contract.QuanContract
 import com.huotu.android.mifang.mvp.presenter.QuanPresenter
+import kotlinx.android.synthetic.main.fragment_promotion.*
 import kotlinx.android.synthetic.main.fragment_quan.*
 import kotlinx.android.synthetic.main.layout_header.*
 
@@ -84,11 +85,13 @@ class QuanFragment : BaseFragment<QuanContract.Presenter>() , QuanContract.View 
 
     override fun showProgress(msg: String) {
         super.showProgress(msg)
+        if( quan_progress ==null ) return
         quan_progress.visibility=View.VISIBLE
     }
 
     override fun hideProgress() {
         super.hideProgress()
+        if( quan_progress ==null ) return
         quan_progress.visibility=View.GONE
     }
 

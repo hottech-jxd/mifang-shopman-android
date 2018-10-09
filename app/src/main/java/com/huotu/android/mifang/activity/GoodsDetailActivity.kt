@@ -11,6 +11,7 @@ import android.view.View
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.adapter.GoodsDetailAdapter
 import com.huotu.android.mifang.base.BaseActivity
+import com.huotu.android.mifang.base.BaseApplication
 import com.huotu.android.mifang.bean.*
 import com.huotu.android.mifang.mvp.contract.GoodsContract
 import com.huotu.android.mifang.mvp.presenter.GoodsPresenter
@@ -101,7 +102,12 @@ class GoodsDetailActivity : BaseActivity<GoodsContract.Presenter>()
         commission!!.setScale(2,BigDecimal.ROUND_HALF_UP)
         commission = commission.divide(BigDecimal(100))
 
-        var cprice = "代理价:<font color='#E41637'>" + data!!.agentPrcie!!.stripTrailingZeros().toPlainString() +"</font>元 佣金:<font color='#E41637'>"+commission.stripTrailingZeros().toPlainString()+"</font>元"
+        var cprice:String?
+        if(BaseApplication.instance!!.variable!!.userBean!=null && BaseApplication.instance!!.variable.userBean!!.userRoleType == 102){
+            cprice = "代理价:<font color='#E41637'>" + data!!.agentPrcie!!.stripTrailingZeros().toPlainString() +"</font>元"
+        }else {
+            cprice = "佣金:<font color = '#E41637'>"+commission.stripTrailingZeros().toPlainString()+"</font>元"
+        }
         goodsdetail_item_price2.text= Html.fromHtml(cprice )
 
         if(data!!.intro!=null) {

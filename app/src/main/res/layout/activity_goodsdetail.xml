@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:id="@+id/goodsdetail_applayout"
+            app:contentScrim="@color/white"
             app:title=""
             app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">

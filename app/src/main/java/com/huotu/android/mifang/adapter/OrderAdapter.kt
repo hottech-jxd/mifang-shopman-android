@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.huotu.android.mifang.R
 import com.huotu.android.mifang.bean.OrderBean
 import com.huotu.android.mifang.util.DateUtils
+import java.math.BigDecimal
 import java.util.*
 
 class OrderAdapter(data:ArrayList<OrderBean>)
@@ -22,8 +23,13 @@ class OrderAdapter(data:ArrayList<OrderBean>)
 
         helper!!.setText(R.id.order_item_time , createTime)
         helper!!.setText(R.id.order_item_label2, "共"+ item!!.OrderGoodsNum +"件商品 合计")
-        helper!!.setText(R.id.order_item_total , "￥"+ item!!.OrderFinalAmount)
-        helper!!.setText(R.id.order_item_score , item!!.Integral)
+
+        var price = item!!.OrderFinalAmount.setScale(2,BigDecimal.ROUND_HALF_UP)
+        helper!!.setText(R.id.order_item_total , "￥"+ price.toPlainString() )
+
+        var score = item!!.Integral.setScale(2,BigDecimal.ROUND_HALF_UP).divide(BigDecimal(100))
+        helper!!.setText(R.id.order_item_score , score.stripTrailingZeros().toPlainString() )
+
         helper!!.setText(R.id.order_item_buy_name, "购买用户:"+ item!!.wxNickName)
 
         var goodsAdapter=GoodsAdapter(item!!.OrderItemInfo)
