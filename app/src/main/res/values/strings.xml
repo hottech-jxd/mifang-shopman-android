@@ -6,6 +6,8 @@
 
     <string name="expand_string">全文</string>
     <string name="collapsed_string">收起</string>
+    <string name="welcome">觅方邀请您加入</string>
+    <string name="mode">觅方模式</string>
 
     <item name="expandable_text" type="id" />
     <item name="expand_collapse" type="id" />

@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/quan_item_one_title"
-            android:text="觅方"
+            android:text="@string/app_name"
             android:textSize="16sp"
             android:textColor="#6e7ea4"
             android:layout_width="wrap_content"

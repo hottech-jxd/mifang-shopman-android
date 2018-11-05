@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application
         android:name=".base.BaseApplication"
@@ -37,11 +38,11 @@
             android:name=".activity.LoginRegisterActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="${applicationId}.wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name=".wxapi.WXPayEntryActivity"
+            android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity android:name=".activity.MessageActivity" />
@@ -93,17 +94,17 @@
         <!-- 极光推送 Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
-            android:value="huotu_mifang" />
+            android:value="${JPUSH_CHANNEL}" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="f5b92bb7a27a213107a1935f" />
+            android:value="${JPUSH_APPKEY}" />
         <!-- 友盟统计 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5b6b9babf43e487da2000047" />
+            android:value="${UMENG_APPKEY}" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="huotu_mifang" />
+            android:value="${UMENG_CHANNEL}" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

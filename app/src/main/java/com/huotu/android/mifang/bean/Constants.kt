@@ -1,11 +1,12 @@
 package com.huotu.android.mifang.bean
 
 import android.os.Environment
+import com.huotu.android.mifang.BuildConfig
 
 object Constants {
     val OS_TYPE:Int=3  //系统类型 unknown->0 , miniprogram->1；ios->2；android->3；h5->4
     val APP_SECRET:String="3ab0d4e6a8bf9b5b1cb1d38d00bcf339"
-    val CUSTOMERID:Long=4886
+    val CUSTOMERID:Long=BuildConfig.CustomerId
 
     val READ_TIMEOUT :Long= 15
     val CONNECT_TIMEOUT :Long= 15
@@ -17,7 +18,7 @@ object Constants {
     //测试地址
     //val BASE_URL:String= "http://mfapi.mifangtest.com/"
     //正式地址
-    val BASE_URL :String="https://mfapi.mifang8.com/"
+    val BASE_URL :String= BuildConfig.baseUrl // "https://mfapi.mifang8.com/"
 
     /**
      * app版本检测地址

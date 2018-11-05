@@ -140,7 +140,7 @@
                     <TextView
                         android:layout_marginTop="5dp"
                         android:id="@+id/my_name"
-                        android:text="觅方"
+                        android:text=""
                         android:textColor="#6D6D6D"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -611,7 +611,7 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_marginTop="5dp"
-                        android:text="觅方模式"
+                        android:text="@string/mode"
                         android:textSize="12sp"
                         android:textColor="#818181"
                         android:layout_width="wrap_content"

@@ -21,5 +21,6 @@
     <color name="ball1">#FFD91C</color>
     <color name="ball2">#FF4B4A</color>
     <color name="ball3">#3D8EFF</color>
+    <color name="splash_text_color">#AFAFAF</color>
 
 </resources>
