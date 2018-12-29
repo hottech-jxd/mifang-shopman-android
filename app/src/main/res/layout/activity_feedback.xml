@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    tools:context="com.huotu.android.mifang.activity.FeedbackActivity">
+
+    <include android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/layout_header"
+        android:id="@+id/feedback_header"/>
+
+    <android.support.v4.widget.NestedScrollView
+        app:layout_constraintTop_toBottomOf="@id/feedback_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:id="@+id/feedback_lay_1"
+                app:layout_constraintTop_toBottomOf="@id/feedback_header"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/feedback_feedback"
+                    android:text="反馈"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/feedback_suggest"
+                    android:text="建议"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:id="@+id/feedback_lay_2"
+                app:layout_constraintTop_toBottomOf="@id/feedback_lay_1"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:text="请详细描述你的问题(不超过100字)"
+                android:layout_width="match_parent"
+                android:textSize="16sp"
+                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/feedback_content"
+                    android:layout_width="match_parent"
+                    android:hint="请输入您的问题"
+                    android:textSize="14sp"
+                    android:layout_height="150dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_margin="15dp"
+                android:padding="10dp"
+                android:background="@android:color/white"
+                android:id="@+id/feedback_lay_3"
+                app:layout_constraintTop_toBottomOf="@id/feedback_lay_1"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="附图(最多五张)"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content" />
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/feedback_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:background="@android:color/white"
+                android:id="@+id/feedback_phone"
+                app:layout_constraintTop_toBottomOf="@id/feedback_lay_3"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:text="手机号：13757193476"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/feedback_phone"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="提交"
+                android:id="@+id/feedback_submit"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>
